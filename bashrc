@@ -1,0 +1,544 @@
+#===============================================================
+#
+# PERSONAL $HOME/.bashrc FILE for bash-2.04 (or later) 
+#              by Emmanuel Rouat
+#
+# This file is read (normally) by interactive shells only.
+# Here is the place to define your aliases, functions and
+# other interactive features like your prompt.
+# 
+# This file was designed for Solaris 
+#
+#===============================================================
+#don't do anything if it's a dumb terminal cuz scp is hat way
+[ -z "$PS1" -o  $TERM == "dumb" ] && return
+#-----------------------------------
+# Source global definitions (if any)
+#-----------------------------------
+
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc  # Read system bash init file, if exists.
+fi
+
+export IRCNAME=hbar
+
+GNU=0
+if [ -d "${FREE:=''}/bin" ]; then
+  GNU=1
+fi
+
+if [ `uname` == "Linux" ]; then
+  GNU=1
+fi
+
+#-------------------------------------------------------------
+# Automatic setting of $DISPLAY (if not set already)
+# This works for linux and solaris - your mileage may vary....
+#-------------------------------------------------------------
+
+#if [ -z ${DISPLAY:=""} ]; then
+#    DISPLAY=$(who am i)
+#    DISPLAY=${DISPLAY%%\!*}
+    if [ -n ${DISPLAY:=''} ]; then
+	export DISPLAY=$DISPLAY
+    else
+	export DISPLAY=""  # fallback    
+    fi
+#fi
+
+
+#---------------
+# Some settings
+#---------------
+
+set -o notify
+#set -o noclobber
+#set -o ignoreeof
+set -o nounset
+#set -o xtrace		# useful for debuging 
+
+shopt -s cdspell 
+#shopt -s cdable_vars
+shopt -s checkhash 
+shopt -s checkwinsize 
+shopt -s mailwarn
+shopt -s sourcepath
+shopt -s no_empty_cmd_completion
+shopt -s histappend histreedit
+shopt -s extglob	# useful for programmable completion
+
+
+
+#-----------------------
+# Greeting, motd etc...
+#-----------------------
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m'		# No Color
+
+# Looks best on a black background.....
+if [ $TERM != "dumb" ]; then 
+  echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
+  if [ -z $DISPLAY ] ; then
+    echo -ne "${RED}off${NC}\n";
+  else
+    echo -en "on ${RED}$DISPLAY${NC}\n"
+  fi
+  date
+fi
+
+function _exit()	# function to run upon exit of shell
+{
+    echo -e "${RED}MMmm I smell brains.${NC}"
+}
+trap _exit 0
+
+#---------------
+# Shell prompt
+#---------------
+
+
+function fastprompt()
+{
+    unset PROMPT_COMMAND
+    case $TERM in
+	xterm | rxvt | dtterm )	
+	    PS1="[\h] \W > \[\033]0;[\u@\h] \w\007\]" ;;
+	*) 
+	    PS1="[\h] \W > " ;;
+    esac
+}
+
+
+function powerprompt()
+{
+    _powerprompt() 
+    {
+       RET=$?
+       #echo -e $RET
+        if [ $RET -eq  0 ]; then   
+          COLOR='1;36m'
+        else 
+          COLOR='1;31m'
+        fi
+
+        case $TERM in
+	    xterm* | dtterm | rxvt  )
+	        echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007";;
+	esac
+    } 
+    PROMPT_COMMAND=_powerprompt
+    _powerprompt
+    EPS1='\$'
+
+    case $TERM in
+	xterm* | dtterm | rxvt  )
+	    local SPS1="\[\e]0;\u@\h:\w\007\]";;
+#	linux | vt100 )
+#	    SPS1="\u@\h:\w";;
+	* )
+	    local SPS1="";;
+    esac
+    SPS1=""
+    PS1="${SPS1}\u@\h:\w\[\e[\$COLOR\]$EPS1\[${NC}\] "
+}
+
+powerprompt	# this is the default prompt - might be slow
+		# If too slow, use fastprompt instead....
+
+
+
+#===============================================================
+#
+# ALIASES AND FUNCTIONS 
+#
+# Arguably, some functions defined here are quite big 
+# (ie 'lowercase') but my workstation has 512Meg of RAM, so 
+# If you want to make this file smaller, these functions can
+# be converted into scripts.
+#
+#===============================================================
+
+#-------------------
+# Personnal Aliases
+#-------------------
+
+alias finch='screen -S finch -p finch -RaAD -e^bB finch'
+alias irssi='screen -S irssi -p irssi -RaAD -e^bB irssi -ckt'
+alias mutt='screen  -S mutt  -p mutt  -d -R -a -A -e^bB mutt'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias h='history'
+alias j='jobs -l'
+alias r='rlogin'
+alias wh='type -a'
+alias ..='cd ..'
+alias path='echo -e ${PATH//:/\\n}'
+#alias print='/usr/bin/lp -o nobanner -d $LPDEST'
+alias 757='bitchx -c \#757 Patrik irc.757.org'
+#alias ls='ls --color=always'
+alias la='ls -Al'
+alias lr='ls -lR'
+alias lt='ls -ltr'  
+alias lm='ls -al |more'
+
+# spelling typos
+
+#alias xs='cd'
+#alias vf='cd'
+#alias moer='more'
+#alias moew='more'
+#alias kk='ll'
+
+
+#-----------------------------------------
+# Environment dependent aliases/variables
+#-----------------------------------------
+
+if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
+# Condition test unnecessary on a Linux or BSD system.
+
+    alias vi='vi -X'
+    alias csh='tcsh'
+    alias du='du -h'
+    alias df='df -kh'
+    alias ls='ls -h --color=always'
+    alias lx='ls -lXB'
+    alias lk='ls -lSr'
+    alias background='xsetbg'
+
+    alias more='less'
+    export PAGER=less
+    #export LESSCHARSET='latin1'
+    #export LESSOPEN='|lesspipe.sh %s'
+    #export LESS='-i  -e -M -X -F -R -P%t?f%f \
+#:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
+
+else				# use regular solaris stuff
+
+    alias df='df -k'
+    alias ls='ls -F'
+
+fi
+
+
+#----------------
+# a few fun ones
+#----------------
+
+function xtitle () 
+{ 
+    case $TERM in
+	xterm* | dtterm | rxvt) 
+	    echo -n -e "\033]0;$HOSTNAME:$*\007" ;;
+	*)  ;;
+    esac
+}
+
+alias top='xtitle Processes on $HOSTNAME && top'
+alias make='xtitle Making $(basename $PWD) ; make'
+alias ncftp="xtitle ncFTP ; ncftp"
+
+
+#---------------
+# and functions
+#---------------
+
+function man ()
+{
+    xtitle The $(basename $1|tr -d .[:digit:]) manual
+    /usr/bin/man -a "$*"
+}
+
+#-----------------------------------------
+# Environment dependent functions
+#-----------------------------------------
+
+# Note: we mustn't mix these with alias definitions in the same 'if/fi'
+# construct because alias expansion wouldn't occur in some functions here, 
+# like 'll' that uses ls (which is an alias).
+
+
+if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
+
+    function ll(){ ls -l  $*| egrep "^d" ; ls -lh  $* 2>&-| egrep -v "^d|total "; }
+    function xemacs() { { command xemacs -private $* 2>&- & } && disown ;}
+    function te()  # wrapper around xemacs/gnuserv
+    {
+	if [ "$(gnuclient -batch -eval t 2>&-)" == "t" ]; then
+	    gnuclient -q $@;
+	else
+	    ( xemacs $@ & );
+	fi
+    }
+
+else				# use solaris stuff
+
+    function ll(){ ls -l $* |egrep "^d"; ls -l $* 2>&- |egrep -v "^d|total" ;}
+    function lk() { \ls -lF  $* | egrep -v "^d|^total" | sort -n -k 5,5 ;}    
+    function te() { ( dtpad "$@" &)  ;}
+
+fi
+
+
+function dislink() 
+{
+	if [ -f $1 -a ! -f .$1.tmp ]; then
+		cp -L $1 .$1.tmp
+		if [ ! -f .$1.tmp ]; then
+			echo copy didn\'t work
+			return
+		fi
+		unlink $1
+		mv .$1.tmp $1
+	else
+		echo either file does not exist or tmp file exists
+	fi
+}
+#-----------------------------------
+# File & strings related functions:
+#-----------------------------------
+
+function ff() { find . -name '*'$1'*' ; }
+function fe() { find . -name '*'$1'*' -exec $2 {} \; ; }
+function fstr() # find a string in a set of files
+{
+    if [ "$#" -gt 2 ]; then
+        echo "Usage: fstr \"pattern\" [files] "
+    return;
+    fi
+    find . -type f -name "${2:-*}" -print | xargs grep -n "$1"
+}
+function cuttail() # cut last n lines in file
+{
+    nlines=$1
+    sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $2 
+}
+
+function lowercase()  # move filenames to lowercase
+{
+    for file ; do
+        filename=${file##*/}
+        case "$filename" in
+        */*) dirname==${file%/*} ;;
+        *) dirname=.;;
+        esac
+        nf=$(echo $filename | tr A-Z a-z)
+        newname="${dirname}/${nf}"
+        if [ "$nf" != "$filename" ]; then
+            mv "$file" "$newname"
+            echo "lowercase: $file --> $newname"
+        else
+            echo "lowercase: $file not changed."
+        fi
+    done
+}
+
+#function swap()		# swap 2 filenames around
+#{
+#    local TMPFILE=tmp.$$
+#    mv $1 $TMPFILE
+#    mv $2 $1
+#    mv $TMPFILE $2
+#}
+
+
+# Process/system related functions:
+
+alias my_ps='/bin/ps -u "$USER" -o user,pid,ppid,pcpu,pmem,args'
+function pp() { my_ps | nawk '!/nawk/ && $0~pat' pat=${1:-".*"} ; }
+function killps()	# Kill process by name
+{			# works with gawk too
+    local pid pname sig="-TERM" # default signal
+    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then 
+	echo "Usage: killps [-SIGNAL] pattern"
+	return;
+    fi
+    if [ $# = 2 ]; then sig=$1 ; fi
+    for pid in $(my_ps | nawk '!/nawk/ && $0~pat { print $2 }' pat=${!#}) ; do
+	pname=$(my_ps | nawk '$2~var { print $6 }' var=$pid )
+	if ask "Kill process $pid <$pname> with signal $sig ? "
+	    then kill $sig $pid
+	fi
+    done
+}
+
+function ii()   # get current host related info
+{
+    echo -ne "\nYou are logged on ${RED}$HOSTNAME"
+    echo -ne "\nAdditionnal information:$NC " ; uname -a
+    echo -ne "\n${RED}IP Address :$NC" ; host $HOSTNAME
+    echo -ne "\n${RED}Users logged on:$NC " ; users
+    echo -ne "\n${RED}Current date :$NC " ; date
+    echo -ne "\n${RED}Machine stats :$NC " ; uptime
+#    echo -e "\n${RED}Memory stats :$NC " ; vmstat
+#    echo -e "\n${RED}NIS Server :$NC " ; ypwhich
+    echo
+}
+function corename()   # get name of app that created core
+{
+    local file name;
+    file=${1:-"core"}
+    set -- $(adb $file < /dev/null 2>&1 | sed 1q)
+    name=${7#??}
+    echo $file: ${name%??}
+}
+# Misc utilities:
+
+function repeat()	# repeat n times command
+{
+    local i max
+    max=$1; shift;
+    for ((i=1; i <= max ; i++)); do
+	eval "$@";
+    done
+}
+	
+
+function ask()
+{
+    echo -n "$@" '[y/n] ' ; read ans
+    case "$ans" in
+        y*|Y*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+
+
+#=========================================================================
+#
+# PROGRAMMABLE COMPLETION - ONLY IN BASH-2.04
+#
+#=========================================================================
+
+if [ "${BASH_VERSION%.*}" \< "2.04" ]; then
+    echo "No programmable completion available"
+    return
+fi
+   
+shopt -s extglob	# necessary
+
+complete -A hostname   rsh rcp telnet rlogin r ftp ping disk
+complete -A command    nohup exec eval trace truss strace sotruss gdb
+complete -A command    command type which 
+complete -A export     printenv
+complete -A variable   export local readonly unset
+complete -A enabled    builtin
+complete -A alias      alias unalias
+complete -A function   function
+complete -A user       su mail finger
+
+complete -A helptopic  help	# currently same as builtins
+complete -A shopt      shopt
+complete -A stopped -P '%' bg
+complete -A job -P '%'     fg jobs disown
+
+complete -A directory  mkdir rmdir
+
+complete -f -X '*.gz'   gzip
+complete -f -X '!*.ps'  gs ghostview gv
+complete -f -X '!*.pdf' acroread
+complete -f -X '!*.+(gif|jpg|jpeg|GIF|JPG|bmp)' xv gimp
+
+ 
+_make_targets ()
+{
+    local mdef makef gcmd cur prev i
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+
+    # if prev argument is -f, return possible filename completions.
+    # we could be a little smarter here and return matches against
+    # `makefile Makefile *.mk', whatever exists
+    case "$prev" in
+	-*f)	COMPREPLY=( $(compgen -f $cur ) ); return 0;;
+    esac
+
+    # if we want an option, return the possible posix options
+    case "$cur" in
+	-)	COMPREPLY=(-e -f -i -k -n -p -q -r -S -s -t); return 0;;
+    esac
+
+    # make reads `makefile' before `Makefile'
+    if [ -f makefile ]; then
+	mdef=makefile
+    elif [ -f Makefile ]; then
+	mdef=Makefile
+    else
+	mdef=*.mk		# local convention
+    fi
+
+    # before we scan for targets, see if a makefile name was specified
+    # with -f
+    for (( i=0; i < ${#COMP_WORDS[@]}; i++ )); do
+	if [[ ${COMP_WORDS[i]} == -*f ]]; then
+	    eval makef=${COMP_WORDS[i+1]}	# eval for tilde expansion
+	    break
+	fi
+    done
+
+	[ -z "$makef" ] && makef=$mdef
+
+    # if we have a partial word to complete, restrict completions to
+    # matches of that word
+    if [ -n "$2" ]; then gcmd='grep "^$2"' ; else gcmd=cat ; fi
+
+    # if we don't want to use *.mk, we can take out the cat and use
+    # test -f $makef and input redirection	
+    COMPREPLY=( $(cat $makef 2>/dev/null | awk 'BEGIN {FS=":"} /^[^.# 	][^=]*:/ {print $1}' | tr -s ' ' '\012' | sort -u | eval $gcmd ) )
+}
+
+complete -F _make_targets -X '+($*|*.[cho])' make gmake pmake
+
+
+_configure_func ()
+{
+    case "$2" in
+	-*)	;;
+	*)	return ;;
+    esac
+
+    case "$1" in
+	\~*)	eval cmd=$1 ;;
+	*)	cmd="$1" ;;
+    esac
+
+    COMPREPLY=( $("$cmd" --help | awk '{if ($1 ~ /--.*/) print $1}' | grep ^"$2" | sort -u) )
+}
+
+complete -F _configure_func configure
+
+_killps ()
+{
+    local cur prev
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    PSBIN=`which ps`
+    # get a list of processes (the first sed evaluation
+    # takes care of swapped out processes, the second
+    # takes care of getting the basename of the process)
+    COMPREPLY=( $( $PSBIN -u $USER -o comm  | \
+	sed -e '1,1d' -e 's#[]\[]##g' -e 's#^.*/##'| \
+	awk '{if ($0 ~ /^'$cur'/) print $0}' ))
+
+    return 0
+}
+complete -F _killps killps
+
+if [ $TERM != "dumb" ]; then
+ w
+fi
+# Local Variables:
+# mode:shell-script
+# sh-shell:bash
+# End:  
