@@ -11,7 +11,10 @@
 #
 #===============================================================
 #don't do anything if it's a dumb terminal cuz scp is hat way
+
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
+
+
 #-----------------------------------
 # Source global definitions (if any)
 #-----------------------------------
@@ -20,15 +23,26 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc  # Read system bash init file, if exists.
 fi
 
-export IRCNAME=hbar
 
 GNU=0
+OSX=0
+FINK=0
 if [ -d "${FREE:=''}/bin" ]; then
-  GNU=1
+	GNU=1
 fi
 
 if [ `uname` == "Linux" ]; then
-  GNU=1
+	GNU=1
+fi
+
+if [ `uname` == "Darwin" ]; then
+	OSX=1
+	if [ -f /sw/bin/init.sh ]; then
+		. /sw/bin/init.sh
+		export PATH=~/bin:/usr/local/bin:$PATH
+		FINK=1
+		eval `dircolors`
+	fi
 fi
 
 #-------------------------------------------------------------
@@ -169,65 +183,39 @@ powerprompt	# this is the default prompt - might be slow
 # Personnal Aliases
 #-------------------
 
-alias finch='screen -S finch -p finch -RaAD -e^bB finch'
-alias irssi='screen -S irssi -p irssi -RaAD -e^bB irssi -ckt'
-alias mutt='screen  -S mutt  -p mutt  -d -R -a -A -e^bB mutt'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias h='history'
-alias j='jobs -l'
-alias r='rlogin'
-alias wh='type -a'
-alias ..='cd ..'
 alias path='echo -e ${PATH//:/\\n}'
-#alias print='/usr/bin/lp -o nobanner -d $LPDEST'
-alias 757='bitchx -c \#757 Patrik irc.757.org'
-#alias ls='ls --color=always'
-alias la='ls -Al'
-alias lr='ls -lR'
-alias lt='ls -ltr'  
-alias lm='ls -al |more'
-
-# spelling typos
-
-#alias xs='cd'
-#alias vf='cd'
-#alias moer='more'
-#alias moew='more'
-#alias kk='ll'
-
 
 #-----------------------------------------
 # Environment dependent aliases/variables
 #-----------------------------------------
 
+export PAGER=less
+export EDITOR=vi
+
 if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
-# Condition test unnecessary on a Linux or BSD system.
-
-    alias vi='vi -X'
-    alias csh='tcsh'
-    alias du='du -h'
-    alias df='df -kh'
-    alias ls='ls -h --color=always'
-    alias lx='ls -lXB'
-    alias lk='ls -lSr'
-    alias background='xsetbg'
-
-    alias more='less'
-    export PAGER=less
-    #export LESSCHARSET='latin1'
-    #export LESSOPEN='|lesspipe.sh %s'
-    #export LESS='-i  -e -M -X -F -R -P%t?f%f \
-#:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
-
+	alias vi='vi -X'
+	alias csh='tcsh'
+	alias du='du -h'
+	alias df='df -kh'
+	alias ls='ls -h --color=always'
+	alias background='xsetbg'
+	alias more='less'
+elif [ $OSX -eq 1 ]; then
+	export CLICOLOR=1
+	export SVN_EDITOR=vi
+	export TERM=xterm
+	if [ $FINK -eq 1 ]; then
+		alias ls='/sw/bin/ls --color=always'
+		alias du='du -h'
+		alias df='df -kh'
+	fi
 else				# use regular solaris stuff
-
-    alias df='df -k'
-    alias ls='ls -F'
-
+	alias df='df -k'
+	#alias ls='ls -F'
 fi
-
 
 #----------------
 # a few fun ones
@@ -246,7 +234,6 @@ alias top='xtitle Processes on $HOSTNAME && top'
 alias make='xtitle Making $(basename $PWD) ; make'
 alias ncftp="xtitle ncFTP ; ncftp"
 
-
 #---------------
 # and functions
 #---------------
@@ -260,33 +247,6 @@ function man ()
 #-----------------------------------------
 # Environment dependent functions
 #-----------------------------------------
-
-# Note: we mustn't mix these with alias definitions in the same 'if/fi'
-# construct because alias expansion wouldn't occur in some functions here, 
-# like 'll' that uses ls (which is an alias).
-
-
-if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
-
-    function ll(){ ls -l  $*| egrep "^d" ; ls -lh  $* 2>&-| egrep -v "^d|total "; }
-    function xemacs() { { command xemacs -private $* 2>&- & } && disown ;}
-    function te()  # wrapper around xemacs/gnuserv
-    {
-	if [ "$(gnuclient -batch -eval t 2>&-)" == "t" ]; then
-	    gnuclient -q $@;
-	else
-	    ( xemacs $@ & );
-	fi
-    }
-
-else				# use solaris stuff
-
-    function ll(){ ls -l $* |egrep "^d"; ls -l $* 2>&- |egrep -v "^d|total" ;}
-    function lk() { \ls -lF  $* | egrep -v "^d|^total" | sort -n -k 5,5 ;}    
-    function te() { ( dtpad "$@" &)  ;}
-
-fi
-
 
 function dislink() 
 {
@@ -349,26 +309,6 @@ function lowercase()  # move filenames to lowercase
 #    mv $TMPFILE $2
 #}
 
-
-# Process/system related functions:
-
-alias my_ps='/bin/ps -u "$USER" -o user,pid,ppid,pcpu,pmem,args'
-function pp() { my_ps | nawk '!/nawk/ && $0~pat' pat=${1:-".*"} ; }
-function killps()	# Kill process by name
-{			# works with gawk too
-    local pid pname sig="-TERM" # default signal
-    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then 
-	echo "Usage: killps [-SIGNAL] pattern"
-	return;
-    fi
-    if [ $# = 2 ]; then sig=$1 ; fi
-    for pid in $(my_ps | nawk '!/nawk/ && $0~pat { print $2 }' pat=${!#}) ; do
-	pname=$(my_ps | nawk '$2~var { print $6 }' var=$pid )
-	if ask "Kill process $pid <$pname> with signal $sig ? "
-	    then kill $sig $pid
-	fi
-    done
-}
 
 function ii()   # get current host related info
 {

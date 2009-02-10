@@ -1,0 +1,19 @@
+Host *
+
+Host pipe
+	User pbutler
+	Hostname pipe.cs.vt.edu
+
+Host balrog
+	Hostname killertux.org
+	ForwardAgent yes
+
+Host gamgee
+	Hostname gamgee.killertux.org
+	User pbutler
+	ForwardAgent yes
+
+Host *.cs.vt.edu
+	ForwardX11 yes
+	ForwardAgent yes
+	User pabutler
