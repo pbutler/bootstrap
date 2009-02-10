@@ -187,11 +187,14 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias path='echo -e ${PATH//:/\\n}'
+alias finch='screen -S finch -p finch -RaAD -e^bB finch'
+alias irssi='screen -S irssi -p irssi -RaAD -e^bB irssi -ckt'
 
 #-----------------------------------------
 # Environment dependent aliases/variables
 #-----------------------------------------
 
+export ircname=hbar
 export PAGER=less
 export EDITOR=vi
 
