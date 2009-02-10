@@ -13,6 +13,12 @@ Host gamgee
 	User pbutler
 	ForwardAgent yes
 
+Host bio
+	Hostname bioinformatics.cs.vt.edu
+	User pabutler
+	ForwardX11 yes
+	ForwardAgent yes
+
 Host *.cs.vt.edu
 	ForwardX11 yes
 	ForwardAgent yes
