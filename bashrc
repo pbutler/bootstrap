@@ -35,9 +35,9 @@ if [ `uname` == "Linux" ]; then
 	GNU=1
 fi
 
-if [ `uname` == "Darwin" ]; then
+if [ `uname -s` == "Darwin" ]; then
 	OSX=1
-	if [ -f /sw/bin/init.sh ]; then
+	if [ -r /sw/bin/init.sh ]; then
 		. /sw/bin/init.sh
 		export PATH=~/bin:/usr/local/bin:$PATH
 		FINK=1
@@ -211,7 +211,9 @@ elif [ $OSX -eq 1 ]; then
 	export SVN_EDITOR=vi
 	export TERM=xterm
 	if [ $FINK -eq 1 ]; then
-		alias ls='/sw/bin/ls --color=always'
+		if [ -x '/sw/bin/ls' ]; then
+			alias ls='/sw/bin/ls --color=always'
+		fi
 		alias du='du -h'
 		alias df='df -kh'
 	fi
