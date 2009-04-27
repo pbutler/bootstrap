@@ -5,3 +5,7 @@ cp -f bashrc ~/.bashrc
 cp -f ssh_config ~/.ssh/config
 cp -f vimrc ~/.vimrc
 cp -f vimperatorrc ~/.vimperatorrc
+if [ ! -d ~/bin ]; then
+	mkdir ~/bin
+fi
+cp -r bin/* ~/bin
