@@ -37,6 +37,17 @@ document.getElementById('status-bar').insertBefore(feedPanel,document.getElement
 })();
 EOF
 
+javascript <<EOF
+(function(){
+    var zoteroPanel = document.createElement("statusbarpanel");
+    zoteroPanel.setAttribute("id", "zotero-panel-clone");
+    zoteroPanel.appendChild(document.getElementById("zotero-status-image"));
+    zoteroPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
+    document.getElementById("status-bar")
+            .insertBefore(zoteroPanel, document.getElementById("security-button"));
+})();
+EOF
+
 " select next/previous tab
 map <Right> gt
 map <Left>  gT
