@@ -7,7 +7,7 @@ set guioptions=mbBr
 set preload
 "set previewheight=20
 set showmode
-set showstatuslinks
+set showstatuslinks=1
 set showtabline=2
 set titlestring=Vimperator
 set verbose=0
@@ -59,6 +59,10 @@ map <S-Right> :tabmove! +1<CR>
 map <S-Left>  :tabmove! -1<CR>
 map <C-L>     :tabmove! +1<CR>
 map <C-H>     :tabmove! -1<CR>
+
+map , :back<CR>
+map . :forward<CR>
+
 
 autocmd LocationChange .* :js modes.passAllKeys = /www\.google\.com\/reader/.test(buffer.URL)
 
