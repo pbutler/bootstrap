@@ -1,10 +1,11 @@
 set activate=quickmark,paste
 set visualbell
-set complete=sbfh
+"set complete=sbfh
+"set complete=slbf
 set defsearch=google
 set guioptions=mbBr
 "set maxhints=1000
-set preload
+"set preload
 "set previewheight=20
 set showmode
 set showstatuslinks=1

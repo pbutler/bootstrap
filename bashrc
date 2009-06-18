@@ -10,8 +10,20 @@
 # This file was designed for Solaris 
 #
 #===============================================================
-#don't do anything if it's a dumb terminal cuz scp is hat way
 
+GNU=0
+OSX=0
+FINK=0
+if [ `uname -s` == "Darwin" ]; then
+	OSX=1
+	if [ -r /sw/bin/init.sh ]; then
+		. /sw/bin/init.sh
+		export PATH=~/bin:/usr/local/bin:$PATH
+		FINK=1
+	fi
+fi
+
+#don't do anything if it's a dumb terminal because it could cause scp to fail
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
 
 
@@ -24,9 +36,6 @@ if [ -f /etc/bashrc ]; then
 fi
 
 
-GNU=0
-OSX=0
-FINK=0
 if [ -d "${FREE:=''}/bin" ]; then
 	GNU=1
 fi
@@ -35,16 +44,9 @@ if [ `uname` == "Linux" ]; then
 	GNU=1
 fi
 
-if [ `uname -s` == "Darwin" ]; then
-	OSX=1
-	if [ -r /sw/bin/init.sh ]; then
-		. /sw/bin/init.sh
-		export PATH=~/bin:/usr/local/bin:$PATH
-		FINK=1
-		eval `dircolors`
-	fi
+if [ $FINK -eq 1 ] ; then	# use gnu/free stuff
+	eval `dircolors`
 fi
-
 #-------------------------------------------------------------
 # Automatic setting of $DISPLAY (if not set already)
 # This works for linux and solaris - your mileage may vary....
