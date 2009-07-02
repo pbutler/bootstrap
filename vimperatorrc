@@ -16,15 +16,15 @@ set wildmode=list:full
 set urlseparator=,\\s\\s
 
 " start MozRepl
-js <<EOF
-  if ('@hyperstruct.net/mozlab/mozrepl;1' in Components.classes)
-  {
-      Components
-          .classes['@hyperstruct.net/mozlab/mozrepl;1']
-          .getService(Components.interfaces.nsIMozRepl)
-          .start(4242);
-  }
-EOF
+"js <<EOF
+"  if ('@hyperstruct.net/mozlab/mozrepl;1' in Components.classes)
+"  {
+"      Components
+"          .classes['@hyperstruct.net/mozlab/mozrepl;1']
+"          .getService(Components.interfaces.nsIMozRepl)
+"          .start(4242);
+"  }
+"EOF
 
 
 :javascript <<EOF
