@@ -3,4 +3,7 @@
         email = pbutler@killertux.org
 [color]
         ui = auto
-
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
