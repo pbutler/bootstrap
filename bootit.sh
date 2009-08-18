@@ -16,3 +16,4 @@ if [ ! -d ~/bin ]; then
 	mkdir ~/bin
 fi
 cp -r bin/* ~/bin
+cp -r vim ~/.vim
