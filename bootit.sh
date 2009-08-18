@@ -16,4 +16,9 @@ if [ ! -d ~/bin ]; then
 	mkdir ~/bin
 fi
 cp -r bin/* ~/bin
-cp -r vim ~/.vim
+if [ ! -d ~/.vim ]; then
+	mkdir ~/.vim
+fi
+cp -r vim/* ~/.vim
+rm -rf ~/.vim/**/.svn
+
