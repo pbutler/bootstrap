@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 != "-n" ]; then
+if [ ! $1 == "-n" ]; then
 	svn update
 fi
 
