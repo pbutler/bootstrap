@@ -62,4 +62,13 @@ if &term =~ "xterm-256color"
   colorscheme inkpot
 "  set t_AB=^[[48;5;%dm
 "  set t_AF=^[[38;5;%dm
+" Choose my favorite color scheme
+if strlen(globpath(&rtp, 'colors/inkpot.vim'))
+    colorscheme inkpot
 endif
+endif
+
+
+" Uncomment below to get a dark background.
+" set background=dark
+
