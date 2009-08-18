@@ -211,7 +211,6 @@ if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 elif [ $OSX -eq 1 ]; then
 	export CLICOLOR=1
 	export SVN_EDITOR=vi
-	export TERM=xterm
 	if [ $FINK -eq 1 ]; then
 		if [ -x '/sw/bin/ls' ]; then
 			alias ls='/sw/bin/ls --color=always'

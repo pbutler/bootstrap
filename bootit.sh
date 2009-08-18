@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [ ! $1 == "-n" ]; then
+if [ ! "x$1" == "x-n" ]; then
+	echo "Updating... "
 	svn update
 fi
 
