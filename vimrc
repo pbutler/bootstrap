@@ -35,7 +35,9 @@ if has("autocmd")
   autocmd BufNewFile *.tex :0r ~/.vim/templates/python.py
   autocmd FileType tex map <F5> <Esc>:make<CR>
   autocmd FileType tex nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
-   
+  
+  "vim files
+  autocmd FileType vim setlocal expandtab smarttab softtabstop=2 shiftwidth=2 
 
   " Python 
   autocmd FileType python setlocal ai

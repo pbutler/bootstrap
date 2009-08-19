@@ -5,6 +5,8 @@ if [ ! "x$1" == "x-n" ]; then
 	svn update
 fi
 
+echo "Copying..."
+
 cp -f bashrc ~/.bashrc
 cp -f ssh_config ~/.ssh/config
 cp -f vimrc ~/.vimrc
