@@ -6,6 +6,7 @@ set showmatch
 set sessionoptions+=resize
 
 set mousemodel=popup
+set mouse=a
 
 " Enable modelines for users but not root
 set modelines=5
@@ -15,9 +16,23 @@ else
   set nomodeline
 endif 
 
-"Enable or disable spell checker
-map <F6> <Esc>:setlocal nospell<CR>
-map <F7> <Esc>:setlocal spell spelllang=en_us<CR> 
+" Enable or disable spell checker
+map <F6> :setlocal nospell<CR>
+map <F7> :setlocal spell spelllang=en_us<CR> 
+
+" Toggle taglist
+let s:taglist_is_on = 0
+function! ToggleTagList()
+  if s:taglist_is_on == 0
+    exe ":TlistOpen"
+    exe ":wincmd t"
+    let s:taglist_is_on = 1
+  else
+    exe ":TlistClose"
+    let s:taglist_is_on = 0
+  endif
+endfunction
+map <silent> <F2> :exe ":call ToggleTagList()"<CR>
 
 " This function removes trailing whitespace, a pet peeve of mine.
 function! DeleteTrailingWhitespace()
@@ -33,7 +48,7 @@ if has("autocmd")
   "LaTeX
   autocmd BufNewFile *.tex set filetype=tex
   autocmd BufNewFile *.tex :0r ~/.vim/templates/python.py
-  autocmd FileType tex map <F5> <Esc>:make<CR>
+  autocmd FileType tex map <F5> :make<CR>
   autocmd FileType tex nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
   
   "vim files
