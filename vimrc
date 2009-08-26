@@ -92,6 +92,9 @@ if strlen(globpath(&rtp, 'colors/inkpot.vim'))
 endif
 endif
 
+if has("gui_running") && strlen(globpath(&rtp, 'colors/inkpot.vim'))
+    colorscheme inkpot
+endif
 
 " Uncomment below to get a dark background.
 " set background=dark
