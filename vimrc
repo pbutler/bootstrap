@@ -57,7 +57,7 @@ if has("autocmd")
   " Python 
   autocmd FileType python setlocal ai
   autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=80 sta et 
+  autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 sta et 
 
   "Make program compiles to check for syntax errors
   autocmd FileType python setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
@@ -67,7 +67,7 @@ if has("autocmd")
 
   autocmd BufNewFile *.py :0r ~/.vim/templates/python.py
   autocmd FileType python nmap <Leader>pyt :0r ~/.vim/templates/python.py<CR>
-  autocmd FileType python nmap <Leader>pym <insert># -*- coding: UTF-8 -*-<CR># vim: ts=4 sts=4 sw=4 tw=80 sta et<CR><ESC>
+  autocmd FileType python nmap <Leader>pym <insert># -*- coding: UTF-8 -*-<CR># vim: ts=4 sts=4 sw=4 tw=79 sta et<CR><ESC>
   if strlen(globpath(&rtp, '$HOME/.vim/plugin/pydoc.vim'))
     autocmd FileType python source $HOME/.vim/plugin/pydoc.vim
   endif
