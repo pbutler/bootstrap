@@ -90,13 +90,13 @@ shopt -s extglob	# useful for programmable completion
 #-----------------------
 
 # Define some colors first:
-red='\e[0;31m'
-RED='\e[1;31m'
-blue='\e[0;34m'
-BLUE='\e[1;34m'
-cyan='\e[0;36m'
-CYAN='\e[1;36m'
-NC='\e[0m'		# No Color
+red='\033[0;31m'
+RED='\033[1;31m'
+blue='\033[0;34m'
+BLUE='\033[1;34m'
+cyan='\033[0;36m'
+CYAN='\033[1;36m'
+NC='\033[0m'		# No Color
 
 # Looks best on a black background.....
 if [ $TERM != "dumb" ]; then 
@@ -155,14 +155,14 @@ function powerprompt()
 
     case $TERM in
 	xterm* | dtterm | rxvt  )
-	    local SPS1="\[\e]0;\u@\h:\w\007\]";;
+	    local SPS1="\[\033]0;\u@\h:\w\007\]";;
 #	linux | vt100 )
 #	    SPS1="\u@\h:\w";;
 	* )
 	    local SPS1="";;
     esac
     SPS1=""
-    PS1="${SPS1}\u@\h:\w\[\e[\$COLOR\]$EPS1\[${NC}\] "
+    PS1="${SPS1}\u@\h:\w\[\033[\$COLOR\]$EPS1\[${NC}\] "
 }
 
 powerprompt	# this is the default prompt - might be slow
