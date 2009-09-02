@@ -5,8 +5,6 @@ set showcmd
 set showmatch
 set sessionoptions+=resize
 
-set mousemodel=popup
-set mouse=a
 
 " Enable modelines for users but not root
 set modelines=5
@@ -83,17 +81,20 @@ endif
 
 if &term =~ "xterm-256color"
   set t_Co=256
-  colorscheme inkpot
 "  set t_AB=^[[48;5;%dm
 "  set t_AF=^[[38;5;%dm
 " Choose my favorite color scheme
-if strlen(globpath(&rtp, 'colors/inkpot.vim'))
+  if strlen(globpath(&rtp, 'colors/inkpot.vim'))
     colorscheme inkpot
-endif
+  endif
 endif
 
-if has("gui_running") && strlen(globpath(&rtp, 'colors/inkpot.vim'))
+if has("gui_running") 
+  if strlen(globpath(&rtp, 'colors/inkpot.vim'))
     colorscheme inkpot
+  endif
+  set mousemodel=popup
+  set mouse=a
 endif
 
 " Uncomment below to get a dark background.
