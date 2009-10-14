@@ -1,13 +1,13 @@
 #!/bin/bash
 
 cat > paper.tex <<EOT
-documentclass[12pt,letterpaper]{article}
+\\documentclass[12pt,letterpaper]{article}
 \\usepackage{fullpage}
 %%\\\usepackage[top=.75in, bottom=.75in, left=.75in, right=.75in]{geometry}
 \\usepackage[dvips]{epsfig}
 \\usepackage{graphicx}
 \\graphicspath{{./figures/}}
-\\uespackage{epstopdf}
+\\usepackage{epstopdf}
 %%\\usepackage{algorithmic}
 %%\\usepackage{algorithm}
 %%\\usepackage{amsmath}
