@@ -2,7 +2,7 @@
 
 cat > paper.tex <<EOT
 documentclass[12pt,letterpaper]{article}
-\\uspackage{fullpage}
+\\usepackage{fullpage}
 %%\\\usepackage[top=.75in, bottom=.75in, left=.75in, right=.75in]{geometry}
 \\usepackage[dvips]{epsfig}
 \\usepackage{graphicx}
@@ -28,16 +28,16 @@ cat > Makefile <<EOT
 all: paper.pdf
 
 clean:
-        rubber -d --clean thesis.tex
+	rubber -d --clean thesis.tex
 	#rm -f *.aux *.log *.dvi paper.pdf
 
 %.pdf: %.tex
-        rubber -d  $<
+	rubber -d  $<
 	#latex $<
 	#bibtex bibliography.bib
 	#latex $<
 	#latex $<
-	
+
 EOT
 
 cat > bibliography.bib <<EOT
