@@ -42,7 +42,6 @@ endfunction
 "Vim-LaTeX crapola
 let g:tex_flavor='latex'
 set grepprg=grep\ -nH\ $*
-set iskeyword+=:
 
 if has("autocmd")
   filetype plugin indent on 
@@ -54,6 +53,7 @@ if has("autocmd")
   autocmd FileType tex nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
   autocmd FileType tex setlocal spell spelllang=en_us
   autocmd FileType tex setlocal ts=2 sts=2 sw=2 tw=79 sta et 
+  autocmd FileType tex setlocal iskeyword+=:
   
   "vim files
   autocmd FileType vim setlocal expandtab smarttab softtabstop=2 shiftwidth=2 
