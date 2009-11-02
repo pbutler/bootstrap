@@ -8,6 +8,9 @@ Python source code - replace this with a description of the code and write the c
 __author__ = 'Patrick Butler'
 __email__  = 'pbutler@killertux.org'
 
+def main(args):
+    return 0
+
 if __name__ == "__main__":
     import sys
-    sys.exit(0)
+    sys.exit( main( sys.argv ) )
