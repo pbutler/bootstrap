@@ -28,6 +28,11 @@ cp -r bin/* ~/bin
 if [ ! -d ~/.vim ]; then
 	mkdir ~/.vim
 fi
-cp -r vim/* ~/.vim
-find ~/.vim -type d -name .svn -exec rm -rf \{\} \;
+
+if [ -x `which svn` ]; then
+	svn --force export vim/ ~/.vim
+else
+	cp -r vim/* ~/.vim
+	find ~/.vim -type d -name .svn -exec rm -rf "{}" \;
+fi
 
