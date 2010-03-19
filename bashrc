@@ -44,7 +44,7 @@ if [ `uname` == "Linux" ]; then
 	GNU=1
 fi
 
-if [ $FINK -eq 1 ] ; then	# use gnu/free stuff
+if [ -x `which dircolors` ] ; then	# use gnu/free stuff
 	eval `dircolors`
 fi
 #-------------------------------------------------------------

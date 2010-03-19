@@ -1,5 +1,13 @@
 Host *
 
+Host graphics.cs.vt.edu
+	User patrick
+
+Host graphics
+	User patrick
+	Hostname graphics.cs.vt.edu
+
+
 Host pipe.cs.vt.edu
 	User pbutler
 	ForwardAgent yes
@@ -25,6 +33,6 @@ Host bio
 	ForwardAgent yes
 
 Host *.cs.vt.edu
+	User pabutler
 	ForwardX11 yes
 	ForwardAgent yes
-	User pabutler
