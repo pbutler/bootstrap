@@ -69,14 +69,21 @@ termcapinfo   xterm 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
 
 # xterm-52 tweaks:
 # - uses background color for delete operations
-termcapinfo xterm* be
+#termcapinfo xterm* be
 
 # tell screen how to set colors. AB = background, AF=foreground
 # the first two are for other terminal emulators, just in case.
 #termcapinfo xterm "Co#256:AB=E[48;5;%dm:AF=E[38;5;%dm"
 #termcapinfo xterm-color "Co#256:AB=E[48;5;%dm:AF=E[38;5;%dm"
-#termcapinfo xterm-256color "Co#256:AB=E[48;5;%dm:AF=E[38;5;%dm"
-#term xterm-256color
+
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on" 
+term xterm-256color
 
 
 ################

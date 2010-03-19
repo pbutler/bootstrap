@@ -14,6 +14,7 @@ cp -f screenrc ~/.screenrc
 cp -f gitconfig ~/.gitconfig
 cp -f vimperatorrc ~/.vimperatorrc
 
+chmod 0600 ~/.ssh/config
 
 if [ ! -d ~/.terminfo ]; then
 	mkdir -p ~/.terminfo/78
