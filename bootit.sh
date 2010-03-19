@@ -29,5 +29,5 @@ if [ ! -d ~/.vim ]; then
 	mkdir ~/.vim
 fi
 cp -r vim/* ~/.vim
-rm -rf ~/.vim/**/.svn
+find ~/.vim -type d -name .svn -exec rm -rf \{\} \;
 
