@@ -41,7 +41,7 @@ else
 	find ~/.vim -type d -name .svn -exec rm -rf "{}" \;
 fi
 
-if [ `uname -s` = "Darwin"]; then
+if [ `uname -s` = "Darwin" ]; then
 	echo "OS X detected installing applicable files..."
 	if [ -x ~/.cabal/bin/xmonad ]; then
 		echo "Installing Xmonad config..."
