@@ -213,8 +213,8 @@ elif [ $OSX -eq 1 ]; then
 	export SVN_EDITOR=vi
 	if [ -d "/Applications/MacVim.app" ]; then
 		alias gvim="open -a /Applications/MacVim.app"
-		alias vim ="/Applications/MacVim.app/MacOS/vim -X"
-		alias vi ="/Applications/MacVim.app/MacOS/vim -X"
+		alias vim="/Applications/MacVim.app/Contents/MacOS/Vim -X"
+		alias vi="/Applications/MacVim.app/Contents/MacOS/Vim -X"
 	fi
 	if [ $FINK -eq 1 ]; then
 		if [ -x '/sw/bin/ls' ]; then
