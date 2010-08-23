@@ -39,6 +39,11 @@ function! DeleteTrailingWhitespace()
   normal ``
 endfunction
 
+if !has("python")
+  " Trick pyflakes into not running
+  let b:did_python_init = 0
+endif
+
 "Vim-LaTeX crapola
 let g:tex_flavor='latex'
 set grepprg=grep\ -nH\ $*

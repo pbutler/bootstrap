@@ -7,12 +7,17 @@ fi
 
 echo "Copying..."
 
+if [ ! -d ~/.ssh ]; then
+	mkdir -p -m 0700 ~/.ssh
+fi
+
 cp -f bashrc ~/.bashrc
 cp -f ssh_config ~/.ssh/config
 cp -f vimrc ~/.vimrc
 cp -f screenrc ~/.screenrc
 cp -f gitconfig ~/.gitconfig
 cp -f vimperatorrc ~/.vimperatorrc
+cp -f Xdefaults ~/.Xdefaults
 
 chmod 0600 ~/.ssh/config
 
@@ -36,3 +41,13 @@ else
 	find ~/.vim -type d -name .svn -exec rm -rf "{}" \;
 fi
 
+if [ `uname -s` = "Darwin"]; then
+	echo "OS X detected installing applicable files..."
+	if [ -x ~/.cabal/bin/xmonad ]; then
+		echo "Installing Xmonad config..."
+		cp -f osx/Xmodmap ~/.Xmodmap
+		cp -f osx/xinitrc ~/.xinitrc
+		mkdir -p ~/.xmonad
+		cp osx/xmonad.hs ~/.xmonad/xmonad.hs
+	fi
+fi

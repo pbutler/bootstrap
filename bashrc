@@ -14,7 +14,7 @@
 GNU=0
 OSX=0
 FINK=0
-if [ `uname -s` == "Darwin" ]; then
+if [ `uname -s` = "Darwin" ]; then
 	OSX=1
 	if [ -r /sw/bin/init.sh ]; then
 		. /sw/bin/init.sh
@@ -213,6 +213,8 @@ elif [ $OSX -eq 1 ]; then
 	export SVN_EDITOR=vi
 	if [ -d "/Applications/MacVim.app" ]; then
 		alias gvim="open -a /Applications/MacVim.app"
+		alias vim ="/Applications/MacVim.app/MacOS/vim -X"
+		alias vi ="/Applications/MacVim.app/MacOS/vim -X"
 	fi
 	if [ $FINK -eq 1 ]; then
 		if [ -x '/sw/bin/ls' ]; then
