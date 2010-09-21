@@ -1,5 +1,12 @@
 Host *
 
+Host anantham
+	User pabutler
+	Hostname anantham.cs.vt.edu
+
+Host killertux.org
+	User pbutler
+
 Host graphics.cs.vt.edu
 	User patrick
 

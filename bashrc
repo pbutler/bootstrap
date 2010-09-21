@@ -14,14 +14,24 @@
 GNU=0
 OSX=0
 FINK=0
+
 if [ `uname -s` = "Darwin" ]; then
 	OSX=1
 	if [ -r /sw/bin/init.sh ]; then
 		. /sw/bin/init.sh
-		export PATH=~/bin:/usr/local/bin:$PATH
+		export PATH=/usr/local/bin:$PATH
 		FINK=1
 	fi
 fi
+
+if [ -d ~/.local/bin ]; then
+	export PATH=~/.local/bin:$PATH
+fi
+
+if [ -d ~/bin ]; then
+	export PATH=~/bin:$PATH
+fi
+
 
 #don't do anything if it's a dumb terminal because it could cause scp to fail
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
