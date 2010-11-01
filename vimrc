@@ -5,6 +5,7 @@ set showcmd
 set showmatch
 set sessionoptions+=resize
 
+set backspace=indent,eol,start
 
 " Enable modelines for users but not root
 set modelines=5
