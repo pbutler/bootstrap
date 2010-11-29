@@ -1,5 +1,9 @@
 Host *
 
+Host sysx
+	User pabutler
+	Hostname sysx2.arc.vt.edu
+
 Host anantham
 	User pabutler
 	Hostname anantham.cs.vt.edu
