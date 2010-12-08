@@ -34,6 +34,11 @@ if [ ! -d ~/.vim ]; then
 	mkdir ~/.vim
 fi
 
+if [ ! -d ~/.vim/tmp ]; then
+	mkdir ~/.vim/tmp
+	chmod 700 ~/.vim/tmp
+fi
+
 if [ -x `which svn` ]; then
 	svn --force export vim/ ~/.vim
 else

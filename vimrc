@@ -1,6 +1,8 @@
 syntax on
 set ruler
 
+set directory=~/.vim/tmp
+
 set showcmd
 set showmatch
 set sessionoptions+=resize
