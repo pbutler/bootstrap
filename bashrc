@@ -22,6 +22,9 @@ if [ `uname -s` = "Darwin" ]; then
 		export PATH=/usr/local/bin:$PATH
 		FINK=1
 	fi
+	if [ -d /Library/Frameworks/Python.framework/Versions/2.7/bin/python ]; then
+		export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin/python:$PATH"
+	fi
 fi
 
 if [ -d ~/.local/bin ]; then
