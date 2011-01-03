@@ -1,5 +1,10 @@
 Host *
 
+Host baobab
+	User pabutler
+	Hostname baobab
+	ProxyCommand ssh bio nc 192.168.0.200 22
+
 Host sysx
 	User pabutler
 	Hostname sysx2.arc.vt.edu

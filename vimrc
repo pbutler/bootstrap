@@ -70,6 +70,7 @@ if has("autocmd")
   autocmd FileType python setlocal ai
   autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 sta et 
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
   "Make program compiles to check for syntax errors
   autocmd FileType python setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
