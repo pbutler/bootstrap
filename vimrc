@@ -18,8 +18,10 @@ else
 endif 
 
 " Enable or disable spell checker
-map <F6> :setlocal nospell<CR>
-map <F7> :setlocal spell spelllang=en_us<CR> 
+
+set spelllang=en_us
+map <F6> :setlocal invspell spell?<CR>
+map <F7> :setlocal invpaste paste?<CR>
 
 " Toggle taglist
 let s:taglist_is_on = 0
@@ -59,7 +61,7 @@ if has("autocmd")
   "autocmd BufNewFile *.tex :0r ~/.vim/templates/python.py
   autocmd FileType tex map <F5> :make<CR>
   autocmd FileType tex nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
-  autocmd FileType tex setlocal spell spelllang=en_us
+  autocmd FileType tex setlocal spell 
   autocmd FileType tex setlocal ts=2 sts=2 sw=2 tw=79 sta et 
   autocmd FileType tex setlocal iskeyword+=:
   
