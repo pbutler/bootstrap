@@ -258,6 +258,18 @@ alias top='xtitle Processes on $HOSTNAME && top'
 alias make='xtitle Making $(basename $PWD) ; make'
 alias ncftp="xtitle ncFTP ; ncftp"
 
+function gvim()
+{
+	if [ "${1+defined}" = "defined" ]; then
+		case $1 in
+			-*) (vim -g $@ &) ;;
+			*) (vim -g --remote-silent $@ &) ;;
+		esac
+	else
+		(vim -g &) 
+	fi
+}
+
 #---------------
 # and functions
 #---------------
