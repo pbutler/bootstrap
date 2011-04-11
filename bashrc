@@ -224,11 +224,11 @@ if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 elif [ $OSX -eq 1 ]; then
 	export CLICOLOR=1
 	export SVN_EDITOR=vi
-	if [ -d "/Applications/MacVim.app" ]; then
-		alias gvim="open -a /Applications/MacVim.app"
-		alias vim="/Applications/MacVim.app/Contents/MacOS/Vim -X"
-		alias vi="/Applications/MacVim.app/Contents/MacOS/Vim -X"
-	fi
+	#if [ -d "/Applications/MacVim.app" ]; then
+	#	alias gvim="open -a /Applications/MacVim.app"
+	#	alias vim="/Applications/MacVim.app/Contents/MacOS/Vim -X"
+	#	alias vi="/Applications/MacVim.app/Contents/MacOS/Vim -X"
+	#fi
 	if [ $FINK -eq 1 ]; then
 		if [ -x '/sw/bin/ls' ]; then
 			alias ls='/sw/bin/ls --color=always'
