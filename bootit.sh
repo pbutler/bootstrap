@@ -16,7 +16,8 @@ cp -f -p ssh_config ~/.ssh/config
 cp -f -p vimrc ~/.vimrc
 cp -f -p screenrc ~/.screenrc
 cp -f -p gitconfig ~/.gitconfig
-cp -f -p vimperatorrc ~/.vimperatorrc
+rm -f ~/.vimperatorrc
+cp -f -p pentadactylrc ~/.pentadactylrc
 cp -f -p Xdefaults ~/.Xdefaults
 
 chmod 0600 ~/.ssh/config
