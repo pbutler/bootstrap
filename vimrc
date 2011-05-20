@@ -102,13 +102,13 @@ if &term =~ "xterm-256color"
 "  set t_AF=^[[38;5;%dm
 " Choose my favorite color scheme
   if strlen(globpath(&rtp, 'colors/inkpot.vim'))
-    colorscheme inkpot
+    colorscheme molokai
   endif
 endif
 
 if has("gui_running") 
   if strlen(globpath(&rtp, 'colors/inkpot.vim'))
-    colorscheme inkpot
+    colorscheme molokai
   endif
   set mousemodel=popup
   set mouse=a
@@ -117,8 +117,12 @@ endif
 " Uncomment below to get a dark background.
 " set background=dark
 
-
+let g:miniBufExplForceSyntaxEnable = 1
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1 
+
+let g:SuperTabDefaultCompletionType = "context"
+set completeopt=menuone,longest,preview
+
