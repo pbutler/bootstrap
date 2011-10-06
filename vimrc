@@ -1,11 +1,16 @@
+let g:bufstat_prevent_mappings=1
+
+call pathogen#infect()
+set laststatus=2
 syntax on
 set ruler
+
 
 set directory=~/.vim/tmp
 
 set showcmd
 set showmatch
-set sessionoptions+=resize
+"set sessionoptions+=resize
 
 set backspace=indent,eol,start
 
@@ -94,6 +99,7 @@ if has("autocmd")
   " this removes trailing extra whitespace from end of lines
   autocmd BufWritePre *.py,*.pl,*.c,*.cpp,*.h,*.tex,*.sh,*.rst call DeleteTrailingWhitespace()
 
+  au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 endif
 
 if &term =~ "xterm-256color"
@@ -101,13 +107,14 @@ if &term =~ "xterm-256color"
 "  set t_AB=^[[48;5;%dm
 "  set t_AF=^[[38;5;%dm
 " Choose my favorite color scheme
-  if strlen(globpath(&rtp, 'colors/inkpot.vim'))
+  if strlen(globpath(&rtp, 'colors/molokai.vim'))
     colorscheme molokai
+  "molokai
   endif
 endif
 
 if has("gui_running") 
-  if strlen(globpath(&rtp, 'colors/inkpot.vim'))
+  if strlen(globpath(&rtp, 'colors/molokai.vim'))
     colorscheme molokai
   endif
   set mousemodel=popup
@@ -117,11 +124,6 @@ endif
 " Uncomment below to get a dark background.
 " set background=dark
 
-let g:miniBufExplForceSyntaxEnable = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1 
 
 let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview

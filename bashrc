@@ -22,9 +22,9 @@ if [ `uname -s` = "Darwin" ]; then
 		export PATH=/usr/local/bin:$PATH
 		FINK=1
 	fi
-	if [ -d /Library/Frameworks/Python.framework/Versions/2.7/bin ]; then
-		export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
-	fi
+	#if [ -d /Library/Frameworks/Python.framework/Versions/2.7/bin ]; then
+	#	export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
+	#fi
 fi
 
 if [ -d ~/.local/bin ]; then
@@ -210,7 +210,7 @@ alias irssi='screen -S irssi -p irssi -RaAD -e^bB irssi -ckt'
 #-----------------------------------------
 
 export ircname=hbar
-export PAGER=less
+export PAGER="less -r"
 export EDITOR=vi
 
 if [ $GNU -eq 1 ] ; then	# use gnu/free stuff

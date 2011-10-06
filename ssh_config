@@ -1,5 +1,15 @@
 Host *
 
+Host recsys
+	User pabutler
+	Hostname recsys.cs.vt.edu
+	ForwardAgent yes
+
+Host mnemo2
+	User pabutler
+	Hostname mnemosyne2
+	ProxyCommand ssh bio nc 192.168.0.203 22
+
 Host baobab
 	User pabutler
 	Hostname baobab
