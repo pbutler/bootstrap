@@ -61,11 +61,24 @@ EOF
  })();
 EOF
 
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+noremap   <Up>     <NOP>
+noremap   <Down>   <NOP>
+noremap   <Left>   <NOP>
+noremap   <Right>  <NOP>
+
 " select next/previous tab
-map <Right> gt
-map <Left>  gT
-map <C-l>   gt
-map <C-h>   gT
+"map <Right> gt
+"map <Left>  gT
+map <l>   gt
+map <h>   gT
+"map <C-j>   <C-f>
+"map <C-k>   <C-b>
+map j   <C-f>
+map k   <C-b>
 
 " move current tab left/right
 map <S-Right> :tabmove! +1<CR>
@@ -81,8 +94,11 @@ map . :forward<CR>
 " autocmd LocationChange http://www\.google\.com/reader :open https://www.google.com/reader
 
 set passkeys+='https://www.google.com/reader/*':AnplmsStvr<SPACE>PN
-set passkeys+="https://mail.google.com/*":jkgnpxec+-lvor
+set passkeys+="https://mail.google.com/*":jkgnpxec+-lvori
 set passkeys+="https://www.google.com/calendar/*":jkgt12345qrcnp
+
+
+set strictfocus+="https://mail.google.com/*":despotic
 echo ".pentadactylrc sourced"
 
 " vim: ft=vimperator sw=2 sts=2

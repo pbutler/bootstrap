@@ -122,7 +122,16 @@ if has("gui_running")
 endif
 
 " Uncomment below to get a dark background.
-" set background=dark
+set background=dark
+
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+noremap   <Up>     <NOP>
+noremap   <Down>   <NOP>
+noremap   <Left>   <NOP>
+noremap   <Right>  <NOP>
 
 
 let g:SuperTabDefaultCompletionType = "context"
