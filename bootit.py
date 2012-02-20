@@ -15,8 +15,6 @@ import subprocess as sp
 import fcntl
 
 
-
-
 class Cmd(object):
     def __init__(self, *args):
         p = sp.Popen(*args, stdout=sp.PIPE, stderr=sp.PIPE, shell=True)
@@ -84,7 +82,6 @@ def main(args):
 
     os.chdir(curdir)
     return 0
-
 
 
 if __name__ == "__main__":
