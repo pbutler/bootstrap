@@ -184,7 +184,7 @@ conf_match = {
 }
 
 
-def read_conf(fname="config"):
+def read_conf(fname="config.bootit"):
     lines = csv.reader(open(fname))
     for line in lines:
         for name, type in conf_match.iteritems():
