@@ -39,7 +39,6 @@ fi
 #don't do anything if it's a dumb terminal because it could cause scp to fail
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
 
-
 #-----------------------------------
 # Source global definitions (if any)
 #-----------------------------------

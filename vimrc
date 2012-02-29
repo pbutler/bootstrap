@@ -5,7 +5,6 @@ set laststatus=2
 syntax on
 set ruler
 
-
 set directory=~/.vim/tmp
 
 set showcmd
