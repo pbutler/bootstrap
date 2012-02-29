@@ -101,6 +101,9 @@ if has("autocmd")
   au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 endif
 
+" Uncomment below to get a dark background.
+set background=dark
+
 if &term =~ "xterm-256color"
   set t_Co=256
 "  set t_AB=^[[48;5;%dm
@@ -120,8 +123,6 @@ if has("gui_running")
   set mouse=a
 endif
 
-" Uncomment below to get a dark background.
-set background=dark
 
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
