@@ -1,7 +1,8 @@
-"pythoncomplete.vim - Omni Completion for python
-" Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-" Version: 0.9
-" Last Updated: 18 Jun 2009
+"pythoncomplete2.vim - Omni Completion for python
+" Maintainer: Patrick Butler <pbutler@killertux.org>
+" OrginalMaintainer: Aaron Griffin <aaronmgriffin@gmail.com>
+" Version: 2.1b
+" Last Updated: 19 Apr 2012
 "
 " Changes
 " TODO:
@@ -10,6 +11,8 @@
 " Complete basic syntax along with import statements
 "   i.e. "import url<c-x,c-o>"
 " Continue parsing on invalid line??
+" v2.1b
+"   * fixed problems with  keyword arguments
 "
 " v 0.9
 "   * Fixed docstring parsing for classes and functions
@@ -316,12 +319,14 @@ class Scope(object):
         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
         for l in self.locals:
             if l.startswith('import'): str += l+'\n'
+        for l in self.locals:
+            if l.startswith('from'): str += l+'\n'
         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
         for sub in self.subscopes:
             str += sub.get_code()
         for l in self.locals:
-            if not l.startswith('import'): str += l+'\n'
-
+            if not l.startswith('import') and not l.startswith('from'): 
+              str += l+'\n'
         return str
 
     def pop(self,indent):
@@ -486,8 +491,8 @@ class PyParser:
                     level += 1
                 elif token in (']','}',')'):
                     level -= 1
-                    if level == 0: break
-                elif level == 0:
+                    if level <= 0: break
+                elif level <= 0:
                     if token in (';','\n'): break
                     assign += token
         return "%s" % assign

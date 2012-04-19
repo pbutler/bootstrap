@@ -197,6 +197,7 @@ powerprompt	# this is the default prompt - might be slow
 # Personnal Aliases
 #-------------------
 
+alias vi=vim
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'

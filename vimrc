@@ -1,10 +1,22 @@
 let g:bufstat_prevent_mappings=1
 
-call pathogen#infect()
+let mapleader=","
+set anti gfn=Monaco:h10
+
 set laststatus=2
+let &l:statusline="%-10((%l,%c)%)\ %P"
+let ropevim_vim_completion=1
+let ropevim_extended_complete=1
+let ropevim_guess_project=0
+let g:ultisnips_python_style = "sphinx"
+
+
+call pathogen#infect()
 syntax on
 set ruler
 
+set undodir=$HOME/.vim/undos
+set undofile
 set directory=~/.vim/tmp
 
 set showcmd
@@ -53,52 +65,24 @@ if !has("python")
   let b:did_python_init = 0
 endif
 
-"Vim-LaTeX crapola
-let g:tex_flavor='latex'
-set grepprg=grep\ -nH\ $*
-
 if has("autocmd")
   filetype plugin indent on 
 
-  "LaTeX
-  "autocmd BufNewFile *.tex set filetype=tex
-  "autocmd BufNewFile *.tex :0r ~/.vim/templates/python.py
-  autocmd FileType tex map <F5> :make<CR>
-  autocmd FileType tex nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
-  autocmd FileType tex setlocal spell 
-  autocmd FileType tex setlocal ts=2 sts=2 sw=2 tw=79 sta et 
-  autocmd FileType tex setlocal iskeyword+=:
-  
-  "vim files
-  autocmd FileType vim setlocal expandtab smarttab softtabstop=2 shiftwidth=2 
-
-  " Python 
-  autocmd FileType python setlocal ai
-  autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 sta et 
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-
-  "Make program compiles to check for syntax errors
-  autocmd FileType python setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-  autocmd FileType python setlocal efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-  "Press F5 to run
-  autocmd FileType python nmap <F5> :!python %<CR>
-
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+  " This setting makes sure Vim is always operating in the directory of
+  " " the current buffer
+  autocmd BufEnter * lcd %:p:h
   autocmd BufNewFile *.py :0r ~/.vim/templates/python.py
-  autocmd FileType python nmap <Leader>pyt :0r ~/.vim/templates/python.py<CR>
-  autocmd FileType python nmap <Leader>pym <insert># -*- coding: UTF-8 -*-<CR># vim: ts=4 sts=4 sw=4 tw=79 sta et<CR><ESC>
-  if strlen(globpath(&rtp, '$HOME/.vim/plugin/pydoc.vim'))
-    autocmd FileType python source $HOME/.vim/plugin/pydoc.vim
-  endif
-
-
-  "C/C++
-  autocmd FileType c,cpp setlocal ts=8 sts=8 sw=8 noet
-
   " this removes trailing extra whitespace from end of lines
   autocmd BufWritePre *.py,*.pl,*.c,*.cpp,*.h,*.tex,*.sh,*.rst call DeleteTrailingWhitespace()
 
   au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+
+    autocmd FileType *
+    \ if &omnifunc != '' |
+    \   call SuperTabChain(&omnifunc, "<c-p>") |
+    \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+    \ endif
 endif
 
 " Uncomment below to get a dark background.
@@ -123,17 +107,12 @@ if has("gui_running")
   set mouse=a
 endif
 
-
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
 noremap   <Up>     <NOP>
 noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
 
-let g:SuperTabDefaultCompletionType = "context"
+"let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 
