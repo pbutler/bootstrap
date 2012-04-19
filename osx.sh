@@ -61,7 +61,11 @@ defaults write com.apple.dock show-process-indicators -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
+<<<<<<< HEAD
 defaults write NSGlobalDomain KeyRepeat -int 20
+=======
+defaults write NSGlobalDomain KeyRepeat -int 0
+>>>>>>> 401ea377276c1eff3c24423ca1ed89f6a3e81311
 
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false

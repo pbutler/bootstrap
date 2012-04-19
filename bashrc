@@ -15,6 +15,8 @@ GNU=0
 OSX=0
 FINK=0
 
+export EDITOR="vim"
+
 if [ `uname -s` = "Darwin" ]; then
 	OSX=1
 	if [ -r /sw/bin/init.sh ]; then
