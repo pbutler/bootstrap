@@ -1,13 +1,23 @@
-mkdir,~/.ssh,0700
-file,bashrc,~/.bashrc
-file,ssh_config,~/.ssh/config
-file,vimrc,~/.vimrc
-file,screenrc,~/.screenrc
-file,gitconfig,~/.gitconfig
-file,pentadactylrc,~/.pentadactylrc
-file,Xdefaults,~/.Xdefaults
-chmod,~/.ssh/config,0600
-file,xterm-256color,~/.terminfo/78/xterm-256color
-sync,bin,~/bin,noclean
-sync,vim,~/.vim
-mkdir,~/.vim/tmp,0700
+[
+["mkdir", "~/.ssh", "0700"], 
+["file", "bashrc", "~/.bashrc"], 
+["file", "ssh_config", "~/.ssh/config"], 
+["file", "vimrc", "~/.vimrc"], 
+["file", "screenrc", "~/.screenrc"], 
+["file", "gitconfig", "~/.gitconfig"], 
+["file", "pentadactylrc", "~/.pentadactylrc"], 
+["file", "Xdefaults", "~/.Xdefaults"], 
+["chmod", "~/.ssh/config", "0600"], 
+["file", "xterm-256color", "~/.terminfo/78/xterm-256color"], 
+["sync", "bin", "~/bin", "noclean"], 
+["sync", "vim", "~/.vim"], 
+["mkdir", "~/.vim/tmp", "0700"], 
+["if", "sys.platform == 'darwin'",
+       {"True" : [ ["echo", "OS X detected installing applicable files..."],
+		   [ "if", "os.path.exists('.osx_ran')", 
+                           {"False": [[ "cmd", "./osx.sh"], ["touch", ".osx_ran"]]}
+                   ]
+                 ]
+       }
+]
+]

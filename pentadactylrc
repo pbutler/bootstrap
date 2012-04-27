@@ -65,10 +65,10 @@ EOF
 "inoremap  <Down>   <NOP>
 "inoremap  <Left>   <NOP>
 "inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
+map   <Up>     <NOP> -builtin
+map   <Down>   <NOP> -builtin
+map   <Left>   <NOP> -builtin
+map   <Right>  <NOP> -builtin
 
 " select next/previous tab
 "map <Right> gt

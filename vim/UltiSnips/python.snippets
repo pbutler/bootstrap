@@ -1,0 +1,30 @@
+###########################################################################
+#                            TEXTMATE SNIPPETS                            #
+###########################################################################
+
+#! header
+clearsnippets #!
+snippet #! "Shebang header for python scripts" b
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+# vim: ts=4 sts=4 sw=4 tw=79 sta et
+"""%prog [options]
+Python source code - @todo explain what this script does
+"""
+
+__author__ = 'Patrick Butler'
+__email__  = 'pbutler@killertux.org'
+
+$0
+endsnippet
+
+snippet for "for loop" b
+for ${1:i} in xrange(${2}):
+	$0
+endsnippet
+
+snippet forl "for len loop" b
+for ${1:i} in xrange(len(${2:val})):
+	$0
+endsnippet
+

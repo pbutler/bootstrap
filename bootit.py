@@ -13,7 +13,7 @@ import sys
 import optparse
 import subprocess as sp
 import fcntl
-import csv
+import json
 import shutil
 import logging
 import fnmatch
@@ -174,6 +174,55 @@ class Sync(object):
                         pass
 
 
+class Echo(object):
+    """echos the given arguments to the command line"""
+
+    def __init__(self, *args):
+        """
+        :param *args: arguments to be echoed
+
+        """
+        print " ".join( map(str, args))
+
+
+class If(object):
+    """If statement might be better thought of a switch statement that takes a
+    dictionary and runs the lines from the dictionary elements.  Since true and
+    false are not valid key values in JSON these are mapped to their strings
+    (True and False).
+    """
+
+    def __init__(self, condition, statements):
+        """
+        :param condition: condition to check, a string of python code
+        :param statements: statements, an array of stuff
+
+        """
+
+        result = eval(condition)
+        if result is True:
+            if "True" in statements:
+                eval_conf(statements["True"])
+        elif result is False:
+            if "False" in statements:
+                eval_conf(statements["False"])
+        elif result in statements:
+            eval_conf(statements[result])
+        else:
+            raise Exception("Unexpected result received")
+
+
+class Touch(object):
+    """Creates an empty file"""
+
+    def __init__(self, fname):
+        """@todo: to be defined
+
+        :param fname: @todo
+
+        """
+        open(fname)
+
 conf_match = {
     "cmd" : Cmd,
     "file" : File,
@@ -181,15 +230,21 @@ conf_match = {
     "sync" : Sync,
     "mkdir" : MkDir,
     "chmod" : Chmod,
+    "echo"  : Echo,
+    "if"    : If,
+    "touch" : Touch
 }
 
+def eval_conf(lines):
+    try:
+        [conf_match[line[0]](*line[1:]) for line in lines]
+    except Exception as e:
+        print "Error in '%s'" % line
+        raise e
 
 def read_conf(fname="config.bootit"):
-    lines = csv.reader(open(fname))
-    for line in lines:
-        for name, type in conf_match.iteritems():
-            if line[0] == name:
-                type(*line[1:])
+    lines = json.load(open(fname))
+    eval_conf(lines)
 
 
 
