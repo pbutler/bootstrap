@@ -13,6 +13,7 @@
 " Continue parsing on invalid line??
 " v2.1b
 "   * fixed problems with  keyword arguments
+"   * fixed from imports being out of order
 "
 " v 0.9
 "   * Fixed docstring parsing for classes and functions
