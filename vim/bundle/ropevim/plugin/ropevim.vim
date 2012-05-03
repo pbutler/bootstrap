@@ -1,4 +1,4 @@
-if !has("plugin")
+if !has("python")
   finish
 endif
 
