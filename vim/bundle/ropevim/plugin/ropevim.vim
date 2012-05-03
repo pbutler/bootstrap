@@ -1,3 +1,7 @@
+if !has("plugin")
+  finish
+endif
+
 python << EOF
 import os, sys, vim
 scriptdir = os.path.join(os.path.dirname(vim.eval('expand("<sfile>")')), 'ropevim')

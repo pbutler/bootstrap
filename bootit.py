@@ -281,6 +281,9 @@ def main(args):
         if mode == "svn":
             pass
         elif mode == "git":
+            Cmd(["git", "update"])
+            #Cmd(["git", "submodles" "update" ])
+
             pass
 
     read_conf()

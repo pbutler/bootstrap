@@ -10,6 +10,11 @@ let ropevim_extended_complete=1
 let ropevim_guess_project=0
 let g:ultisnips_python_style = "sphinx"
 
+if !has("python")
+  " Trick pyflakes into not running
+  let b:did_python_init = 0
+  let did_UltiSnips_vim = 1
+endif
 
 call pathogen#infect()
 syntax on
@@ -60,10 +65,6 @@ function! DeleteTrailingWhitespace()
   normal ``
 endfunction
 
-if !has("python")
-  " Trick pyflakes into not running
-  let b:did_python_init = 0
-endif
 
 if has("autocmd")
   filetype plugin indent on 
