@@ -20,7 +20,11 @@ import fnmatch
 
 class Cmd(object):
     def __init__(self, *args):
-        p = sp.Popen(*args, stdout=sp.PIPE, stderr=sp.PIPE, shell=True)
+        if len(args) == 1:
+            shell = True
+        else:
+            shell = False
+        p = sp.Popen(args, stdout=sp.PIPE, stderr=sp.PIPE, shell=shell)
         self.stdout = ""
         self.stderr = ""
         while p.returncode is None:
@@ -256,7 +260,7 @@ def main(args):
                       help="don't print status messages to stdout")
 
     parser.add_option("-n", "--no-update",
-                      action="store_false", dest="update",
+                      action="store_false", dest="update", default=True,
                       help="don't run git pull or svnupdate")
     (options, args) = parser.parse_args()
     if len(args) < 0:
@@ -281,10 +285,9 @@ def main(args):
         if mode == "svn":
             pass
         elif mode == "git":
-            Cmd(["git", "update"])
-            #Cmd(["git", "submodles" "update" ])
-
-            pass
+            print "Gitting"
+            Cmd("git pull")
+            Cmd("git submodule update --init --recursive")
 
     read_conf()
 
