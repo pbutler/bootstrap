@@ -12,6 +12,7 @@
 ["sync", "bin", "~/bin", "noclean"], 
 ["sync", "vim", "~/.vim"], 
 ["mkdir", "~/.vim/tmp", "0700"], 
+["mkdir", "~/.vim/undos", "0700"], 
 ["if", "sys.platform == 'darwin'",
        {"True" : [ ["echo", "OS X detected installing applicable files..."],
 		   [ "if", "os.path.exists('.osx_ran')", 

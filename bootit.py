@@ -225,7 +225,7 @@ class Touch(object):
         :param fname: @todo
 
         """
-        open(fname)
+        open(fname, "w")
 
 conf_match = {
     "cmd" : Cmd,
