@@ -3,6 +3,7 @@ let g:bufstat_prevent_mappings=1
 let mapleader=","
 set anti gfn=Monaco:h10
 
+set hidden
 set laststatus=2
 let &l:statusline="%-10((%l,%c)%)\ %P"
 let ropevim_vim_completion=1
