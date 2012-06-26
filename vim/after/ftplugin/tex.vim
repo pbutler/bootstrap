@@ -11,7 +11,8 @@ setlocal grepprg=grep\ -nH\ $*
 "autocmd BufNewFile *.tex set filetype=tex
 "autocmd BufNewFile *.tex :0r ~/.vim/templates/python.py
 map <F5> :make<CR>
-nmap <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
+map <Leader>pyt :0r ~/.vim/templates/latex.tex<CR>
+let g:tex_comment_nospell= 1
 
 
 setlocal spell 
