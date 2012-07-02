@@ -1,5 +1,6 @@
 [
 ["mkdir", "~/.ssh", "0700"], 
+["file", "tmux.conf", "~/.tmux.conf"],
 ["file", "bashrc", "~/.bashrc"], 
 ["file", "ssh_config", "~/.ssh/config"], 
 ["file", "vimrc", "~/.vimrc"], 
