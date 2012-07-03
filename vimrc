@@ -96,7 +96,12 @@ if &term =~ "xterm-256color"
 "  set t_AF=^[[38;5;%dm
 " Choose my favorite color scheme
   if strlen(globpath(&rtp, 'colors/molokai.vim'))
-    colorscheme molokai
+    "colorscheme molokai
+    let g:solarized_termcolors=256
+    let g:solarized_visibility = "high"
+    "let g:solarized_contrast = "high"
+    colorscheme solarized
+    highlight SpellBad ctermfg=127
   "molokai
   endif
 endif
