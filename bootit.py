@@ -6,7 +6,7 @@ Python source code - replace this with a description of the code and write the c
 """
 
 __author__ = 'Patrick Butler'
-__email__  = 'pbutler@killertux.org'
+__email__ = 'pbutler@killertux.org'
 
 import os
 import sys
@@ -17,6 +17,7 @@ import json
 import shutil
 import logging
 import fnmatch
+
 
 class Cmd(object):
     def __init__(self, *args):
@@ -47,6 +48,7 @@ class Cmd(object):
         except:
             return ""
 
+
 class File(object):
     def __init__(self, src, dest):
         src = os.path.expanduser(src)
@@ -60,6 +62,7 @@ class File(object):
             os.unlink(dest)
         shutil.copy2(src, dest)
 
+
 class Link(object):
     def __init__(self, src, dest):
         src = os.path.expanduser(src)
@@ -71,12 +74,13 @@ class Link(object):
             os.makedirs(destdir)
 
         if os.path.islink(dest) and os.path.samefile(src, dest):
-            logging.warn("Changed link from %s to %s" %(os.path.realpath(dest),
-                                                        src))
+            logging.warn("Changed link from %s to %s" %
+                         (os.path.realpath(dest), src))
             os.unlink(dest)
         elif os.path.lexists(dest) and os.path.islink(dest):
             os.unlink(dest)
         os.symlink(src, dest)
+
 
 class MkDir(object):
     def __init__(self, dir, perms):
@@ -85,11 +89,13 @@ class MkDir(object):
             os.mkdir(dir, int(perms, 8))
         os.chmod(dir, int(perms, 8))
 
+
 class Chmod(object):
     def __init__(self, path, perms):
         path = os.path.expanduser(path)
         if os.path.exists(path):
             os.chmod(path, int(perms, 8))
+
 
 class Sync(object):
     def __init__(self, src, dest, *pats):
@@ -150,10 +156,9 @@ class Sync(object):
                 if not os.path.exists(destdir):
                     os.mkdir(destdir)
                 try:
-                    shutil.copystat(os.path.join(dirpath,dir), destdir)
+                    shutil.copystat(os.path.join(dirpath, dir), destdir)
                 except shutil.WindowsError:
                     pass
-
 
             for file in filenames:
                 skip = False
@@ -228,16 +233,17 @@ class Touch(object):
         open(fname, "w")
 
 conf_match = {
-    "cmd" : Cmd,
-    "file" : File,
-    "link" : Link,
-    "sync" : Sync,
-    "mkdir" : MkDir,
-    "chmod" : Chmod,
-    "echo"  : Echo,
-    "if"    : If,
-    "touch" : Touch
+    "cmd":   Cmd,
+    "file":  File,
+    "link":  Link,
+    "sync":  Sync,
+    "mkdir": MkDir,
+    "chmod": Chmod,
+    "echo":  Echo,
+    "if":    If,
+    "touch": Touch
 }
+
 
 def eval_conf(lines):
     try:
@@ -287,7 +293,9 @@ def main(args):
         elif mode == "git":
             print "Gitting"
             Cmd("git pull")
-            Cmd("git submodule update --init --recursive")
+
+    if mode == "git":
+        Cmd("git submodule update --init --recursive")
 
     read_conf()
 
@@ -296,7 +304,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    import sys
-    sys.exit( main( sys.argv ) )
-
-
+    sys.exit(main(sys.argv))

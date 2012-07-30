@@ -3,6 +3,11 @@ let g:bufstat_prevent_mappings=1
 let mapleader=","
 set anti gfn=Monaco:h10
 
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_quiet_warnings=0
+let g:syntastic_enable_signs=0
+
 set hidden
 set laststatus=2
 let &l:statusline="%-10((%l,%c)%)\ %P"
@@ -105,6 +110,8 @@ if &term =~ "xterm-256color"
   "molokai
   endif
 endif
+highlight SpellBad ctermfg=127
+highlight SpellCap ctermfg=123
 
 if has("gui_running") 
   if strlen(globpath(&rtp, 'colors/molokai.vim'))
