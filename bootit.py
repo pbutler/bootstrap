@@ -126,13 +126,13 @@ class Sync(object):
             for dir in dirnames:
                 srcdir = os.path.join(srcpath, dir)
                 destdir = os.path.join(dirpath, dir)
-                if not os.path.exists(srcdir):
+                if not os.path.exists(srcdir) and clean:
                     shutil.rmtree(destdir)
 
             for file in filenames:
                 srcfile = os.path.join(srcpath, file)
                 destfile = os.path.join(dirpath, file)
-                if not os.path.exists(srcfile):
+                if not os.path.exists(srcfile) and clean:
                     os.unlink(destfile)
 
         for dirpath, dirnames, filenames in os.walk(src):
