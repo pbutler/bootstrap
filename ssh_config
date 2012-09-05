@@ -1,5 +1,15 @@
 Host *
 
+Host embers
+	User pabutler
+	Hostname embers.cs.vt.edu
+	ForwardAgent yes
+
+Host embers-kvm
+	User pabutler
+	Hostname embers.cs.vt.edu
+	Port 2222
+	ForwardAgent yes
 Host recsys
 	User pabutler
 	Hostname recsys.cs.vt.edu

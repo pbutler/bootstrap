@@ -1,5 +1,7 @@
 let g:bufstat_prevent_mappings=1
 
+let g:NERDTreeQuitOnOpen=1
+
 let mapleader=","
 set anti gfn=Monaco:h10
 
@@ -10,7 +12,7 @@ let g:syntastic_enable_signs=0
 
 set hidden
 set laststatus=2
-let &l:statusline="%-10((%l,%c)%)\ %P"
+let &g:statusline="%-10((%l,%c)%)\ %P"
 let ropevim_vim_completion=1
 let ropevim_extended_complete=1
 let ropevim_guess_project=0
@@ -62,6 +64,7 @@ function! ToggleTagList()
     let s:taglist_is_on = 0
   endif
 endfunction
+map <silent> <F1> :NERDTree<CR>
 map <silent> <F2> :exe ":call ToggleTagList()"<CR>
 
 " This function removes trailing whitespace, a pet peeve of mine.
