@@ -226,6 +226,7 @@ if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 elif [ $OSX -eq 1 ]; then
 	export CLICOLOR=1
 	export SVN_EDITOR=vi
+	alias vim="vim -X"
 	#if [ -d "/Applications/MacVim.app" ]; then
 	#	alias gvim="open -a /Applications/MacVim.app"
 	#	alias vim="/Applications/MacVim.app/Contents/MacOS/Vim -X"

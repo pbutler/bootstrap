@@ -3,6 +3,7 @@ Host *
 Host embers
 	User pabutler
 	Hostname embers.cs.vt.edu
+	LocalForward 8989 localhost:8989 
 	ForwardAgent yes
 
 Host embers-kvm

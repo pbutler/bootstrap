@@ -7,18 +7,20 @@ Python source code - @todo
 
 __author__ = 'Patrick Butler'
 __email__ = 'pbutler@killertux.org'
+__version__ = '0.0.1'
 
 
 def main(args):
-    import  optparse
-    parser = optparse.OptionParser()
-    parser.usage = __doc__
-    parser.add_option("-q", "--quiet",
-                      action="store_false", dest="verbose", default=True,
-                      help="don't print status messages to stdout")
-    (options, args) = parser.parse_args()
-    if len(args) < 0:
-        parser.error("Not enough arguments given")
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("-q", "--quiet", action="store_false", dest="verbose",
+                        help="don't print status messages to stdout")
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s ' + __version__)
+    #parser.add_argument('args', metavar='args', type=str, nargs='*',
+    #                    help='an integer for the accumulator')
+    options = parser.parse_args()
+
     return 0
 
 
