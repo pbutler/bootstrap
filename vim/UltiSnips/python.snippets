@@ -31,9 +31,9 @@ endsnippet
 
 
 snippet subparser "subparser" b
-subparsers = parser.add_subparsers(title='commands', dest="command"
-                                   description='valid subcommands',
-                                   help='additional help')
+subparsers = parser.add_subparsers(title="commands", dest="command",
+                                   description="valid subcommands",
+                                   help="additional help")
 ${1:parser}_p = subparsers.add_parser("$1", help="invoke the $1 command")
 $1_p.add_argument("bar", type=int, help="bar help")
 endsnippet
