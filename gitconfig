@@ -11,4 +11,8 @@
 
 [github]
         user = pbutler
-        token = e3e8edca46a8bc94fa8df5f0c4a23c80
+	token = e3e8edca46a8bc94fa8df5f0c4a23c80
+
+[alias]
+	 brname = rev-parse --abbrev-ref HEAD
+	 repo = "!f() { if `git brname > /dev/null`; then echo $(basename $(git rev-parse --show-toplevel)):$(git brname); fi; }; f"

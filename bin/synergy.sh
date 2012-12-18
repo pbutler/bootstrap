@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PIDFILE=/tmp/synergy.pid
+PATH="~/bin:/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 case "$1" in
 	"start")
@@ -9,7 +10,6 @@ case "$1" in
 		fi
 		/Applications/Synergy.app/Contents/MacOS/synergys -n inanna.killertux.org
 		sleep .1
-		ps -ef | grep synergy | grep -v grep
 		pid=`ps -ef | grep synergys | grep -v $$ | grep -v grep | awk '{print \$2}'`
 
 		umask 0066
