@@ -29,6 +29,15 @@ for ${1:i} in xrange(len(${2:val})):
 	$0
 endsnippet
 
+
+snippet subparser "subparser" b
+subparsers = parser.add_subparsers(title="commands", dest="command",
+                                   description="valid subcommands",
+                                   help="additional help")
+${1:parser}_p = subparsers.add_parser("$1", help="invoke the $1 command")
+$1_p.add_argument("bar", type=int, help="bar help")
+endsnippet
+
 clearsnippets #!
 snippet defmain "default main" b
 def main(args):
@@ -36,10 +45,10 @@ def main(args):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-q", "--quiet", action="store_false", dest="verbose",
                         help="don't print status messages to stdout")
-    parser.add_argument('--version', action='version',
-                        version='%(prog)s ' + __version__)
-    #parser.add_argument('args', metavar='args', type=str, nargs='*',
-    #                    help='an integer for the accumulator')
+    parser.add_argument("--version", action="version",
+                        version="%(prog)s " + __version__)
+    #parser.add_argument("args", type=str, nargs="*",
+    #                    help="an integer for the accumulator")
     options = parser.parse_args()
     $0
     return 0
