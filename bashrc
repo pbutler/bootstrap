@@ -158,6 +158,9 @@ function powerprompt()
           COLOR='1;31m'
         fi
 
+	tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
+	tmux refresh-client -S
+
         case $TERM in
 	    xterm* | dtterm | rxvt  )
 	        echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007";;
