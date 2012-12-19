@@ -157,9 +157,11 @@ function powerprompt()
         else 
           COLOR='1;31m'
         fi
-
-	tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
-	tmux refresh-client -S
+	
+	if [ -n ${TMUX:=''} ]; then
+	  tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
+	  tmux refresh-client -S
+	fi
 
         case $TERM in
 	    xterm* | dtterm | rxvt  )
