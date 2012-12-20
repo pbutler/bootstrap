@@ -145,7 +145,6 @@ function fastprompt()
     esac
 }
 
-
 function powerprompt()
 {
     _powerprompt() 
@@ -157,12 +156,14 @@ function powerprompt()
         else 
           COLOR='1;31m'
         fi
-	
-	if [ -n ${TMUX:=''} ]; then
-	  tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
-	  tmux refresh-client -S
-	fi
 
+        if [ -n ${TMUX:=""} ]; then
+            tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD" 
+            if [ -n ${VIRTUAL_ENV:=''} ]; then
+                tmux setenv VIRTUAL_ENV_$(tmux display -p "#I_#P") ${VIRTUAL_ENV:=""}
+            fi
+            tmux refresh-client -S
+        fi
         case $TERM in
 	    xterm* | dtterm | rxvt  )
 	        echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007";;

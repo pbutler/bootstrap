@@ -3,6 +3,9 @@
 var=$(tmux display -p "TMUXPWD_#I_#P")
 dir=$(tmux show-environment  | grep $var | cut -f2- -d=)
 
+var=$(tmux display -p "VIRTUAL_ENV_#I_#P")
+venv=$(tmux show-environment  | grep $var | cut -f2- -d=)
+
 dirty=""
 branch=""
 repo=""
@@ -17,4 +20,13 @@ if [ -n "$dir" ] ; then
   fi
   branch=$(cd $dir; git repo 2>/dev/null)
 fi
-echo -n "${dirty}${repo}${branch}"
+
+venv=${venv##*/}
+if [ -n "$venv" ]; then
+    venv="#[fg=colour61]($venv)#[fg=default]"
+    if [ -n "$branch" ]; then
+        venv="$venv "
+    fi
+fi
+
+echo -n "${venv}${dirty}${repo}${branch}"
