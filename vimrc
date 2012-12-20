@@ -98,7 +98,7 @@ endif
 " Uncomment below to get a dark background.
 set background=dark
 
-if &term =~ "xterm-256color"
+if &term =~ "\\(xterm\\|screen\\)-256color"
   set t_Co=256
 "  set t_AB=^[[48;5;%dm
 "  set t_AF=^[[38;5;%dm
