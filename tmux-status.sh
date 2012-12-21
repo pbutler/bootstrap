@@ -12,11 +12,11 @@ repo=""
 
 #echo -n "#[fg=colour166]"
 if [ -n "$dir" ] ; then
- if cd $dir; git update-index -q --refresh 2>/dev/null; git diff-index --quiet --cached HEAD --ignore-submodules -- 2>/dev/null && git diff-files --quiet --ignore-submodules 2>/dev/null
- then
-   dirty="#[fg=colour33]"
- else
-   dirty="#[fg=colour166]"
+  if cd $dir; git update-index -q --refresh 2>/dev/null; git diff-index --quiet --cached HEAD --ignore-submodules -- 2>/dev/null && git diff-files --quiet --ignore-submodules 2>/dev/null
+  then
+    dirty="#[fg=colour33]"
+  else
+    dirty="#[fg=colour166]"
   fi
   branch=$(cd $dir; git repo 2>/dev/null)
 fi
@@ -25,8 +25,8 @@ venv=${venv##*/}
 if [ -n "$venv" ]; then
     venv="#[fg=colour61]($venv)#[fg=default]"
     if [ -n "$branch" ]; then
-        venv="$venv "
+        venv=" $venv"
     fi
 fi
 
-echo -n "${venv}${dirty}${repo}${branch}"
+echo -n "${dirty}${repo}${branch}${venv}"
