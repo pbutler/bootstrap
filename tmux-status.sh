@@ -18,6 +18,7 @@ if [ -n "$dir" ] ; then
   else
     dirty="#[fg=colour166]"
   fi
+  repo
   branch=$(cd $dir; git repo 2>/dev/null)
 fi
 
