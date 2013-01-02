@@ -217,7 +217,7 @@ alias irssi='screen -S irssi -p irssi -RaAD -e^bB irssi -ckt'
 
 export ircname=hbar
 export PAGER="less -r"
-export EDITOR=vi
+export EDITOR="vim -X"
 
 if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 	alias vi='vi -X'
