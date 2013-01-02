@@ -157,7 +157,7 @@ function powerprompt()
           COLOR='1;31m'
         fi
 
-        if [ -n ${TMUX:=""} ]; then
+        if [ -n "${TMUX:=""}" ]; then
             tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD" 
 	    tmux setenv VIRTUAL_ENV_$(tmux display -p "#I_#P") ${VIRTUAL_ENV:=""}
             tmux refresh-client -S
