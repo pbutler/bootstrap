@@ -16,6 +16,7 @@ OSX=0
 FINK=0
 
 export EDITOR="vim"
+export SVN_EDITOR="vim"
 
 if [ `uname -s` = "Darwin" ]; then
 	OSX=1
@@ -518,7 +519,19 @@ _killps ()
 }
 complete -F _killps killps
 
+function r() {
+	if [[ -n $TMUX ]]; then
+		NEW_SSH_AUTH_SOCK=`tmux showenv | grep ^SSH_AUTH_SOCK | cut -d= -f2`
+		if [[ -n $NEW_SSH_AUTH_SOCK ]] && [[ -S $NEW_SSH_AUTH_SOCK ]]; then
+			export SSH_AUTH_SOCK=$NEW_SSH_AUTH_SOCK
+		fi
+		export DISPLAY=`tmux showenv | grep ^DISPLAY | cut -d= -f2`
+	fi
+}
+
+
 if [ $TERM != "dumb" ]; then
+ set +u
  w
 fi
 # Local Variables:

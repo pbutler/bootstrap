@@ -1,5 +1,22 @@
 Host *
 
+Host cutestdeploy
+	User embers
+	Hostname ec2-72-44-43-185.compute-1.amazonaws.com
+	IdentityFile ~/.ssh/model2.key  
+# cutestdeploy
+
+Host model3
+	User embers
+	Hostname ec2-50-16-166-61.compute-1.amazonaws.com
+	IdentityFile ~/.ssh/model2.key
+	
+	
+Host rambo
+	User pabutler
+	Hostname rambo.cs.vt.edu
+	ForwardAgent yes
+
 Host embers
 	User pabutler
 	Hostname embers.cs.vt.edu
