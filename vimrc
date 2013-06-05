@@ -97,7 +97,8 @@ endif
 
 " Uncomment below to get a dark background.
 set background=dark
-
+let g:jedi#popup_on_dot = 0
+let g:jedi#auto_initialization = 0
 if &term =~ "\\(xterm\\|screen\\)-256color"
   set t_Co=256
 "  set t_AB=^[[48;5;%dm
