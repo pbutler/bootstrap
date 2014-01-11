@@ -1,5 +1,15 @@
 Host *
 
+Host dtra
+	User twitter
+	Hostname dtra
+	ProxyCommand ssh embersepi nc 127.0.0.1 3022
+	ForwardAgent yes
+
+Host embersepi
+	User prithwi
+	Hostname embersepi.cs.vt.edu
+
 Host cutestdeploy
 	User embers
 	Hostname ec2-72-44-43-185.compute-1.amazonaws.com

@@ -93,6 +93,7 @@ map . :forward<CR>
 " autocmd LocationChange .* :js modes.passAllKeys = /www\.google\.com\/reader/.test(buffer.URL)
 " autocmd LocationChange http://www\.google\.com/reader :open https://www.google.com/reader
 
+set passkeys+='https://theoldreader.com/*':AnplmsStvrO<SPACE>PN
 set passkeys+='https://www.google.com/reader/*':AnplmsStvr<SPACE>PN
 set passkeys+="https://mail.google.com/*":jkgnpxec+-lvori
 set passkeys+="https://www.google.com/calendar/*":jkgt12345qrcnp
