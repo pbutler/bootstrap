@@ -22,3 +22,6 @@
 	; http://www.jukie.net/bart/blog/pimping-out-git-log
 	log1 = log --pretty=oneline --abbrev-commit --decorate
 	glog = log --graph --pretty=format:'%Cred%h%Credeset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+	wdiff = diff --word-diff=color
+[push]
+	default = simple

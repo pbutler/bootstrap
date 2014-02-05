@@ -14,7 +14,6 @@
 ["sync", "vim", "~/.vim"], 
 ["mkdir", "~/.vim/tmp", "0700"], 
 ["mkdir", "~/.vim/undos", "0700"], 
-["file", "flake8.vim", "~/.vim/bundle/syntastic/syntax_checkers/python/flake8.vim"],
 ["file", "tmux.conf", "~/.tmux.conf"],
 ["if", "sys.platform == 'darwin'",
        {"True" : [ ["echo", "OS X detected installing applicable files..."],
