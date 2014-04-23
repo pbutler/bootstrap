@@ -1,0 +1,8 @@
+#!/bin/sh
+FILES=$(git diff HEAD^ HEAD --name-only --diff-filter=ACM | grep -e '\.py$')
+ 
+for f in $FILES
+do
+    # auto pep8 correction
+    autopep8 --in-place --ignore=E309,E501,W293 $f
+done
