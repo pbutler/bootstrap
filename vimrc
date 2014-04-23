@@ -88,11 +88,11 @@ if has("autocmd")
 
   au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
-    autocmd FileType *
-    \ if &omnifunc != '' |
-    \   call SuperTabChain(&omnifunc, "<c-p>") |
-    \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-    \ endif
+"    autocmd FileType *
+"    \ if &omnifunc != '' |
+"    \   call SuperTabChain(&omnifunc, "<c-p>") |
+"    \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+"    \ endif
 endif
 
 " Uncomment below to get a dark background.
