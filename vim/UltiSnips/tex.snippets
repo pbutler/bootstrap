@@ -1,0 +1,18 @@
+snippet fig "Figure"
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\columnwidth]{$1}
+  \end{center}
+  \caption{$0
+  }
+  \label{fig:$1}
+\end{figure}
+endsnippet
+
+snippet subfig "SubFigure"
+\begin{subfigure}[b]{${2:.45}\textwidth}
+  \includegraphics[width=\textwidth]{$1}
+  \caption{$0}
+  \label{fig:$1}
+\end{subfigure}
+endsnippet
