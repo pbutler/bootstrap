@@ -1,6 +1,3 @@
-[submodule "vim/bundle/vim-latex"]
-	path = vim/bundle/vim-latex
-	url = git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
 [submodule "vim/bundle/vim-indent-guides"]
 	path = vim/bundle/vim-indent-guides
 	url = git://github.com/nathanaelkane/vim-indent-guides.git
@@ -34,3 +31,6 @@
 [submodule "vim/bundle/jedi-vim"]
 	path = vim/bundle/jedi-vim
 	url = https://github.com/davidhalter/jedi-vim
+[submodule "vim/bundle/LaTeX-Box"]
+	path = vim/bundle/LaTeX-Box
+	url = git://https://github.com/LaTeX-Box-Team/LaTeX-Box
