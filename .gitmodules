@@ -31,6 +31,6 @@
 [submodule "vim/bundle/jedi-vim"]
 	path = vim/bundle/jedi-vim
 	url = https://github.com/davidhalter/jedi-vim
-[submodule "vim/bundle/LaTeX-Box"]
-	path = vim/bundle/LaTeX-Box
-	url = git://https://github.com/LaTeX-Box-Team/LaTeX-Box
+[submodule "vim/bundle/vim-pandoc"]
+	path = vim/bundle/vim-pandoc
+	url = https://github.com/vim-pandoc/vim-pandoc.git
