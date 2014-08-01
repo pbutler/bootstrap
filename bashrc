@@ -529,6 +529,7 @@ function r() {
 	fi
 }
 
+[ -f ~/.bashrc.local ] && source ~/.bashrc.local
 
 if [ $TERM != "dumb" ]; then
  set +u

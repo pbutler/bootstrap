@@ -7,7 +7,6 @@ Host dtra
 	ForwardAgent yes
 
 Host embersepi
-	User prithwi
 	Hostname embersepi.cs.vt.edu
 
 Host cutestdeploy
