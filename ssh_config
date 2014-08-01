@@ -9,6 +9,7 @@ Host dtra
 Host embersepi
 	User pabutler
 	Hostname embersepi.cs.vt.edu
+	ForwardAgent yes
 
 Host cutestdeploy
 	User embers
