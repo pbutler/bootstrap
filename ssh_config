@@ -1,5 +1,6 @@
 Host *
 
+
 Host production
         User ubuntu
         Hostname production.r.bigo.io
@@ -37,10 +38,15 @@ Host rambo
 	Hostname rambo.cs.vt.edu
 	ForwardAgent yes
 
+Host embers4 
+	User pabutler
+	Hostname embers4.cs.vt.edu
+	ForwardAgent yes
+
 Host embers
 	User pabutler
 	Hostname embers.cs.vt.edu
-	LocalForward 8989 localhost:8989 
+	# LocalForward 8989 localhost:8989 
 	ForwardAgent yes
 
 Host recsys
