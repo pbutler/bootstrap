@@ -1,5 +1,14 @@
 Host *
 
+Host production
+        User ubuntu
+        Hostname production.r.bigo.io
+        ForwardAgent yes
+Host test3
+        User ubuntu
+        Hostname test3.r.bigo.io
+        ForwardAgent yes
+
 Host dtra
 	User twitter
 	Hostname dtra
@@ -34,11 +43,6 @@ Host embers
 	LocalForward 8989 localhost:8989 
 	ForwardAgent yes
 
-Host embers-kvm
-	User pabutler
-	Hostname embers.cs.vt.edu
-	Port 2222
-	ForwardAgent yes
 Host recsys
 	User pabutler
 	Hostname recsys.cs.vt.edu
@@ -49,18 +53,9 @@ Host mnemo2
 	Hostname mnemosyne2
 	ProxyCommand ssh bio nc 192.168.0.203 22
 
-Host baobab
-	User pabutler
-	Hostname baobab
-	ProxyCommand ssh bio nc 192.168.0.200 22
-
 Host sysx
 	User pabutler
 	Hostname sysx2.arc.vt.edu
-
-Host anantham
-	User pabutler
-	Hostname anantham.cs.vt.edu
 
 Host killertux.org
 	User pbutler
@@ -71,16 +66,6 @@ Host graphics.cs.vt.edu
 Host graphics
 	User patrick
 	Hostname graphics.cs.vt.edu
-
-
-Host pipe.cs.vt.edu
-	User pbutler
-	ForwardAgent yes
-
-Host pipe
-	User pbutler
-	Hostname pipe.cs.vt.edu
-	ForwardAgent yes
 
 Host balrog
 	Hostname killertux.org
