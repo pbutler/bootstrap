@@ -252,10 +252,10 @@ def eval_conf(lines):
         print "Error in '%s'" % line
         raise e
 
+
 def read_conf(fname="config.bootit"):
     lines = json.load(open(fname))
     eval_conf(lines)
-
 
 
 def main(args):
@@ -294,8 +294,8 @@ def main(args):
             print "Gitting"
             Cmd("git pull")
 
-    if mode == "git":
-        Cmd("git submodule update --init --recursive")
+    #if mode == "git":
+    #    Cmd("git submodule update --init --recursive")
 
     read_conf()
 

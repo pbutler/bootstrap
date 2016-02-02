@@ -1,3 +1,47 @@
+"NeoBundle Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+set runtimepath^=~/.vim/bundle/neobundle.vim/
+
+call neobundle#begin(expand('~/.vim/bundle'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Add or remove your Bundles here:
+NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'honza/vim-snippets.git'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'sjl/gundo.vim'
+" NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 'rson/vim-bufstat'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'vim-pandoc/vim-pandoc'
+NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
+NeoBundle 'ervandew/supertab'
+
+" You can specify revision/branch/tag.
+" NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+
+" Required:
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+"End NeoBundle Scripts-------------------------
+
+
+
 let g:bufstat_prevent_mappings=1
 
 let g:NERDTreeQuitOnOpen=1
@@ -5,10 +49,11 @@ let g:NERDTreeQuitOnOpen=1
 let mapleader=","
 set anti gfn=Monaco:h10
 
-let g:syntastic_check_on_open=1
+"let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 1
-let g:syntastic_quiet_warnings=0
-let g:syntastic_enable_signs=0
+let g:syntastic_quiet_messages = {'level': 'warnings'}
+"let g:syntastic_enable_signs=0
+let g:syntastic_python_flake8_args='--max-line-length=100'
 
 set hidden
 set laststatus=2
@@ -21,10 +66,9 @@ let g:ultisnips_python_style = "sphinx"
 if !has("python")
   " Trick pyflakes into not running
   let b:did_python_init = 0
-  let did_UltiSnips_vim = 1
+  " let did_UltiSnips_vim = 1
 endif
 
-call pathogen#infect()
 syntax on
 set ruler
 
@@ -98,7 +142,7 @@ endif
 " Uncomment below to get a dark background.
 set background=dark
 let g:jedi#popup_on_dot = 0
-let g:jedi#auto_initialization = 0
+let g:jedi#auto_initialization = 1
 if &term =~ "\\(xterm\\|screen\\)-256color"
   set t_Co=256
 "  set t_AB=^[[48;5;%dm
@@ -131,6 +175,7 @@ noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
 
-"let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabDefaultCompletionType = '<C-x><C-o>'
+" let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 
