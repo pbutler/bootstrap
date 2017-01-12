@@ -14,7 +14,6 @@
 GNU=0
 OSX=0
 FINK=0
-
 export EDITOR="vim"
 export SVN_EDITOR="vim"
 
@@ -30,6 +29,18 @@ if [ `uname -s` = "Darwin" ]; then
 	#fi
 fi
 
+if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
+	HOMEBREW=1
+	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+fi
+
+if [ -d ~/Library/Python/2.7/bin ]; then
+	export PATH=~/Library/Python/2.7/bin:$PATH
+fi
+if [ -d ~/Library/Python/3.6/bin ]; then
+	export PATH=~/Library/Python/3.6/bin:$PATH
+fi
 if [ -d ~/.local/bin ]; then
 	export PATH=~/.local/bin:$PATH
 fi
@@ -243,6 +254,9 @@ elif [ $OSX -eq 1 ]; then
 		fi
 		alias du='du -h'
 		alias df='df -kh'
+	fi
+	if [ $FINK -eq 1 ]; then
+	    alias ls='ls -h --color=always'
 	fi
 else				# use regular solaris stuff
 	alias df='df -k'
