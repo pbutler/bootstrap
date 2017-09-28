@@ -16,7 +16,7 @@ let g:tex_comment_nospell= 1
 
 
 setlocal spell 
-setlocal ts=2 sts=2 sw=2 tw=79 sta et 
+setlocal ts=2 sts=2 sw=2 tw=100 sta et 
 setlocal iskeyword+=:
 
 
