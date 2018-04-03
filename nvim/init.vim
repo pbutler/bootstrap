@@ -47,7 +47,8 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#save_state()
 endif
 
-"nmap <F2> :TagbarToggle<CR>
+set laststatus=2
+"snmap <F2> :TagbarToggle<CR>
 let g:tagbar_left = 1
 nmap <F2> :TagbarOpenAutoClose<CR>
 
@@ -155,18 +156,14 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 set termguicolors
 set background=dark
 let g:neosolarized_visibility = "high"
-let g:neosolarized_italic = 1
-if has('nvim')
+let g:solarized_termcolors=256
   colorscheme NeoSolarized
+if has('nvim')
+  let g:neosolarized_italic = 1
 else
-  let g:solarized_termcolors=256
-  colorscheme solarized
 endif
 " 
-" 
-highlight SpellBad ctermfg=127
-hi SignColumn guibg=#282c34
-" 
+highlight SignColumn guibg=#282c34
 highlight SpellBad ctermfg=127
 highlight SpellCap ctermfg=123
 " 
