@@ -3,22 +3,22 @@ if &compatible
 endif
 
 let mapleader = ","
-let g:python3_host_prog = '/home/pabutler/venv/neovim-py3/bin/python'
-let g:python_host_prog = '/home/pabutler/venv/neovim-py2/bin/python'
+let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
+let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
 let g:deoplete#sources#jedi#server_timeout = 20
 let g:deoplete#disable_auto_complete = 0
 " Required:
-set runtimepath+=/home/pabutler/.dein.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=$HOME/.dein.vim/repos/github.com/Shougo/dein.vim
 " set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-let g:deoplete#sources#jedi#debug_server = '/tmp/deoplete-jedi'
+" let g:deoplete#sources#jedi#debug_server = '/tmp/deoplete-jedi'
 " Required:
-if dein#load_state('/home/pabutler/.dein.vim')
-  call dein#begin('/home/pabutler/.dein.vim')
+if dein#load_state($HOME.'/.dein.vim')
+  call dein#begin($HOME.'/.dein.vim')
 
   " Let dein manage dein
   " Required:
-  call dein#add('/home/pabutler/.dein.vim/repos/github.com/Shougo/dein.vim')
+  call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here:
   call dein#add('Shougo/deoplete.nvim')
@@ -28,6 +28,7 @@ if dein#load_state('/home/pabutler/.dein.vim')
   call dein#add('honza/vim-snippets.git')
   call dein#add('w0rp/ale')
   call dein#add('iCyMind/NeoSolarized')
+  call dein#add('altercation/vim-colors-solarized.git')
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
   if !has('nvim')
@@ -83,7 +84,11 @@ let g:ultisnips_python_style = "sphinx"
 """"    NeoBundle 'ervandew/supertab'
 "
 "
-
+if has("autocmd")
+    augroup templates
+        autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/template.'.expand("<afile>:e")
+    augroup END
+endif
 
 " let g:NERDTreeQuitOnOpen=1
 " 
@@ -151,7 +156,12 @@ set termguicolors
 set background=dark
 let g:neosolarized_visibility = "high"
 let g:neosolarized_italic = 1
-colorscheme NeoSolarized
+if has('nvim')
+  colorscheme NeoSolarized
+else
+  let g:solarized_termcolors=256
+  colorscheme solarized
+endif
 " 
 " 
 highlight SpellBad ctermfg=127

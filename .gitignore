@@ -2,3 +2,5 @@ pyflakes-vim.zip
 .DS_Store
 .osx_ran
 .netrwhist
+vim/undos
+vim/tmp

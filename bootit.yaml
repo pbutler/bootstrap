@@ -3,7 +3,7 @@
 - link: {dest: ~/.tmux.conf, src: tmux.conf}
 - link: {dest: ~/.bashrc, src: bashrc}
 - file: {dest: ~/.ssh/config, src: ssh_config}
-#- file: {dest: ~/.vimrc, src: vimrc}
+- link: {dest: ~/.vimrc, src: nvim/init.vim}
 #- file: {dest: ~/.screenrc, src: screenrc}
 - link: {dest: ~/.gitconfig, src: gitconfig}
 #- file: {dest: ~/.pentadactylrc, src: pentadactylrc}
@@ -11,7 +11,7 @@
 #- file: {dest: ~/.terminfo/78/xterm-256color, src: xterm-256color}
 - sync: {dest: ~/bin, src: bin, clean: false}
 - link: {dest: ~/.config/nvim, src: nvim}
-#- sync: {dest: ~/.vim, src: vim}
+- link: {dest: ~/.vim, src: vim}
 - mkdir: {mode: '0700', name: ~/.vim/tmp}
 - mkdir: {mode: '0700', name: ~/.vim/undos}
 - if:

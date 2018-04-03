@@ -302,7 +302,7 @@ def main(args):
     if options.update:
         if mode == "git":
             print("Gitting")
-            Cmd("git pull")
+            Cmd("", "git", "pull")
 
     # if mode == "git":
     #    Cmd("git submodule update --init --recursive")
