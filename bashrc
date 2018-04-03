@@ -49,7 +49,27 @@ if [ -d ~/bin ]; then
 	export PATH=~/bin:$PATH
 fi
 
+# if [ -d ~/.pyenv ]; then
+#   export PATH="~/.pyenv/bin:$PATH"
+#   eval "$(pyenv init -)"
+#   eval "$(pyenv virtualenv-init -)"
+# fi
 
+vactivate () {
+	source ~/venv/$1/bin/activate
+}
+
+_vactivate () {
+	local cur prev opts base
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	opts=`ls --color=none ~/venv/`
+	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+}
+
+complete -F _vactivate vactivate
 #don't do anything if it's a dumb terminal because it could cause scp to fail
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
 

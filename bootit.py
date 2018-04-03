@@ -8,19 +8,27 @@ Python source code - replace this with a description of the code and write the c
 __author__ = 'Patrick Butler'
 __email__ = 'pbutler@killertux.org'
 
-import os
 import sys
+sys.path += ["yaml.zip"]
+
+import yaml
+import os
 import optparse
 import subprocess as sp
 import fcntl
-import json
 import shutil
 import logging
 import fnmatch
+import io
 
 
-class Cmd(object):
-    def __init__(self, *args):
+class Command(object):
+    def __init__(self, evaluator, *args, **kwargs):
+        pass
+
+
+class Cmd(Command):
+    def __init__(self, evaluator, *args):
         if len(args) == 1:
             shell = True
         else:
@@ -45,12 +53,12 @@ class Cmd(object):
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
         try:
             return output.read()
-        except:
+        except Exception:
             return ""
 
 
-class File(object):
-    def __init__(self, src, dest):
+class File(Command):
+    def __init__(self, evaluator, src, dest):
         src = os.path.expanduser(src)
         dest = os.path.expanduser(dest)
 
@@ -63,43 +71,50 @@ class File(object):
         shutil.copy2(src, dest)
 
 
-class Link(object):
-    def __init__(self, src, dest):
+class Link(Command):
+    def __init__(self, evaluator, src, dest):
         src = os.path.expanduser(src)
         dest = os.path.expanduser(dest)
-        src = os.path.relpath(src, os.path.dirname(dest))
+        rel_src = os.path.relpath(src, os.path.dirname(dest))
 
         destdir = os.path.dirname(dest)
         if destdir and not os.path.exists(destdir):
             os.makedirs(destdir)
 
-        if os.path.islink(dest) and os.path.samefile(src, dest):
-            logging.warn("Changed link from %s to %s" %
-                         (os.path.realpath(dest), src))
-            os.unlink(dest)
-        elif os.path.lexists(dest) and os.path.islink(dest):
-            os.unlink(dest)
-        os.symlink(src, dest)
+        if os.path.lexists(dest):  # something is here
+            if not os.path.islink(dest):
+                raise IOError("Real file exists at %s" % dest)
+            elif not os.path.exists(dest):
+                logging.warn("Removing dangling link")
+                os.unlink(dest)
+            elif not os.path.samefile(src, dest):
+                logging.warn("Changed link from %s to %s" %
+                             (os.path.realpath(dest), rel_src))
+                os.unlink(dest)
+
+        if not os.path.exists(dest):  # something is here
+            os.symlink(rel_src, dest)
 
 
-class MkDir(object):
-    def __init__(self, dir, perms):
-        dir = os.path.expanduser(dir)
-        if not os.path.exists(dir):
-            os.mkdir(dir, int(perms, 8))
-        os.chmod(dir, int(perms, 8))
+class MkDir(Command):
+    def __init__(self, evaluator, name, mode):
+        name = os.path.expanduser(name)
+        if not os.path.exists(name):
+            os.mkdir(name, int(mode, 8))
+        os.chmod(name, int(mode, 8))
 
 
-class Chmod(object):
-    def __init__(self, path, perms):
-        path = os.path.expanduser(path)
-        if os.path.exists(path):
-            os.chmod(path, int(perms, 8))
+class Chmod(Command):
+    def __init__(self, evaluator, name, mode):
+        name = os.path.expanduser(name)
+        if os.path.exists(name):
+            os.chmod(name, int(mode, 8))
 
 
-class Sync(object):
-    def __init__(self, src, dest, *pats):
-        clean = True
+class Sync(Command):
+    def __init__(self, evaluator, src, dest, clean=True, patterns=None):
+        if patterns is None:
+            patterns = []
         src = os.path.expanduser(src)
         dest = os.path.expanduser(dest)
 
@@ -107,12 +122,8 @@ class Sync(object):
         if destdir and not os.path.exists(destdir):
             os.makedirs(destdir)
 
-        if len(pats) > 0 and pats[0] == "noclean":
-            pats = pats[1:]
-            clean = False
-
-        if not pats:
-            pats = [ ".git", ".svn" ]
+        if not patterns:
+            patterns = [".git", ".svn"]
 
         if not os.path.exists(dest):
             os.makedirs(dest)
@@ -145,7 +156,7 @@ class Sync(object):
             for dir in dnames:
                 destdir = os.path.join(destpath, dir)
                 skip = False
-                for pat in pats:
+                for pat in patterns:
                     if fnmatch.fnmatch(dir, pat):
                         skip = True
                         break
@@ -162,7 +173,7 @@ class Sync(object):
 
             for file in filenames:
                 skip = False
-                for pat in pats:
+                for pat in patterns:
                     if fnmatch.fnmatch(file, pat):
                         skip = True
                         break
@@ -183,79 +194,81 @@ class Sync(object):
                         pass
 
 
-class Echo(object):
+class Echo(Command):
     """echos the given arguments to the command line"""
 
-    def __init__(self, *args):
+    def __init__(self, evaluator, *args):
         """
         :param *args: arguments to be echoed
 
         """
-        print " ".join( map(str, args))
+        print(" ".join(str(a) for a in args))
 
 
-class If(object):
+class If(Command):
     """If statement might be better thought of a switch statement that takes a
     dictionary and runs the lines from the dictionary elements.  Since true and
     false are not valid key values in JSON these are mapped to their strings
     (True and False).
     """
 
-    def __init__(self, condition, statements):
+    def __init__(self, evaluator, **kwargs):
         """
         :param condition: condition to check, a string of python code
         :param statements: statements, an array of stuff
 
         """
 
-        result = eval(condition)
-        if result is True:
-            if "True" in statements:
-                eval_conf(statements["True"])
-        elif result is False:
-            if "False" in statements:
-                eval_conf(statements["False"])
-        elif result in statements:
-            eval_conf(statements[result])
-        else:
-            raise Exception("Unexpected result received")
+        condition = kwargs["expr"]
+        result = str(eval(condition))
+        if result in kwargs:
+            evaluator.eval(kwargs[result])
 
 
-class Touch(object):
+class Touch(Command):
     """Creates an empty file"""
 
-    def __init__(self, fname):
+    def __init__(self, evaluator, fname):
         """@todo: to be defined
 
         :param fname: @todo
 
         """
-        open(fname, "w")
-
-conf_match = {
-    "cmd":   Cmd,
-    "file":  File,
-    "link":  Link,
-    "sync":  Sync,
-    "mkdir": MkDir,
-    "chmod": Chmod,
-    "echo":  Echo,
-    "if":    If,
-    "touch": Touch
-}
+        io.open(fname, "wt").close()
 
 
-def eval_conf(lines):
-    try:
-        [conf_match[line[0]](*line[1:]) for line in lines]
-    except Exception as e:
-        print "Error in '%s'" % line
-        raise e
+class Evaluator(object):
 
+    """Docstring for Evaluator. """
 
-def read_conf(fname="config.bootit"):
-    lines = json.load(open(fname))
-    eval_conf(lines)
+    def __init__(self, commands):
+        """TODO: to be defined1.
+
+        :param commands: TODO
+
+        """
+        self._commands = commands
+
+    def start(self, fname):
+        lines = yaml.load(open(fname, "rt").read())
+        self.eval(lines)
+
+    def eval(self, lines):
+        commands = self._commands
+        try:
+            for line in lines:
+                cmd_name = list(line.keys())[0]
+                cmd = commands[cmd_name]
+                args = line[cmd_name]
+                if isinstance(args, dict):
+                    cmd(self, **args)
+                elif isinstance(args, list):
+                    cmd(self, *args)
+                else:
+                    cmd(self, args)
+        except Exception as e:
+            print("Error in '%s'" % line)
+            raise
 
 
 def main(args):
@@ -267,8 +280,10 @@ def main(args):
 
     parser.add_option("-n", "--no-update",
                       action="store_false", dest="update", default=True,
-                      help="don't run git pull or svnupdate")
+                      help="don't run git pull")
+    parser.add_option("--conf_file", default="bootit.yaml")
     (options, args) = parser.parse_args()
+
     if len(args) < 0:
         parser.error("Not enough arguments given")
 
@@ -276,28 +291,31 @@ def main(args):
     curdir = os.getcwd()
     os.chdir(selfdir)
 
-    if os.path.exists(".svn"):
-        print "Detected SVN mode"
-        mode = "svn"
-    elif os.path.exists(".git"):
-        print "Detected git mode"
+    if os.path.exists(".git"):
+        print("Detected git mode")
         mode = "git"
     else:
-        print "Detected untracked mode"
+        print("Detected untracked mode")
         mode = "none"
         options.update = False
 
     if options.update:
-        if mode == "svn":
-            pass
-        elif mode == "git":
-            print "Gitting"
+        if mode == "git":
+            print("Gitting")
             Cmd("git pull")
 
-    #if mode == "git":
+    # if mode == "git":
     #    Cmd("git submodule update --init --recursive")
 
-    read_conf()
+    commands = {}
+    for name, var in globals().items():
+        if name == "Command":
+            continue
+        if isinstance(var, type) and issubclass(var, Command):
+            commands[name.lower()] = var
+
+    evaluator = Evaluator(commands)
+    evaluator.start(options.conf_file)
 
     os.chdir(curdir)
     return 0

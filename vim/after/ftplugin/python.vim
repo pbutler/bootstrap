@@ -2,8 +2,8 @@
 setlocal ai
 setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 setlocal ts=4 sts=4 sw=4 tw=100 sta et 
-setlocal omnifunc=pythoncomplete#Complete
-setlocal completefunc=RopeCompleteFunc
+"setlocal omnifunc=pythoncomplete#Complete
+"setlocal completefunc=RopeCompleteFunc
 
 "Make program compiles to check for syntax errors
 setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
