@@ -157,15 +157,17 @@ set termguicolors
 set background=dark
 let g:neosolarized_visibility = "high"
 let g:solarized_termcolors=256
-  colorscheme NeoSolarized
+colorscheme NeoSolarized
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
 if has('nvim')
   let g:neosolarized_italic = 1
 else
 endif
-" 
-highlight SignColumn guibg=#282c34
-highlight SpellBad ctermfg=127
-highlight SpellCap ctermfg=123
+" " 
+" highlight SignColumn guibg=#282c34
+" highlight SpellBad ctermfg=127
+" highlight SpellCap ctermfg=123
 " 
 " noremap   <Up>     <NOP>
 " noremap   <Down>   <NOP>
