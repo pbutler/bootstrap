@@ -1,5 +1,9 @@
 Host *
 
+Host kmeans
+	User pabutler
+	Hostname kmeans.cs.vt.edu
+	ForwardAgent yes
 
 Host production
         User ubuntu

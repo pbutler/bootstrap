@@ -156,14 +156,15 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 set termguicolors
 set background=dark
 let g:neosolarized_visibility = "high"
-let g:solarized_termcolors=256
-colorscheme NeoSolarized
+"let g:solarized_termcolors=256
+let g:neosolarized_termtrans=1
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 if has('nvim')
   let g:neosolarized_italic = 1
 else
 endif
+colorscheme NeoSolarized
 " " 
 " highlight SignColumn guibg=#282c34
 " highlight SpellBad ctermfg=127

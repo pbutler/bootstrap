@@ -34,16 +34,16 @@ class Cmd(Command):
         else:
             shell = False
         p = sp.Popen(args, stdout=sp.PIPE, stderr=sp.PIPE, shell=shell)
-        self.stdout = ""
-        self.stderr = ""
+        self.stdout = b""
+        self.stderr = b""
         while p.returncode is None:
             s = self.non_block_read(p.stdout)
             if s:
-                sys.stdout.write(s)
+                sys.stdout.write(s.decode("utf8"))
                 self.stdout += s
             s = self.non_block_read(p.stderr)
             if s:
-                sys.stderr.write(s)
+                sys.stderr.write(s.decode("utf"))
                 self.stderr += s
             p.poll()
 
@@ -286,8 +286,7 @@ def main(args):
 
     if len(args) < 0:
         parser.error("Not enough arguments given")
-
-    selfdir = os.path.dirname(__file__)
+    selfdir = os.path.dirname(os.path.abspath(__file__))
     curdir = os.getcwd()
     os.chdir(selfdir)
 
