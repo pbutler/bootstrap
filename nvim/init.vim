@@ -2,6 +2,11 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+set encoding=utf-8
+if has("pythonx")
+  set pyxversion=3
+endif
+
 let mapleader = ","
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
@@ -159,18 +164,18 @@ set termguicolors
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set background=dark
-if has('nvim')
+"if has('nvim')
   let g:neosolarized_visibility = "high"
   let g:neosolarized_termcolors=256
   let g:neosolarized_termtrans=1
   let g:neosolarized_italic = 1
   colorscheme NeoSolarized
-else
-  let g:solarized_termtrans=1
-  let g:solarized_visibility = "high"
-  let g:solarized_termcolors=256
-  colorscheme solarized
-endif
+"else
+"  let g:solarized_termtrans=1
+"  let g:solarized_visibility = "high"
+"  let g:solarized_termcolors=256
+"  colorscheme solarized
+"endif
 " " 
 " highlight SignColumn guibg=#282c34
 " highlight SpellBad ctermfg=127
