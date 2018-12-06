@@ -10,7 +10,6 @@
 # This file was designed for Solaris 
 #
 #===============================================================
-export COLORTERM=truecolor
 
 GNU=0
 OSX=0

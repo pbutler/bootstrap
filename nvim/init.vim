@@ -42,6 +42,7 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
+  call dein#add('pangloss/vim-javascript')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -156,7 +157,7 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 set termguicolors
 set background=dark
 let g:neosolarized_visibility = "high"
-"let g:solarized_termcolors=256
+let g:neosolarized_termcolors=256
 let g:neosolarized_termtrans=1
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
