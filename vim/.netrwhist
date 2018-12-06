@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/usr/include/c++/4.2.1'
-let g:netrw_dirhist_2='/Users/pbutler/.config/ipython'
-let g:netrw_dirhist_3='/Users/pbutler/.config/ipython/profile_default'
-let g:netrw_dirhist_4='/Users/pbutler/.vim/syntax'
