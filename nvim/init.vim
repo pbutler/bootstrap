@@ -154,18 +154,23 @@ autocmd BufEnter * lcd %:p:h
 " au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 " Color Stuff
+"set t_Co=256
 set termguicolors
-set background=dark
-let g:neosolarized_visibility = "high"
-let g:neosolarized_termcolors=256
-let g:neosolarized_termtrans=1
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
+set background=dark
 if has('nvim')
+  let g:neosolarized_visibility = "high"
+  let g:neosolarized_termcolors=256
+  let g:neosolarized_termtrans=1
   let g:neosolarized_italic = 1
+  colorscheme NeoSolarized
 else
+  let g:solarized_termtrans=1
+  let g:solarized_visibility = "high"
+  let g:solarized_termcolors=256
+  colorscheme solarized
 endif
-colorscheme NeoSolarized
 " " 
 " highlight SignColumn guibg=#282c34
 " highlight SpellBad ctermfg=127
