@@ -42,6 +42,7 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
+  call dein#add('pangloss/vim-javascript')
   " Required:
   call dein#end()
   call dein#save_state()
