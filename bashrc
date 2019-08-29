@@ -41,6 +41,9 @@ fi
 if [ -d ~/Library/Python/3.6/bin ]; then
 	export PATH=~/Library/Python/3.6/bin:$PATH
 fi
+if [ -d ~/Library/Python/3.7/bin ]; then
+	export PATH=~/Library/Python/3.7/bin:$PATH
+fi
 if [ -d ~/.local/bin ]; then
 	export PATH=~/.local/bin:$PATH
 fi
@@ -275,7 +278,7 @@ elif [ $OSX -eq 1 ]; then
 		alias du='du -h'
 		alias df='df -kh'
 	fi
-	if [ $FINK -eq 1 ]; then
+	if [ $FINK -eq 1 -o $HOMEBREW -eq 1 ]; then
 	    alias ls='ls -h --color=always'
 	fi
 else				# use regular solaris stuff

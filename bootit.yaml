@@ -3,7 +3,7 @@
 - link: {dest: ~/.tmux.conf, src: tmux.conf}
 - link: {dest: ~/.bashrc, src: bashrc}
 - file: {dest: ~/.ssh/config, src: ssh_config}
-- link: {dest: ~/.vimrc, src: nvim/init.vim}
+- link: {dest: ~/.vimrc, src: vimrc}
 #- file: {dest: ~/.screenrc, src: screenrc}
 - link: {dest: ~/.gitconfig, src: gitconfig}
 #- file: {dest: ~/.pentadactylrc, src: pentadactylrc}

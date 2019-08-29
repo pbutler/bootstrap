@@ -234,6 +234,7 @@ class Touch(Command):
         :param fname: @todo
 
         """
+        fname = os.path.expanduser(fname)
         io.open(fname, "wt").close()
 
 
