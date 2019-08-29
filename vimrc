@@ -34,6 +34,7 @@ if dein#load_state($HOME.'/.dein.vim')
   " Let dein manage dein
   " Required:
   call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
+  call dein#add('wsdjeg/dein-ui.vim')
 
   " Add or remove your plugins here:
   call dein#add('Shougo/deoplete.nvim')

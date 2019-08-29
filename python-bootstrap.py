@@ -25,7 +25,7 @@ def ez_setup(user=False):
     if user:
         udir = user[:user.find("lib")]
         cmd += ["--prefix=" + udir]
-    print cmd
+    print(cmd)
     cmd += ["setuptools"]
     call(cmd)
 
@@ -52,8 +52,9 @@ def install_pkgs(user=False):
     for p in packages:
         call(cmd + ["install", p] + extra_args)
 
+
 def main(args):
-    import  optparse
+    import optparse
     parser = optparse.OptionParser()
     parser.usage = __doc__
     parser.add_option("-q", "--quiet",
@@ -73,4 +74,3 @@ def main(args):
 if __name__ == "__main__":
     import sys
     sys.exit(main(sys.argv))
-
