@@ -21,5 +21,8 @@
     - if:
         expr: os.path.exists(os.path.expanduser('~/.osx_ran'))
         'False':
-        - cmd: echo ./osx.sh
+        - cmd: ./osx.sh
         - touch: ~/.osx_ran
+        'True':
+        - echo: Skipping osx configs, already ran
+
