@@ -9,9 +9,11 @@ __author__ = 'Patrick Butler'
 __email__ = 'pbutler@killertux.org'
 
 import sys
-sys.path += ["yaml.zip"]
-
-import yaml
+try:
+    import yaml
+except ImportError:
+    sys.path += ["yaml{}.zip".format(sys.version_info.major)]
+    import yaml
 import os
 import optparse
 import subprocess as sp
@@ -251,7 +253,7 @@ class Evaluator(object):
         self._commands = commands
 
     def start(self, fname):
-        lines = yaml.load(open(fname, "rt").read())
+        lines = yaml.safe_load(open(fname, "rt").read())
         self.eval(lines)
 
     def eval(self, lines):
@@ -268,7 +270,7 @@ class Evaluator(object):
                 else:
                     cmd(self, args)
         except Exception as e:
-            print("Error in '%s'" % line)
+            print("Error in '%s': '%s'" % (line, e))
             raise
 
 

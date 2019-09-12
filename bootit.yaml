@@ -19,7 +19,7 @@
     darwin:
     - echo: OS X detected installing applicable files...
     - if:
-        expr: os.path.exists('.osx_ran')
+        expr: os.path.exists(os.path.expanduser('~/.osx_ran'))
         'False':
         - cmd: echo ./osx.sh
         - touch: ~/.osx_ran
