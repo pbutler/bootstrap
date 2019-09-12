@@ -1,13 +1,13 @@
 #===============================================================
 #
-# PERSONAL $HOME/.bashrc FILE for bash-2.04 (or later) 
+# PERSONAL $HOME/.bashrc FILE for bash-2.04 (or later)
 #              by Emmanuel Rouat
 #
 # This file is read (normally) by interactive shells only.
 # Here is the place to define your aliases, functions and
 # other interactive features like your prompt.
-# 
-# This file was designed for Solaris 
+#
+# This file was designed for Solaris
 #
 #===============================================================
 
@@ -24,9 +24,6 @@ if [ `uname -s` = "Darwin" ]; then
 		export PATH=/usr/local/bin:$PATH
 		FINK=1
 	fi
-	#if [ -d /Library/Frameworks/Python.framework/Versions/2.7/bin ]; then
-	#	export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
-	#fi
 fi
 
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
@@ -72,6 +69,12 @@ _vactivate () {
         return 0
 }
 
+function exists_and_execs()
+{
+    FNAME=`which $1`
+    [ -n "$FNAME" -a -x "$FNAME" ]
+}
+
 complete -F _vactivate vactivate
 #don't do anything if it's a dumb terminal because it could cause scp to fail
 [ -z "$PS1" -o  $TERM == "dumb" ] && return
@@ -96,6 +99,7 @@ fi
 if [ -x `which dircolors` ] ; then	# use gnu/free stuff
 	eval `dircolors`
 fi
+
 #-------------------------------------------------------------
 # Automatic setting of $DISPLAY (if not set already)
 # This works for linux and solaris - your mileage may vary....
@@ -107,7 +111,7 @@ fi
     if [ -n ${DISPLAY:=''} ]; then
 	export DISPLAY=$DISPLAY
     else
-	export DISPLAY=""  # fallback    
+	export DISPLAY=""  # fallback
     fi
 #fi
 
@@ -120,12 +124,12 @@ set -o notify
 #set -o noclobber
 #set -o ignoreeof
 set -o nounset
-#set -o xtrace		# useful for debuging 
+#set -o xtrace		# useful for debuging
 
-shopt -s cdspell 
+shopt -s cdspell
 #shopt -s cdable_vars
-shopt -s checkhash 
-shopt -s checkwinsize 
+shopt -s checkhash
+shopt -s checkwinsize
 shopt -s mailwarn
 shopt -s sourcepath
 shopt -s no_empty_cmd_completion
@@ -148,7 +152,7 @@ CYAN='\033[1;36m'
 NC='\033[0m'		# No Color
 
 # Looks best on a black background.....
-if [ $TERM != "dumb" ]; then 
+if [ $TERM != "dumb" ]; then
   echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
   if [ -z $DISPLAY ] ; then
     echo -ne "${RED}off${NC}\n";
@@ -173,27 +177,27 @@ function fastprompt()
 {
     unset PROMPT_COMMAND
     case $TERM in
-	xterm | rxvt | dtterm )	
+	xterm | rxvt | dtterm )
 	    PS1="[\h] \W > \[\033]0;[\u@\h] \w\007\]" ;;
-	*) 
+	*)
 	    PS1="[\h] \W > " ;;
     esac
 }
 
 function powerprompt()
 {
-    _powerprompt() 
+    _powerprompt()
     {
        RET=$?
        #echo -e $RET
-        if [ $RET -eq  0 ]; then   
+        if [ $RET -eq  0 ]; then
           COLOR='1;36m'
-        else 
+        else
           COLOR='1;31m'
         fi
 
         if [ -n "${TMUX:=""}" ]; then
-            tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD" 
+            tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
 	    tmux setenv VIRTUAL_ENV_$(tmux display -p "#I_#P") "${VIRTUAL_ENV:=""}"
             tmux refresh-client -S
         fi
@@ -201,7 +205,7 @@ function powerprompt()
 	    xterm* | dtterm | rxvt  )
 	        echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007";;
 	esac
-    } 
+    }
     PROMPT_COMMAND=_powerprompt
     _powerprompt
     EPS1='\$'
@@ -225,10 +229,10 @@ powerprompt	# this is the default prompt - might be slow
 
 #===============================================================
 #
-# ALIASES AND FUNCTIONS 
+# ALIASES AND FUNCTIONS
 #
-# Arguably, some functions defined here are quite big 
-# (ie 'lowercase') but my workstation has 512Meg of RAM, so 
+# Arguably, some functions defined here are quite big
+# (ie 'lowercase') but my workstation has 512Meg of RAM, so
 # If you want to make this file smaller, these functions can
 # be converted into scripts.
 #
@@ -238,7 +242,16 @@ powerprompt	# this is the default prompt - might be slow
 # Personnal Aliases
 #-------------------
 
-alias vi=vim
+
+if exists_and_execs "vim"; then
+	alias vi=vim
+fi
+
+if exists_and_execs "nvim"; then
+	alias vi=nvim
+	alias vim=nvim
+fi
+
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -265,12 +278,6 @@ if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 elif [ $OSX -eq 1 ]; then
 	export CLICOLOR=1
 	export SVN_EDITOR=vi
-	alias vim="vim -X"
-	#if [ -d "/Applications/MacVim.app" ]; then
-	#	alias gvim="open -a /Applications/MacVim.app"
-	#	alias vim="/Applications/MacVim.app/Contents/MacOS/Vim -X"
-	#	alias vi="/Applications/MacVim.app/Contents/MacOS/Vim -X"
-	#fi
 	if [ $FINK -eq 1 ]; then
 		if [ -x '/sw/bin/ls' ]; then
 			alias ls='/sw/bin/ls --color=always'
@@ -290,10 +297,10 @@ fi
 # a few fun ones
 #----------------
 
-function xtitle () 
-{ 
+function xtitle ()
+{
     case $TERM in
-	xterm* | dtterm | rxvt) 
+	xterm* | dtterm | rxvt)
 	    echo -n -e "\033]0;$HOSTNAME:$*\007" ;;
 	*)  ;;
     esac
@@ -302,18 +309,6 @@ function xtitle ()
 alias top='xtitle Processes on $HOSTNAME && top'
 alias make='xtitle Making $(basename $PWD) ; make'
 alias ncftp="xtitle ncFTP ; ncftp"
-
-function gvim()
-{
-	if [ "${1+defined}" = "defined" ]; then
-		case $1 in
-			-*) (vim -g $@ &) ;;
-			*) (vim -g --remote-silent $@ &) ;;
-		esac
-	else
-		(vim -g &) 
-	fi
-}
 
 #---------------
 # and functions
@@ -329,7 +324,7 @@ function man ()
 # Environment dependent functions
 #-----------------------------------------
 
-function dislink() 
+function dislink()
 {
 	if [ -f $1 -a ! -f .$1.tmp ]; then
 		cp -L $1 .$1.tmp
@@ -360,7 +355,7 @@ function fstr() # find a string in a set of files
 function cuttail() # cut last n lines in file
 {
     nlines=$1
-    sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $2 
+    sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $2
 }
 
 function lowercase()  # move filenames to lowercase
@@ -421,7 +416,7 @@ function repeat()	# repeat n times command
 	eval "$@";
     done
 }
-	
+
 
 function ask()
 {
@@ -444,12 +439,12 @@ if [ "${BASH_VERSION%.*}" \< "2.04" ]; then
     echo "No programmable completion available"
     return
 fi
-   
+
 shopt -s extglob	# necessary
 
 complete -A hostname   rsh rcp telnet rlogin r ftp ping disk
 complete -A command    nohup exec eval trace truss strace sotruss gdb
-complete -A command    command type which 
+complete -A command    command type which
 complete -A export     printenv
 complete -A variable   export local readonly unset
 complete -A enabled    builtin
@@ -469,7 +464,7 @@ complete -f -X '!*.ps'  gs ghostview gv
 complete -f -X '!*.pdf' acroread
 complete -f -X '!*.+(gif|jpg|jpeg|GIF|JPG|bmp)' xv gimp
 
- 
+
 _make_targets ()
 {
     local mdef makef gcmd cur prev i
@@ -515,7 +510,7 @@ _make_targets ()
     if [ -n "$2" ]; then gcmd='grep "^$2"' ; else gcmd=cat ; fi
 
     # if we don't want to use *.mk, we can take out the cat and use
-    # test -f $makef and input redirection	
+    # test -f $makef and input redirection
     COMPREPLY=( $(cat $makef 2>/dev/null | awk 'BEGIN {FS=":"} /^[^.# 	][^=]*:/ {print $1}' | tr -s ' ' '\012' | sort -u | eval $gcmd ) )
 }
 
@@ -575,4 +570,4 @@ fi
 # Local Variables:
 # mode:shell-script
 # sh-shell:bash
-# End:  
+# End:

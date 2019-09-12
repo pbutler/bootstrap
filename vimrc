@@ -1,6 +1,7 @@
 if &compatible
   set nocompatible               " Be iMproved
 endif
+
 filetype plugin indent on
 
 set encoding=utf-8
@@ -8,7 +9,13 @@ if has("pythonx")
   set pyxversion=3
 endif
 
-let mapleader = ","
+let mapleader=","
+set hidden
+
+set undodir=$HOME/.vim/undos
+set undofile
+set directory=~/.vim/tmp
+
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
 let g:deoplete#sources#jedi#server_timeout = 20
@@ -26,8 +33,6 @@ let g:pymode_options_colorcolumn = 1
 set runtimepath+=~/.dein.vim/repos/github.com/Shougo/dein.vim
 
 " Required:
-" let g:deoplete#sources#jedi#debug_server = '/tmp/deoplete-jedi'
-" Required:
 if dein#load_state($HOME.'/.dein.vim')
   call dein#begin($HOME.'/.dein.vim')
 
@@ -36,47 +41,60 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
   call dein#add('wsdjeg/dein-ui.vim')
 
-  " Add or remove your plugins here:
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('ervandew/supertab')
-  call dein#add('Shougo/denite.nvim')
-  call dein#add('SirVer/ultisnips')
-  call dein#add('honza/vim-snippets.git')
-  call dein#add('w0rp/ale')
-  call dein#add('iCyMind/NeoSolarized')
-  call dein#add('altercation/vim-colors-solarized.git')
-  call dein#add('itchyny/lightline.vim')
-  call dein#add('mgee/lightline-bufferline')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
-  call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
-  call dein#add('maximbaz/lightline-ale')
-  call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
-  call dein#add('scrooloose/nerdcommenter')
+
+  " Add or remove your plugins here:
+  call dein#add('iCyMind/NeoSolarized')
+  call dein#add('altercation/vim-colors-solarized.git')
+
+  call dein#add('ntpeters/vim-better-whitespace')
+
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('ervandew/supertab')
+  call dein#add('Shougo/denite.nvim')
+
+  call dein#add('SirVer/ultisnips')
+  call dein#add('honza/vim-snippets.git')
+  call dein#add('w0rp/ale')
+
   call dein#add('airblade/vim-gitgutter')
+  call dein#add('gregsexton/gitv')
+
+  call dein#add('itchyny/lightline.vim')
+  call dein#add('mgee/lightline-bufferline')
+  call dein#add('maximbaz/lightline-ale')
+
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
-  call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
+  call dein#add('scrooloose/nerdcommenter')
+
   call dein#add('python-mode/python-mode', {'on_ft': 'python'})
+  call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
+  call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
+
+  call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
   " Required:
   call dein#end()
   call dein#save_state()
 endif
 
-set laststatus=2
-"snmap <F2> :TagbarToggle<CR>
-let g:tagbar_left = 1
-nmap <F2> :TagbarOpenAutoClose<CR>
-
-syntax enable
-
-
 " If you want to install not installed plugins on startup.
 if dein#check_install()
   call dein#install()
 endif
+"End dein Scripts-------------------------
+
+syntax enable
+
+set laststatus=2
+let g:tagbar_left = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+nmap <F2> :TagbarToggle<CR>
+
 
 
 let g:NERDSpaceDelims = 0
@@ -87,11 +105,9 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:bufferline_echo = 0
 let g:deoplete#enable_at_startup = 1
 let g:ultisnips_python_style = "sphinx"
-"End dein Scripts-------------------------
 
 "NeoBundle 'tpope/vim-fugitive'
 "NeoBundle 'sjl/gundo.vim'
-"NeoBundle 'scrooloose/syntastic'
 
 
 """"    NeoBundle 'godlygeek/tabular'
@@ -102,79 +118,68 @@ let g:ultisnips_python_style = "sphinx"
 """"    NeoBundle 'ervandew/supertab'
 "
 "
+"
 if has("autocmd")
     augroup templates
         autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/template.'.expand("<afile>:e")
     augroup END
 endif
 
-" let g:NERDTreeQuitOnOpen=1
-" 
-let mapleader=","
-set hidden
+" vim-better-whitespace configuration
+nnoremap <silent> <leader>rws :ToggleStripWhitespaceOnSave<CR>
+nnoremap <silent> <leader>hws :ToggleWhitespace<CR>
 
-" 
-set undodir=$HOME/.vim/undos
-set undofile
-set directory=~/.vim/tmp
-" 
+if has("autocmd")
+  autocmd BufEnter * EnableStripWhitespaceOnSave
+endif
+
+autocmd BufEnter * lcd %:p:h
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
+
+
+" Help Neovim check if file has changed on disc
+" https://github.com/neovim/neovim/issues/2127
+augroup checktime
+    autocmd!
+    if !has("gui_running")
+        "silent! necessary otherwise throws errors when using command
+        "line window.
+        autocmd BufEnter,FocusGained,BufEnter,FocusLost,WinLeave * checktime
+    endif
+  augroup END
+
+" let g:NERDTreeQuitOnOpen=1
+"
+"
 " set showcmd
 " set showmatch
 " "set sessionoptions+=resize
-" 
+"
 set backspace=indent,eol,start
-" 
+
+"
 " " Enable modelines for users but not root
 set modelines=5
 if $USER != 'root'
    set modeline
  else
    set nomodeline
-endif 
-" 
+endif
+
+"
 " " Enable or disable spell checker
-" 
+"
 set spelllang=en_us
 map <F6> :setlocal invspell spell?<CR>
 map <F7> :setlocal invpaste paste?<CR>
-" 
-" " Toggle taglist
-" let s:taglist_is_on = 0
-" function! ToggleTagList()
-"   if s:taglist_is_on == 0
-"     exe ":TlistOpen"
-"     exe ":wincmd t"
-"     let s:taglist_is_on = 1
-"   else
-"     exe ":TlistClose"
-"     let s:taglist_is_on = 0
-"   endif
-" endfunction
-" map <silent> <F1> :NERDTree<CR>
-" map <silent> <F2> :exe ":call ToggleTagList()"<CR>
-" 
-" " This function removes trailing whitespace, a pet peeve of mine.
-function! DeleteTrailingWhitespace()
-  normal m`
-  %s/\s\+$//e
-  normal ``
-endfunction
-" this removes trailing extra whitespace from end of lines
-autocmd BufWritePre *.py,*.pl,*.c,*.cpp,*.h,*.tex,*.sh,*.rst call DeleteTrailingWhitespace()
-" This setting makes sure Vim is always operating in the directory of the current buffer
-autocmd BufEnter * lcd %:p:h
-" 
-" 
-" autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
-" 
-" au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
+
 " Color Stuff
 set t_Co=256
 set termguicolors
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set background=dark
+
 "if has('nvim')
   let g:neosolarized_visibility = "high"
   let g:neosolarized_termcolors=256
@@ -187,17 +192,17 @@ set background=dark
 "  let g:solarized_termcolors=256
 "  colorscheme solarized
 "endif
-" " 
+" "
 " highlight SignColumn guibg=#282c34
 " highlight SpellBad ctermfg=127
 " highlight SpellCap ctermfg=123
-" 
+"
 " noremap   <Up>     <NOP>
 " noremap   <Down>   <NOP>
 " noremap   <Left>   <NOP>
 " noremap   <Right>  <NOP>
- 
-" 
+
+"
 
 function! MyVirtualenv()
   if &filetype == "python"
@@ -240,5 +245,5 @@ let g:lightline = {
       \     'linter_ok': 'left',
       \ }
       \}
+
 let g:SuperTabDefaultCompletionType = "<c-n>"
-"inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"

@@ -21,5 +21,5 @@
     - if:
         expr: os.path.exists('.osx_ran')
         'False':
-        - cmd: ./osx.sh
+        - cmd: echo ./osx.sh
         - touch: ~/.osx_ran
