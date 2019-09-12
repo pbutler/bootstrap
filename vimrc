@@ -118,13 +118,14 @@ let g:ultisnips_python_style = "sphinx"
 """"    NeoBundle 'ervandew/supertab'
 "
 "
-"
+"  Templates config
 if has("autocmd")
     augroup templates
         autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/template.'.expand("<afile>:e")
     augroup END
 endif
 
+nnoremap <silent> <leader>mx :w<CR>:!chmod +x %<CR>l<CR>
 " vim-better-whitespace configuration
 nnoremap <silent> <leader>rws :ToggleStripWhitespaceOnSave<CR>
 nnoremap <silent> <leader>hws :ToggleWhitespace<CR>
