@@ -2,6 +2,8 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+set updatetime=300
+
 filetype plugin indent on
 
 set encoding=utf-8
@@ -15,6 +17,7 @@ set hidden
 set undodir=$HOME/.vim/undos
 set undofile
 set directory=~/.vim/tmp
+
 
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
@@ -39,7 +42,7 @@ if dein#load_state($HOME.'/.dein.vim')
   " Let dein manage dein
   " Required:
   call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
-  call dein#add('wsdjeg/dein-ui.vim')
+  call dein#add('haya14busa/dein-command.vim')
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
@@ -71,8 +74,9 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdcommenter')
 
-  call dein#add('python-mode/python-mode', {'on_ft': 'python'})
-  call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
+  " call dein#add('python-mode/python-mode', {'on_ft': 'python'})
+  " call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
+  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
@@ -88,6 +92,28 @@ endif
 "End dein Scripts-------------------------
 
 syntax enable
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
 
 set laststatus=2
 let g:tagbar_left = 1
@@ -229,6 +255,7 @@ let g:lightline = {
       \   'right': [
       \              [ 'percent' ],
       \              [ 'lineinfo' ],
+      \              [ 'cocstatus'],
       \              [ 'linter_errors', 'linter_warnings', 'linter_ok' ]
       \            ]
       \ },
@@ -244,6 +271,9 @@ let g:lightline = {
       \     'linter_warnings': 'warning',
       \     'linter_errors': 'error',
       \     'linter_ok': 'left',
+      \ },
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status'
       \ }
       \}
 
