@@ -239,6 +239,17 @@ function! MyVirtualenv()
  return ''
 endfunction
 
+function! CocStatus()
+  let info = get(b:, 'coc_diagnostic_info', {})
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, '❌ ' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, '⚠️ ' . info['warning'])
+  endif
+  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+endfunction
 
 set ruler
 let g:lightline#bufferline#show_number = 1
@@ -273,7 +284,7 @@ let g:lightline = {
       \     'linter_ok': 'left',
       \ },
       \ 'component_function': {
-      \   'cocstatus': 'coc#status'
+      \   'cocstatus': 'CocStatus'
       \ }
       \}
 
