@@ -1,0 +1,6 @@
+{
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
+	"python.linting.flake8Path": "/usr/local/bin/flake8",
+	"coc.preferences.echodocSupport": true
+}

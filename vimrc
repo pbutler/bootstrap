@@ -14,26 +14,13 @@ endif
 
 let mapleader=","
 set hidden
+set laststatus=2
 set undofile
 set undodir=$HOME/.vim/undos
 set directory=~/.vim/tmp
 
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
-
-
-let g:jedi#auto_initialization = 0
-let g:jedi#auto_vim_configuration = 0
-
-let g:pymode_python = 'python3'
-let g:pymode_lint = 0
-let g:pymode_options = 0
-let g:pymode_rope_completion = 0
-let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope = 0
-let g:pymode_syntax = 1
-let g:pymode_options_colorcolumn = 1
-let g:pymode_rope_rename_bind = '<leader>rn'
 
 set runtimepath+=~/.dein.vim/repos/github.com/Shougo/dein.vim
 
@@ -68,13 +55,11 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
 
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('ervandew/supertab')
+  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
   call dein#add('Shougo/echodoc.vim')
 
   call dein#add('SirVer/ultisnips')
   call dein#add('honza/vim-snippets.git')
-  call dein#add('w0rp/ale')
   call dein#add('Konfekt/FastFold')
 
 
@@ -83,15 +68,11 @@ if dein#load_state($HOME.'/.dein.vim')
 
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
-  call dein#add('maximbaz/lightline-ale')
 
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdcommenter')
 
-  " call dein#add('python-mode/python-mode', {'on_ft': 'python'})
-  call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
-  call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
   call dein#add('tmhedberg/SimpylFold')
 
@@ -109,7 +90,23 @@ endif
 
 syntax enable
 
-set laststatus=2
+let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-ultisnips']
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+
+nmap <buffer> <leader>rn  <Plug>(coc-rename)
+nmap <silent> K :call <SID>show_documentation()<cr>
+nmap <silent> gd <Plug>(coc-definition)
+
+
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
@@ -125,20 +122,8 @@ let g:NERDTrimTrailingWhitespace = 1
 
 let g:bufferline_echo = 0
 let g:ultisnips_python_style = "sphinx"
+let g:UltiSnipsExpandTrigger="<c-S>"
 
-
-let g:deoplete#sources#jedi#server_timeout = 20
-let g:deoplete#disable_auto_complete = 0
-let g:deoplete#sources#jedi#show_docstring = 0
-
-let g:deoplete#enable_at_startup = 1
-
-call deoplete#custom#source('_', 'converters',
-      \['converter_remove_overlap',
-      \ 'converter_truncate_abbr',
-      \ 'converter_truncate_menu',
-      \ 'converter_remove_paren',
-      \ 'converter_auto_delimiter'])
 
 autocmd FileType denite-filter
       \ call deoplete#custom#buffer_option('auto_complete', v:false)
@@ -173,8 +158,7 @@ if has("autocmd")
 endif
 
 autocmd BufEnter * lcd %:p:h
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
-
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 
 " Help Neovim check if file has changed on disc
 " https://github.com/neovim/neovim/issues/2127
@@ -251,6 +235,44 @@ function! MyVirtualenv()
  return ''
 endfunction
 
+function! CocErrors() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  if get(info, 'error', 0)
+    return 'E' . info['error']
+  else
+    return ''
+  endif
+endfunction
+
+function! CocWarnings() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  if get(info, 'warning', 0)
+    return 'W' . info['warning']
+  else
+    return ''
+  endif
+endfunction
+
+function! CocOK() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0) || get(info, 'warning', 0)
+    return ''
+  else
+    return 'OK'
+  endif
+endfunction
+
+function! CocChecking() abort
+  return get(g:, 'coc_status', '')
+endfunction
+
+
+autocmd User CocDiagnosticChange call lightline#update()
+
 set ruler
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
@@ -266,16 +288,18 @@ let g:lightline = {
       \   'right': [
       \              [ 'percent' ],
       \              [ 'lineinfo' ],
-      \              [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]
+      \              [ 'linter_errors', 'linter_warnings', 'linter_checking', 'linter_ok' ]
       \            ]
       \ },
       \ 'component_expand':{
-      \  'buffers': 'lightline#bufferline#buffers',
+      \  'linter_warnings': 'CocWarnings',
+      \  'linter_errors': 'CocErrors',
+      \  'linter_ok': 'CocOK',
+      \  'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_function': {
       \  'virtualenv': 'MyVirtualenv',
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
+      \  'linter_checking': 'CocChecking'
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',

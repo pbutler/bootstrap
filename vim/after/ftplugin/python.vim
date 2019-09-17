@@ -17,6 +17,6 @@ let b:ale_linters = ['flake8']  " , 'pylint']
 " Fix Python files with autopep8 and yapf.:
 " let b:ale_fixers = ['black', 'remove_trailing_lines', 'trim_whitespace']
 set nofoldenable
-nmap <buffer> <leader>rn :call jedi#rename()<cr>
-nmap <buffer> K :call jedi#show_documentation()<cr>
-nmap <buffer> gd :call jedi#goto()<cr>
+" nmap <buffer> <leader>rn :call jedi#rename()<cr>
+" nmap <buffer> K :call jedi#show_documentation()<cr>
+" nmap <buffer> gd :call jedi#goto()<cr>
