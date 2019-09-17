@@ -1,8 +1,8 @@
-" Python 
+" Python
 setlocal ai
 "setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-setlocal ts=4 sts=4 sw=4 tw=100 sta et 
-set colorcolumn=100
+setlocal ts=4 sts=4 sw=4 tw=88 sta et
+set colorcolumn=88
 "setlocal omnifunc=pythoncomplete#Complete
 "setlocal completefunc=RopeCompleteFunc
 
@@ -12,11 +12,11 @@ set colorcolumn=100
 "Press F5 to run
 "nmap <F5> :!python %<CR>
 
-if strlen(globpath(&rtp, '$HOME/.vim/plugin/pydoc.vim'))
-   source $HOME/.vim/plugin/pydoc.vim
- endif
-
 " Check Python files with flake8 and pylint.
-" let b:ale_linters = ['flake8', 'pylint']
+let b:ale_linters = ['flake8']  " , 'pylint']
 " Fix Python files with autopep8 and yapf.:
-let b:ale_fixers = ['black', 'remove_trailing_lines', 'trim_whitespace']
+" let b:ale_fixers = ['black', 'remove_trailing_lines', 'trim_whitespace']
+set nofoldenable
+nmap <buffer> <leader>rn :call jedi#rename()<cr>
+nmap <buffer> K :call jedi#show_documentation()<cr>
+nmap <buffer> gd :call jedi#goto()<cr>

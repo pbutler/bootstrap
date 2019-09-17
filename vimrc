@@ -2,8 +2,9 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
-set updatetime=300
-
+set signcolumn=yes
+set completeopt-=preview
+set noshowmode
 filetype plugin indent on
 
 set encoding=utf-8
@@ -13,16 +14,16 @@ endif
 
 let mapleader=","
 set hidden
-
-set undodir=$HOME/.vim/undos
 set undofile
+set undodir=$HOME/.vim/undos
 set directory=~/.vim/tmp
-
 
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
-let g:deoplete#sources#jedi#server_timeout = 20
-let g:deoplete#disable_auto_complete = 0
+
+
+let g:jedi#auto_initialization = 0
+let g:jedi#auto_vim_configuration = 0
 
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
@@ -32,6 +33,7 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_rope = 0
 let g:pymode_syntax = 1
 let g:pymode_options_colorcolumn = 1
+let g:pymode_rope_rename_bind = '<leader>rn'
 
 set runtimepath+=~/.dein.vim/repos/github.com/Shougo/dein.vim
 
@@ -53,15 +55,28 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('iCyMind/NeoSolarized')
   call dein#add('altercation/vim-colors-solarized.git')
 
+  call dein#add('schickling/vim-bufonly')
   call dein#add('ntpeters/vim-better-whitespace')
+
+  call dein#add('Shougo/denite.nvim')
+  " call dein#add('nixprime/cpsm', {'build': 'PY3=ON ./install.sh'})
+  call dein#add('Shougo/neoyank.vim')
+  call dein#add('chemzqm/unite-location')
+  call dein#add('raghur/fruzzy', {'hook_post_update': 'call fruzzy#install()'})
+
+
+  call dein#add('junegunn/vim-emoji')
+  call dein#add('pocari/vim-denite-emoji')
 
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('ervandew/supertab')
-  call dein#add('Shougo/denite.nvim')
+  call dein#add('Shougo/echodoc.vim')
 
   call dein#add('SirVer/ultisnips')
   call dein#add('honza/vim-snippets.git')
   call dein#add('w0rp/ale')
+  call dein#add('Konfekt/FastFold')
+
 
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
@@ -75,9 +90,10 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('scrooloose/nerdcommenter')
 
   " call dein#add('python-mode/python-mode', {'on_ft': 'python'})
-  " call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
-  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
+  call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
+  call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
+  call dein#add('tmhedberg/SimpylFold')
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
   " Required:
@@ -93,35 +109,14 @@ endif
 
 syntax enable
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
 set laststatus=2
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 nmap <F2> :TagbarToggle<CR>
 
-
+let g:echodoc#type = 'signature'
+let g:echodoc_enable_at_startup = 1
 
 let g:NERDSpaceDelims = 0
 let g:NERDCompactSexyComs = 1
@@ -129,9 +124,26 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 let g:bufferline_echo = 0
-let g:deoplete#enable_at_startup = 1
 let g:ultisnips_python_style = "sphinx"
 
+
+let g:deoplete#sources#jedi#server_timeout = 20
+let g:deoplete#disable_auto_complete = 0
+let g:deoplete#sources#jedi#show_docstring = 0
+
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#source('_', 'converters',
+      \['converter_remove_overlap',
+      \ 'converter_truncate_abbr',
+      \ 'converter_truncate_menu',
+      \ 'converter_remove_paren',
+      \ 'converter_auto_delimiter'])
+
+autocmd FileType denite-filter
+      \ call deoplete#custom#buffer_option('auto_complete', v:false)
+
+inoremap <expr> <C-G> deoplete#undo_completion()
 "NeoBundle 'tpope/vim-fugitive'
 "NeoBundle 'sjl/gundo.vim'
 
@@ -209,8 +221,8 @@ set background=dark
 
 "if has('nvim')
   let g:neosolarized_visibility = "high"
-  let g:neosolarized_termcolors=256
-  let g:neosolarized_termtrans=1
+  let g:neosolarized_termcolors = 256
+  let g:neosolarized_termtrans = 1
   let g:neosolarized_italic = 1
   colorscheme NeoSolarized
 "else
@@ -239,18 +251,6 @@ function! MyVirtualenv()
  return ''
 endfunction
 
-function! CocStatus()
-  let info = get(b:, 'coc_diagnostic_info', {})
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, '❌ ' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, '⚠️ ' . info['warning'])
-  endif
-  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
-endfunction
-
 set ruler
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
@@ -266,26 +266,98 @@ let g:lightline = {
       \   'right': [
       \              [ 'percent' ],
       \              [ 'lineinfo' ],
-      \              [ 'cocstatus'],
-      \              [ 'linter_errors', 'linter_warnings', 'linter_ok' ]
+      \              [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]
       \            ]
       \ },
       \ 'component_expand':{
-      \    'buffers': 'lightline#bufferline#buffers',
-      \    'linter_warnings': 'lightline#ale#warnings',
-      \    'linter_errors': 'lightline#ale#errors',
-      \    'linter_ok': 'lightline#ale#ok',
-      \    'virtualenv': 'MyVirtualenv'
+      \  'buffers': 'lightline#bufferline#buffers',
+      \  'virtualenv': 'MyVirtualenv',
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',
+      \     'linter_checking': 'left',
       \     'linter_warnings': 'warning',
       \     'linter_errors': 'error',
-      \     'linter_ok': 'left',
-      \ },
-      \ 'component_function': {
-      \   'cocstatus': 'CocStatus'
+      \     'linter_ok': 'left'
       \ }
       \}
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
+
+" Denite settings
+autocmd FileType denite call s:denite_my_mappings()
+function! s:denite_my_mappings() abort
+  nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> a
+    \ denite#do_map('choose_action')
+  nnoremap <silent><buffer><expr> dd
+    \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> <C-l>
+    \ denite#do_map('redraw')
+  nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+    \ denite#do_map('toggle_select')
+endfunction
+
+"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm', 'sorter/rank'])
+let g:fruzzy#usenative = 1
+let g:fruzzy#sortonempty = 1 " default value
+
+" tell denite to use this matcher by default for all sources
+call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
+
+
+if executable('rg')
+  call denite#custom#var('file/rec', 'command',
+        \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
+  call denite#custom#var('grep', 'command', ['rg'])
+  call denite#custom#var('grep', 'default_opts',
+        \ ['-i', '--vimgrep', '--no-heading'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+elseif executable('ag')
+  call denite#custom#var('file/rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore', '.git', '-g', ''])
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts',
+        \ ['-i', '--vimgrep'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+endif
+
+nnoremap <silent> <leader>db :<C-u>Denite buffer<CR>
+nnoremap <silent> <leader>df :<C-u>Denite file/rec -start-filter<CR>
+nnoremap <silent> <leader>dp :<C-u>DeniteProjectDir file/rec -start-filter<CR>
+nnoremap <silent> <leader>dl :<C-u>Denite location_list<CR>
+nnoremap <leader>dg :<C-u>Denite grep<CR><CR>
+nnoremap <leader>dy :<C-u>Denite neoyank<CR>
+
