@@ -31,7 +31,7 @@ if dein#load_state('~/.cache/dein')
   " Let dein manage dein
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('haya14busa/dein-command')
+  call dein#add('haya14busa/dein-command.vim')
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
