@@ -21,29 +21,18 @@ set directory=~/.vim/tmp
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
 
-
 let g:jedi#auto_initialization = 0
 let g:jedi#auto_vim_configuration = 0
 
-let g:pymode_python = 'python3'
-let g:pymode_lint = 0
-let g:pymode_options = 0
-let g:pymode_rope_completion = 0
-let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope = 0
-let g:pymode_syntax = 1
-let g:pymode_options_colorcolumn = 1
-let g:pymode_rope_rename_bind = '<leader>rn'
-
-set runtimepath+=~/.dein.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state($HOME.'/.dein.vim')
-  call dein#begin($HOME.'/.dein.vim')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('haya14busa/dein-command.vim')
 
   if !has('nvim')
@@ -81,20 +70,25 @@ if dein#load_state($HOME.'/.dein.vim')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
 
+  "status bar
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
   call dein#add('maximbaz/lightline-ale')
 
+  "programming
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdcommenter')
 
+  "python
   " call dein#add('python-mode/python-mode', {'on_ft': 'python'})
   call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
   call dein#add('davidhalter/jedi-vim', {'on_ft': 'python'})
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
-  call dein#add('tmhedberg/SimpylFold')
+  call dein#add('tmhedberg/SimpylFold', {'on_ft': 'python'})
+  call dein#add('szymonmaszke/vimpyter')
 
+"js
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
   " Required:
   call dein#end()
@@ -150,10 +144,8 @@ inoremap <expr> <C-G> deoplete#undo_completion()
 
 """"    NeoBundle 'godlygeek/tabular'
 """"    NeoBundle 'vim-scripts/taglist.vim'
-""""    NeoBundle 'nathanaelkane/vim-indent-guides'
 """"    NeoBundle 'vim-pandoc/vim-pandoc'
 """"    NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
-""""    NeoBundle 'ervandew/supertab'
 "
 "
 "  Templates config
@@ -186,6 +178,11 @@ augroup checktime
         autocmd BufEnter,FocusGained,BufEnter,FocusLost,WinLeave * checktime
     endif
   augroup END
+
+
+autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
+autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
+autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
 
 " let g:NERDTreeQuitOnOpen=1
 "
