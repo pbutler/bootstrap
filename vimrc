@@ -22,16 +22,16 @@ set directory=~/.vim/tmp
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
 
-set runtimepath+=~/.dein.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state($HOME.'/.dein.vim')
-  call dein#begin($HOME.'/.dein.vim')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add($HOME.'/.dein.vim/repos/github.com/Shougo/dein.vim')
-  call dein#add('haya14busa/dein-command.vim')
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('haya14busa/dein-command')
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
