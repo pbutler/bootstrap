@@ -106,6 +106,13 @@ nmap <buffer> <leader>rn  <Plug>(coc-rename)
 nmap <silent> K :call <SID>show_documentation()<cr>
 nmap <silent> gd <Plug>(coc-definition)
 
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
