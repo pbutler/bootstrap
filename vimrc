@@ -2,6 +2,7 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+set ruler
 set signcolumn=yes
 set completeopt-=preview
 set noshowmode
@@ -14,6 +15,7 @@ endif
 
 let mapleader=","
 set hidden
+set laststatus=2
 set undofile
 set undodir=$HOME/.vim/undos
 set directory=~/.vim/tmp
@@ -103,7 +105,6 @@ endif
 
 syntax enable
 
-set laststatus=2
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
@@ -119,20 +120,8 @@ let g:NERDTrimTrailingWhitespace = 1
 
 let g:bufferline_echo = 0
 let g:ultisnips_python_style = "sphinx"
+let g:UltiSnipsExpandTrigger="<c-S>"
 
-
-let g:deoplete#sources#jedi#server_timeout = 20
-let g:deoplete#disable_auto_complete = 0
-let g:deoplete#sources#jedi#show_docstring = 0
-
-let g:deoplete#enable_at_startup = 1
-
-call deoplete#custom#source('_', 'converters',
-      \['converter_remove_overlap',
-      \ 'converter_truncate_abbr',
-      \ 'converter_truncate_menu',
-      \ 'converter_remove_paren',
-      \ 'converter_auto_delimiter'])
 
 autocmd FileType denite-filter
       \ call deoplete#custom#buffer_option('auto_complete', v:false)
@@ -165,8 +154,7 @@ if has("autocmd")
 endif
 
 autocmd BufEnter * lcd %:p:h
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
-
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 
 " Help Neovim check if file has changed on disc
 " https://github.com/neovim/neovim/issues/2127
@@ -248,7 +236,6 @@ function! MyVirtualenv()
  return ''
 endfunction
 
-set ruler
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
 let g:lightline#bufferline#unnamed = '[No Name]'
@@ -263,16 +250,18 @@ let g:lightline = {
       \   'right': [
       \              [ 'percent' ],
       \              [ 'lineinfo' ],
-      \              [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]
+      \              [ 'linter_errors', 'linter_warnings', 'linter_checking', 'linter_ok' ]
       \            ]
       \ },
       \ 'component_expand':{
-      \  'buffers': 'lightline#bufferline#buffers',
-      \  'virtualenv': 'MyVirtualenv',
       \  'linter_checking': 'lightline#ale#checking',
       \  'linter_warnings': 'lightline#ale#warnings',
       \  'linter_errors': 'lightline#ale#errors',
       \  'linter_ok': 'lightline#ale#ok',
+      \  'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_function': {
+      \  'virtualenv': 'MyVirtualenv'
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',

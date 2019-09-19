@@ -5,15 +5,6 @@ Host kmeans
 	Hostname kmeans.cs.vt.edu
 	ForwardAgent yes
 
-Host production
-        User ubuntu
-        Hostname production.r.bigo.io
-        ForwardAgent yes
-Host test3
-        User ubuntu
-        Hostname test3.r.bigo.io
-        ForwardAgent yes
-
 Host dtra
 	User twitter
 	Hostname dtra
@@ -25,65 +16,22 @@ Host embersepi
 	Hostname embersepi.cs.vt.edu
 	ForwardAgent yes
 
-Host cutestdeploy
-	User embers
-	Hostname ec2-72-44-43-185.compute-1.amazonaws.com
-	IdentityFile ~/.ssh/model2.key  
-# cutestdeploy
-
-Host model3
-	User embers
-	Hostname ec2-50-16-166-61.compute-1.amazonaws.com
-	IdentityFile ~/.ssh/model2.key
-	
-	
 Host rambo
 	User pabutler
 	Hostname rambo.cs.vt.edu
 	ForwardAgent yes
 
-Host embers4 
-	User pabutler
-	Hostname embers4.cs.vt.edu
-	ForwardAgent yes
-
 Host embers
 	User pabutler
 	Hostname embers.cs.vt.edu
-	# LocalForward 8989 localhost:8989 
+	# LocalForward 8989 localhost:8989
 	ForwardAgent yes
-
-Host recsys
-	User pabutler
-	Hostname recsys.cs.vt.edu
-	ForwardAgent yes
-
-Host mnemo2
-	User pabutler
-	Hostname mnemosyne2
-	ProxyCommand ssh bio nc 192.168.0.203 22
-
-Host sysx
-	User pabutler
-	Hostname sysx2.arc.vt.edu
 
 Host killertux.org
 	User pbutler
 
-Host graphics.cs.vt.edu
-	User patrick
-
-Host graphics
-	User patrick
-	Hostname graphics.cs.vt.edu
-
 Host balrog
 	Hostname killertux.org
-	ForwardAgent yes
-
-Host gamgee
-	Hostname gamgee.killertux.org
-	User pbutler
 	ForwardAgent yes
 
 Host bio
