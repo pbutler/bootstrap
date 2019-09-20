@@ -127,6 +127,23 @@ autocmd FileType denite-filter
       \ call deoplete#custom#buffer_option('auto_complete', v:false)
 
 inoremap <expr> <C-G> deoplete#undo_completion()
+
+let g:deoplete#sources#jedi#server_timeout = 20
+let g:deoplete#disable_auto_complete = 0
+let g:deoplete#sources#jedi#show_docstring = 0
+
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#source('_', 'converters',
+      \['converter_remove_overlap',
+      \ 'converter_truncate_abbr',
+      \ 'converter_truncate_menu',
+      \ 'converter_remove_paren',
+      \ 'converter_auto_delimiter'])
+
+autocmd FileType denite-filter
+      \ call deoplete#custom#buffer_option('auto_complete', v:false)
+
 "NeoBundle 'tpope/vim-fugitive'
 "NeoBundle 'sjl/gundo.vim'
 
