@@ -2,6 +2,7 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+set ruler
 set signcolumn=yes
 set completeopt-=preview
 set noshowmode
@@ -280,7 +281,6 @@ endfunction
 
 autocmd User CocDiagnosticChange call lightline#update()
 
-set ruler
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
 let g:lightline#bufferline#unnamed = '[No Name]'
