@@ -19,6 +19,7 @@ set laststatus=2
 set undofile
 set undodir=$HOME/.vim/undos
 set directory=~/.vim/tmp
+set autochdir
 
 let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
 let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
@@ -47,7 +48,6 @@ if dein#load_state('~/.cache/dein')
   call dein#add('ntpeters/vim-better-whitespace')
 
   call dein#add('Shougo/denite.nvim')
-  " call dein#add('nixprime/cpsm', {'build': 'PY3=ON ./install.sh'})
   call dein#add('Shougo/neoyank.vim')
   call dein#add('chemzqm/unite-location')
   call dein#add('raghur/fruzzy', {'hook_post_update': 'call fruzzy#install()'})
@@ -62,10 +62,12 @@ if dein#load_state('~/.cache/dein')
   call dein#add('SirVer/ultisnips')
   call dein#add('honza/vim-snippets.git')
   call dein#add('Konfekt/FastFold')
+  call dein#add('sjl/gundo.vim')
 
 
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
+  call dein#add('tpope/vim-fugitive')
 
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
@@ -133,14 +135,6 @@ let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsExpandTrigger="<c-S>"
 
 
-autocmd FileType denite-filter
-      \ call deoplete#custom#buffer_option('auto_complete', v:false)
-
-inoremap <expr> <C-G> deoplete#undo_completion()
-"NeoBundle 'tpope/vim-fugitive'
-"NeoBundle 'sjl/gundo.vim'
-
-
 """"    NeoBundle 'godlygeek/tabular'
 """"    NeoBundle 'vim-scripts/taglist.vim'
 """"    NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -165,7 +159,6 @@ if has("autocmd")
   autocmd BufEnter * EnableStripWhitespaceOnSave
 endif
 
-autocmd BufEnter * lcd %:p:h
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 
 " Help Neovim check if file has changed on disc
@@ -363,27 +356,27 @@ let g:fruzzy#sortonempty = 1 " default value
 call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
 
 
-if executable('rg')
-  call denite#custom#var('file/rec', 'command',
-        \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
-  call denite#custom#var('grep', 'command', ['rg'])
-  call denite#custom#var('grep', 'default_opts',
-        \ ['-i', '--vimgrep', '--no-heading'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-elseif executable('ag')
-  call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore', '.git', '-g', ''])
-  call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts',
-        \ ['-i', '--vimgrep'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-endif
+" if executable('rg')
+"   call denite#custom#var('file/rec', 'command',
+"         \ ['rg', '--files', '--hidden', '--glob', '!.git', '--color', 'never'])
+"   call denite#custom#var('grep', 'command', ['rg'])
+"   call denite#custom#var('grep', 'default_opts',
+"         \ ['-i', '--vimgrep', '--no-heading'])
+"   call denite#custom#var('grep', 'recursive_opts', [])
+"   call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+"   call denite#custom#var('grep', 'separator', ['--'])
+"   call denite#custom#var('grep', 'final_opts', [])
+" elseif executable('ag')
+"   call denite#custom#var('file/rec', 'command',
+"         \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore', '.git', '-g', ''])
+"   call denite#custom#var('grep', 'command', ['ag'])
+"   call denite#custom#var('grep', 'default_opts',
+"         \ ['-i', '--vimgrep'])
+"   call denite#custom#var('grep', 'recursive_opts', [])
+"   call denite#custom#var('grep', 'pattern_opt', [])
+"   call denite#custom#var('grep', 'separator', ['--'])
+"   call denite#custom#var('grep', 'final_opts', [])
+" endif
 
 nnoremap <silent> <leader>db :<C-u>Denite buffer<CR>
 nnoremap <silent> <leader>df :<C-u>Denite file/rec -start-filter<CR>

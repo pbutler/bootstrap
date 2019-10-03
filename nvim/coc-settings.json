@@ -5,6 +5,7 @@
 	"python.linting.flake8Path": "/usr/local/bin/flake8",
 	"suggest.floatEnable": false,
 	"suggest.echodocSupport": true,
+	"diagnostic.checkCurrentLine": true,
 	"diagnostic.messageTarget": "echo",
 	"signature.target": "echo"
 
