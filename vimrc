@@ -6,6 +6,7 @@ set ruler
 set signcolumn=yes
 set completeopt-=preview
 set noshowmode
+set diffopt+=vertical
 filetype plugin indent on
 
 set encoding=utf-8
