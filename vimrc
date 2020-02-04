@@ -27,6 +27,7 @@ let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
 
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
+let g:doge_mapping = '<Leader>dd'
 " Required:
 if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
@@ -79,6 +80,7 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
   call dein#add('tmhedberg/SimpylFold')
+  call dein#add('kkoomen/vim-doge')
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
   " Required:
@@ -105,6 +107,7 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
+let g:doge_doc_standard_python = 'sphinx'
 
 nmap <buffer> <leader>rn  <Plug>(coc-rename)
 nmap <silent> K :call <SID>show_documentation()<cr>
