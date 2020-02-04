@@ -55,6 +55,16 @@ fi
 #   eval "$(pyenv virtualenv-init -)"
 # fi
 
+vmake () {
+	local version=${2:-3.7}
+	if [ -d ~/venv/$1 ]; then
+		echo $1 already exists
+		return -1
+	fi
+	python${version} -m venv ~/venv/$1
+}
+
+
 vactivate () {
 	source ~/venv/$1/bin/activate
 }
