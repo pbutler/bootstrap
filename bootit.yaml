@@ -15,9 +15,9 @@
 - link: {dest: ~/.config/nvim, src: nvim}
 - link: {dest: ~/.vim, src: vim}
 - link: {dest: ~/.vim/coc-settings.json, src: ~/.config/nvim/coc-settings.json}
-- mkdir: {mode: '0700', name: ~/.vim/cache/tmp}
+- mkdir: {mode: '0700', name: ~/.cachee/vim/tmp}
 - mkdir: {mode: '0700', name: ~/.cache/vim/backup}
-- mkdir: {mode: '0700', name: ~/.vim/cache/undos}
+- mkdir: {mode: '0700', name: ~/.cache/vim/undos}
 - if:
     expr: sys.platform
     darwin:
