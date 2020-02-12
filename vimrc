@@ -22,8 +22,8 @@ set undodir=$HOME/.vim/undos
 set directory=~/.vim/tmp
 set autochdir
 
-let g:python3_host_prog = $HOME.'/venv/neovim-py3/bin/python'
-let g:python_host_prog = $HOME.'/venv/neovim-py2/bin/python'
+let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'
+let g:python_host_prog = $HOME.'/.virtualenvs/neovim-py2/bin/python'
 
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
@@ -282,6 +282,8 @@ let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline = {
+      \ 'separator' :   { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
       \ 'colorscheme': 'solarized',
       \ 'active': {
       \   'left': [

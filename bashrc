@@ -57,16 +57,16 @@ fi
 
 vmake () {
 	local version=${2:-3.7}
-	if [ -d ~/venv/$1 ]; then
+	if [ -d ~/.virtualenvs/$1 ]; then
 		echo $1 already exists
 		return -1
 	fi
-	python${version} -m venv ~/venv/$1
+	python${version} -m venv ~/.virtualenvs/$1
 }
 
 
 vactivate () {
-	source ~/venv/$1/bin/activate
+	source ~/.virtualenvs/$1/bin/activate
 }
 
 _vactivate () {
@@ -74,7 +74,7 @@ _vactivate () {
 	COMPREPLY=()
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
-	opts=`ls --color=none ~/venv/`
+	opts=`ls --color=none ~/.virtualenvs/`
 	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         return 0
 }
@@ -283,7 +283,6 @@ if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
 	alias du='du -h'
 	alias df='df -kh'
 	alias ls='ls -h --color=always'
-	alias background='xsetbg'
 	alias more='less'
 elif [ $OSX -eq 1 ]; then
 	export CLICOLOR=1
@@ -310,6 +309,8 @@ fi
 function xtitle ()
 {
     case $TERM in
+        xterm-kitty)
+	   return ;;
 	xterm* | dtterm | rxvt)
 	    echo -n -e "\033]0;$HOSTNAME:$*\007" ;;
 	*)  ;;
