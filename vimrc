@@ -69,6 +69,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
   call dein#add('tpope/vim-fugitive')
+  call dein#add('idanarye/vim-merginal')
 
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
