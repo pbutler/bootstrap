@@ -18,8 +18,9 @@ let mapleader=","
 set hidden
 set laststatus=2
 set undofile
-set undodir=$HOME/.vim/undos
-set directory=~/.vim/tmp
+set undodir=~/.cache/vim/undos
+set directory=~/.cache/vim/tmp
+set backupdir=~/.cache/vim/backup
 set autochdir
 
 let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'

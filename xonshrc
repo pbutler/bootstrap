@@ -11,12 +11,17 @@ $MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
 #  source-bash --login True --overwrite-aliases "echo loading xonsh foreign shell"
 #
 import os
+import sys
 import time
+if sys.platform == "darwin":
+    source-bash --interactive false $(/usr/libexec/path_helper -s)
+    source-bash --interactive false --seterrprevcmd "" /etc/profile
 
-source-bash --interactive false $(/usr/libexec/path_helper -s)
-source-bash --interactive false --seterrprevcmd "" /etc/profile
+for path in (p"/usr/local/opt/coreutils/libexec/gnubin",
+            ):
+    if path.exist():
+        $PATH = [path] + $PATH
 
-$PATH = ["/usr/local/opt/coreutils/libexec/gnubin"] + $PATH
 #for x in ("man", "top", "make"):
 #    del aliases[x]
 

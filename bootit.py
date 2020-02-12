@@ -88,7 +88,7 @@ class Link(Command):
             if not os.path.islink(dest):
                 raise IOError("Real file exists at %s" % dest)
             elif not os.path.exists(dest):
-                logging.warn("Removing dangling link")
+                logging.warn("Removing dangling link %s" % (dest))
                 os.unlink(dest)
             elif not os.path.samefile(src, dest):
                 logging.warn("Changed link from %s to %s" %
