@@ -10,8 +10,11 @@
 #- file: {dest: ~/.Xdefaults, src: Xdefaults}
 #- file: {dest: ~/.terminfo/78/xterm-256color, src: xterm-256color}
 - sync: {dest: ~/bin, src: bin, clean: false}
+- link: {dest: ~/.config/kitty, src: kitty}
+- link: {dest: ~/.xonshrc, src: xonshrc}
 - link: {dest: ~/.config/nvim, src: nvim}
 - link: {dest: ~/.vim, src: vim}
+- link: {dest: ~/.vim/coc-settings.json, src: ~/.config/nvim/coc-settings.json}
 - mkdir: {mode: '0700', name: ~/.vim/tmp}
 - mkdir: {mode: '0700', name: ~/.vim/undos}
 - if:

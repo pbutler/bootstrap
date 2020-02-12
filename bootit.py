@@ -77,6 +77,7 @@ class Link(Command):
     def __init__(self, evaluator, src, dest):
         src = os.path.expanduser(src)
         dest = os.path.expanduser(dest)
+        assert os.path.exists(src), "{} does not exist for linking".format(src)
         rel_src = os.path.relpath(src, os.path.dirname(dest))
 
         destdir = os.path.dirname(dest)

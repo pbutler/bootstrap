@@ -1,0 +1,77 @@
+# XONSH WIZARD START
+# $CASE_SENSITIVE_COMPLETIONS = '1'
+# $SUBSEQUENCE_PATH_COMPLETION = ''
+# $VI_MODE = '1'
+# $XDG_DATA_HOME = '~/.local/share'
+$MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
+# $XONSH_APPEND_NEWLINE = '1'
+# $XONSH_STDERR_POSTFIX = ' & '
+# $XONSH_STDERR_PREFIX = ' & '
+# $XONSH_COLOR_STYLE='solarized-dark'
+#  source-bash --login True --overwrite-aliases "echo loading xonsh foreign shell"
+#
+import os
+import time
+
+source-bash --interactive false $(/usr/libexec/path_helper -s)
+source-bash --interactive false --seterrprevcmd "" /etc/profile
+
+$PATH = ["/usr/local/opt/coreutils/libexec/gnubin"] + $PATH
+#for x in ("man", "top", "make"):
+#    del aliases[x]
+
+aliases['ls']=['ls', '--color=auto']
+aliases['vactivate']='vox activate'
+aliases['vmake']='vox create'
+aliases['deactivate']='vox deactivate'
+aliases['pdfwatch']=["watchmedo", "shell-command", '--patterns=*.pdf', '--command=convert "${watch_src_path}"\[0\] -alpha remove png: | kitty +kitten icat --scale-up']
+
+@events.autovox_policy
+def dotvenv_policy(path, **_):
+    venv = path / '.venv'
+    if venv.exists():
+	return open(venv).read().strip()
+
+
+
+xontrib load autojump autovox prompt_ret_code readable-traceback ssh_agent vox kitty vox_tabcomplete mpl
+# XONSH WIZARD END
+#
+
+def prompt_color():
+    last_return_code = __xonsh__.history[-1].rtn if __xonsh__.history else 0
+    return "{INTENSE_RED}" if last_return_code else "{CYAN}"
+
+@events.on_postcommand
+def update_rprompt(ts, **kwargs):
+   $PROMPT_FIELDS['runtime'] = "{:.2f}".format(ts[1] - ts[0])
+
+$PROMPT_FIELDS['runtime'] = ""
+$PROMPT_FIELDS['timestamp'] = lambda: time.strftime('%H:%M:%S', time.localtime())
+$PROMPT_FIELDS['prompt_color'] = prompt_color
+$PROMPT = '{PURPLE}{env_name}{NO_COLOR}{user}@{hostname}{gitstatus: [{}]}:{cwd}{prompt_color}{prompt_end} '
+$RIGHT_PROMPT = '{FAINT_YELLOW}{timestamp} {runtime}{NO_COLOR}'
+
+$XONSH_GITSTATUS_STAGED = '{BLUE}●'
+$XONSH_GITSTATUS_CHANGED = '{YELLOW}+'
+$XONSH_GITSTATUS_UNTRACKED = '{WHITE}…'
+
+def _vactivate_completer(prefix, line, begidx, endidx, ctx):
+    if line.startswith("vactivate "):
+	envs = $(vox list).split("\n")[1:-1]
+	return {env for env in envs if env.startswith(prefix)}
+    else:
+    	return
+
+completer add vactivate _vactivate_completer
+
+def _git_completer(prefix, line, begidx, endidx, ctx):
+    if line.startswith("git "):
+	cmds = (line.split()[0].strip() for line in  $(git help -a).split("\n")
+	        if line and line[0] == " ")
+	return {cmd for cmd in cmds if cmd.startswith(prefix)}
+    else:
+    	return
+
+completer add git _git_completer
+w

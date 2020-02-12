@@ -2,6 +2,7 @@ pyflakes-vim.zip
 .DS_Store
 .osx_ran
 vim/.netrwhist
+vim/coc-settings.json
 vim/undos
 vim/tmp
 nvim/.netrwhist
