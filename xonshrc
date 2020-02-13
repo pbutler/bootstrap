@@ -13,13 +13,15 @@ $MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
 import os
 import sys
 import time
+
 if sys.platform == "darwin":
     source-bash --interactive false $(/usr/libexec/path_helper -s)
     source-bash --interactive false --seterrprevcmd "" /etc/profile
 
-for path in (p"/usr/local/opt/coreutils/libexec/gnubin",
-            ):
-    if path.exist():
+for path in (
+    p"/usr/local/opt/coreutils/libexec/gnubin",
+):
+    if path.exists():
         $PATH = [path] + $PATH
 
 #for x in ("man", "top", "make"):
@@ -38,10 +40,10 @@ def dotvenv_policy(path, **_):
 	return open(venv).read().strip()
 
 
+xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl
 
-xontrib load autojump autovox prompt_ret_code readable-traceback ssh_agent vox kitty vox_tabcomplete mpl
-# XONSH WIZARD END
-#
+if $(which kitty):
+	xontrib load kitty
 
 def prompt_color():
     last_return_code = __xonsh__.history[-1].rtn if __xonsh__.history else 0

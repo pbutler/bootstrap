@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # vim: ts=4 sts=4 sw=4 tw=100 sta et
 """%prog [options]
@@ -75,7 +75,7 @@ class File(Command):
 
 class Link(Command):
     def __init__(self, evaluator, src, dest):
-        src = os.path.expanduser(src)
+        src = os.path.realpath(os.path.expanduser(src))
         dest = os.path.expanduser(dest)
         assert os.path.exists(src), "{} does not exist for linking".format(src)
         rel_src = os.path.relpath(src, os.path.dirname(dest))
@@ -88,7 +88,7 @@ class Link(Command):
             if not os.path.islink(dest):
                 raise IOError("Real file exists at %s" % dest)
             elif not os.path.exists(dest):
-                logging.warn("Removing dangling link %s" % (dest))
+                logging.warn("Removing dangling link %s->%s" % (dest, rel_src))
                 os.unlink(dest)
             elif not os.path.samefile(src, dest):
                 logging.warn("Changed link from %s to %s" %
