@@ -2,7 +2,9 @@ pyflakes-vim.zip
 .DS_Store
 .osx_ran
 vim/.netrwhist
-vim/coc-settings.json
 vim/undos
 vim/tmp
 nvim/.netrwhist
+__pycache__
+kitty/kitty-shell.conf
+*.pyc
