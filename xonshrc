@@ -30,6 +30,7 @@ for path in pypaths + [
 #for x in ("man", "top", "make"):
 #    del aliases[x]
 
+aliases['vim']=["nvim"]
 aliases['ls']=['ls', '--color=auto']
 aliases['vactivate']='vox activate'
 aliases['vmake']='vox create'
