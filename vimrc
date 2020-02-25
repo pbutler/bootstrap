@@ -282,8 +282,6 @@ function! CocChecking() abort
 endfunction
 
 
-autocmd User CocDiagnosticChange call lightline#update()
-
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
 let g:lightline#bufferline#unnamed = '[No Name]'
@@ -321,6 +319,9 @@ let g:lightline = {
       \     'linter_ok': 'left'
       \ }
       \}
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
