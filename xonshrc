@@ -18,9 +18,12 @@ if sys.platform == "darwin":
     source-bash --interactive false $(/usr/libexec/path_helper -s)
     source-bash --interactive false --seterrprevcmd "" /etc/profile
 
-for path in (
+pypaths =  [p / "bin" for p in p"~/Library/Python/".glob("*") if (p / "bin").exists()]
+pypaths =  sorted(pypaths, reverse=True)
+
+for path in pypaths + [
     p"/usr/local/opt/coreutils/libexec/gnubin",
-):
+]:
     if path.exists():
         $PATH = [path] + $PATH
 
@@ -31,7 +34,9 @@ aliases['ls']=['ls', '--color=auto']
 aliases['vactivate']='vox activate'
 aliases['vmake']='vox create'
 aliases['deactivate']='vox deactivate'
-aliases['pdfwatch']=["watchmedo", "shell-command", '--patterns=*.pdf', '--command=convert "${watch_src_path}"\[0\] -alpha remove png: | kitty +kitten icat --scale-up']
+aliases['pdfwatch']=["watchmedo", "shell-command", '--patterns=*.pdf',
+                     ('--command=convert "${watch_src_path}"\[0\] -alpha remove png:-'
+                      ' | kitty +kitten icat --scale-up')]
 
 @events.autovox_policy
 def dotvenv_policy(path, **_):
@@ -57,10 +62,10 @@ $PROMPT_FIELDS['runtime'] = ""
 $PROMPT_FIELDS['timestamp'] = lambda: time.strftime('%H:%M:%S', time.localtime())
 $PROMPT_FIELDS['prompt_color'] = prompt_color
 $PROMPT = '{PURPLE}{env_name}{NO_COLOR}{user}@{hostname}{gitstatus: [{}]}:{cwd}{prompt_color}{prompt_end} '
-$RIGHT_PROMPT = '{FAINT_YELLOW}{timestamp} {runtime}{NO_COLOR}'
+$RIGHT_PROMPT = '{INTENSE_YELLOW}{timestamp} {runtime}{NO_COLOR}'
 
 $XONSH_GITSTATUS_STAGED = '{BLUE}●'
-$XONSH_GITSTATUS_CHANGED = '{YELLOW}+'
+$XONSH_GITSTATUS_CHANGED = '{INTENSE_YELLOW}+'
 $XONSH_GITSTATUS_UNTRACKED = '{WHITE}…'
 
 def _vactivate_completer(prefix, line, begidx, endidx, ctx):
