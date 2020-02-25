@@ -37,6 +37,21 @@ with BootIt():
     Mkdir("~/.cache/vim/backup", "0700")
     Mkdir("~/.cache/vim/undos", "0700")
 
+    Pip(pkgs=["pip", "glances"], user=True, upgrade=True)
+
+    xonsh_opts = ["ptk", "pygments", "proctitle"]
+    if sys.platform == "darwin":
+        xonsh_opts += ["mac"]
+    elif sys.platform == "linux":
+        xonsh_opts += ["linux"]
+    xonsh_opts = ",".join(xonsh_opts)
+
+    Pip(pkgs=["xonsh[{}]".format(xonsh_opts),
+              "xontrib-readable-traceback", "xontrib-ssh-agent", "xontrib-kitty",
+              "xontrib-readable-traceback", "xontrib-ssh-agent"],
+        user=True,
+        upgrade=False)
+
     if sys.platform == "darwin":
         Echo("OS X detected installing applicable files...")
         if not Path("~/.osx_ran").expanduser().exists():
@@ -45,28 +60,27 @@ with BootIt():
         else:
             Echo("Skipping osx configs, already ran")
 
+        logo_url = ("https://www.freepnglogos.com/uploads/spotify-logo-png"
+                    "/spotify-icon-marilyn-scott-0.png")
+
+        Cmd("curl -L {} > ~/.cache/spotify.png".format(logo_url))  # NOQA
+
         Copy(src="fonts/Droid Sans Mono Slashed for Powerline.ttf",
              dest="~/Library/Fonts/Droid Sans Mono Slashed for Powerline.ttf")
 
-    Pip(pkgs=["pip", "xonsh", "xontrib-readable-traceback", "xontrib-ssh-agent",
-              "xontrib-kitty",
-              "xontrib-readable-traceback", "xontrib-ssh-agent", "glances"],
-        upgrade=False)
+        Brew(pkgs=["neovim", "vim", "wget", "node", "git", "ripgrep", "imagemagick",
+                   "hub", "mosh", "htop", "bluetoothconnector"])
 
-    Brew(pkgs=["neovim", "vim", "wget", "node", "git", "ripgrep", "imagemagick",
-               "hub", "mosh", "htop", "bluetoothconnector"])
-
-    # little-snitch charles easyfind joplin
-    Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
-               "inkscape", "iterm2", "java", "keepingyouawake", "kitty", "mactex",
-               "minikube", "nordvpn", "nvalt", "rectangle", "slack", "spotify",
-               " karabiner-elements",
-               # "background-music",
-               # kap
-               # moom
-               # hazel
-               "pock", "gpg-suite-no-mail", "jupyter-notebook-viewer",
-               # "spotify-notifications",
-               "the-unarchiver", "ultimaker-cura",
-               "virtualbox", "virtualbox-extension-pack", "xquartz"],
-         cask=True)
+        # little-snitch charles easyfind joplin
+        Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
+                   "hammerspoon",
+                   "inkscape", "iterm2", "java", "kitty", "mactex",
+                   "minikube", "nordvpn", "nvalt", "slack", "spotify",
+                   "karabiner-elements",
+                   # kap
+                   # hazel
+                   "pock", "gpg-suite-no-mail", "jupyter-notebook-viewer",
+                   # "spotify-notifications",
+                   "the-unarchiver", "ultimaker-cura",
+                   "virtualbox", "virtualbox-extension-pack", "xquartz"],
+             cask=True)

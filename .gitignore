@@ -8,3 +8,4 @@ nvim/.netrwhist
 __pycache__
 kitty/kitty-shell.conf
 *.pyc
+vim/coc-settings.json
