@@ -109,6 +109,9 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 let g:doge_doc_standard_python = 'sphinx'
 
 nmap <buffer> <leader>rn  <Plug>(coc-rename)
@@ -123,6 +126,7 @@ function! s:show_documentation()
   endif
 endfunction
 
+nmap Q <nop>
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
