@@ -60,11 +60,12 @@ with BootIt():
         else:
             Echo("Skipping osx configs, already ran")
 
-        Link(src="hammerpsoon", dest="~/.hammerspoon")
+        Link(src="hammerspoon", dest="~/.hammerspoon")
         logo_url = ("https://www.freepnglogos.com/uploads/spotify-logo-png"
                     "/spotify-icon-marilyn-scott-0.png")
 
-        Cmd("curl -L {} > ~/.cache/spotify.png".format(logo_url))  # NOQA
+        if not Path("~/.cache/spotify.png").expanduser().exists():
+            Cmd("curl -L {} > ~/.cache/spotify.png".format(logo_url))  # NOQA
 
         Copy(src="fonts/Droid Sans Mono Slashed for Powerline.ttf",
              dest="~/Library/Fonts/Droid Sans Mono Slashed for Powerline.ttf")

@@ -170,27 +170,27 @@ class Link(Command):
         try:
             rel_src = src.relative_to(dest)
         except ValueError:
-            logging.debug("Couldn't calculate relativee path using absolute {}".format(src))
+            logging.debug("Couldn't calculate relative path using absolute {}".format(src))
             rel_src = src.absolute()
 
         destdir = dest.parent
         if not destdir.exists():
             destdir.mkdir(parents=True)
 
-        if not dest.is_symlink():
+        if dest.exists() and not dest.is_symlink():
             raise BootItException("Real file exists at %s" % dest)
         elif dest.is_symlink() and not dest.exists():
             logging.warn("Removing dangling link %s->%s" % (dest, rel_src))
             if not self.state.dry_run:
                 os.unlink(dest)
-        elif not src.samefile(dest):
+        elif dest.exists() and not src.samefile(dest):
             logging.warn("Changing link from %s to %s" % (os.path.realpath(dest), rel_src))
             if not self.state.dry_run:
                 os.unlink(dest)
 
         if not dest.exists():
             logging.info("Linking from %s to %s" % (rel_src, dest))
-            rel_src.symlink_to(dest)
+            dest.symlink_to(rel_src)
 
 
 class Mkdir(Command):
