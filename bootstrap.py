@@ -60,6 +60,7 @@ with BootIt():
         else:
             Echo("Skipping osx configs, already ran")
 
+        Link(src="hammerpsoon", dest="~/.hammerspoon")
         logo_url = ("https://www.freepnglogos.com/uploads/spotify-logo-png"
                     "/spotify-icon-marilyn-scott-0.png")
 
