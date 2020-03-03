@@ -46,7 +46,7 @@ def dotvenv_policy(path, **_):
 	return open(venv).read().strip()
 
 
-xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl
+xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl pyenv
 
 if $(which kitty):
 	xontrib load kitty
