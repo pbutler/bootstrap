@@ -37,7 +37,9 @@ with BootIt():
     Mkdir("~/.cache/vim/backup", "0700")
     Mkdir("~/.cache/vim/undos", "0700")
 
-    Pip(pkgs=["pip", "glances"], user=True, upgrade=True)
+    Link(src="flake8", dest="~/.config/flake8")
+
+    Pip(pkgs=["pip", "glances", "flake8", "pylint"], user=True, upgrade=True)
 
     xonsh_opts = ["ptk", "pygments", "proctitle"]
     if sys.platform == "darwin":
@@ -71,6 +73,7 @@ with BootIt():
              dest="~/Library/Fonts/Droid Sans Mono Slashed for Powerline.ttf")
 
         Brew(pkgs=["neovim", "vim", "wget", "node", "git", "ripgrep", "imagemagick",
+                   "mosh",
                    "hub", "mosh", "htop", "bluetoothconnector"])
 
         # little-snitch charles easyfind joplin
