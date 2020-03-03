@@ -165,10 +165,11 @@ class Link(Command):
         dest = Path(dest).expanduser()
 
         try:
-            rel_src = src.relative_to(dest)
+            logging.info("%s %s", src, dest.resolve())
+            rel_src = os.path.relpath(src, dest.resolve().parent)
         except ValueError:
-            logging.debug("Couldn't calculate relative path using absolute {}".format(src))
-            rel_src = src.absolute()
+            logging.info("Couldn't calculate relative path using absolute {}".format(src))
+            rel_src = src.resolve()
 
         destdir = dest.parent
         if not destdir.exists():
