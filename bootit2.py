@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # vim: ts=4 sts=4 sw=4 tw=100 sta et
-"""%prog [options]
-Python source code - replace this with a description of the code and write the code below this text.
-"""
 
 __author__ = 'Patrick Butler'
 __email__ = 'pbutler@killertux.org'
@@ -182,11 +179,11 @@ class Link(Command):
         elif dest.is_symlink() and not dest.exists():
             logging.warn("Removing dangling link %s->%s" % (dest, rel_src))
             if not self.state.dry_run:
-                os.unlink(dest)
+                os.unlink(str(dest))
         elif dest.exists() and not src.samefile(dest):
-            logging.warn("Changing link from %s to %s" % (os.path.realpath(dest), rel_src))
+            logging.warn("Changing link from %s to %s" % (os.path.realpath(str(dest)), rel_src))
             if not self.state.dry_run:
-                os.unlink(dest)
+                os.unlink(str(dest))
 
         if not dest.exists():
             logging.info("Linking from %s to %s" % (rel_src, dest))

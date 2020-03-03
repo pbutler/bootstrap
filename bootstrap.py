@@ -49,6 +49,7 @@ with BootIt():
     xonsh_opts = ",".join(xonsh_opts)
 
     Pip(pkgs=["xonsh[{}]".format(xonsh_opts),
+              "xontrib-pyenv",
               "xontrib-readable-traceback", "xontrib-ssh-agent", "xontrib-kitty",
               "xontrib-readable-traceback", "xontrib-ssh-agent"],
         user=True,
