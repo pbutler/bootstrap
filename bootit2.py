@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 # vim: ts=4 sts=4 sw=4 tw=100 sta et
-"""%prog [options]
-Python source code - replace this with a description of the code and write the code below this text.
-"""
 
 __author__ = 'Patrick Butler'
 __email__ = 'pbutler@killertux.org'
