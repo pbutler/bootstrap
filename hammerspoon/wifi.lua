@@ -1,9 +1,10 @@
-wifiWatcher = nil
-local homeSSID = "CasaButberry"
-local officeSSID = "VT-EBC"
-local lastSSID = hs.wifi.currentNetwork()
+local wifi = {
+  homeSSID="CasaButberry",
+  officeSSID="VTRI-Wireless",
+  lastSSID=hs.wifi.currentNetwork()
+}
 
-function ssidChangedCallback()
+function wifi.callback()
     newSSID = hs.wifi.currentNetwork()
 
     if newSSID == homeSSID and lastSSID ~= homeSSID then
@@ -27,6 +28,6 @@ function ssidChangedCallback()
     lastSSID = newSSID
 end
 
-wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-wifiWatcher:start()
+wifi.watcher = hs.wifi.watcher.new(wifi.callback):start()
 
+return wifi

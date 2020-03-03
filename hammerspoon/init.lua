@@ -1,8 +1,9 @@
 require "hyper"
 require "caffeinate"
 require "spectacle"
-require "wifi"
-require "spotify"
+wifi = require("wifi")
+spotify = require("spotify")
+screensound = require("screensound")
 
 -----------------------------------------------
 -- Reload config on write
