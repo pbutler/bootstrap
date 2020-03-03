@@ -20,4 +20,6 @@ end tell
 
 do shell script "curl -L " & cover_url & " -o ~/.cache/music.jpg"
 
-cover_url
+-- "curl -L " & cover_url & " -o ~/.cache/music.jpg"
+
+-- cover_url

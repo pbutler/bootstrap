@@ -9,7 +9,7 @@ last_song = nil
 --------------------------------------------------------------------------------
 
 -- Open applescript and store in string context
-local file, err = io.open("album.applescript", "r")
+local file, err = io.open(os.getenv("HOME") .. "/bootstrap/hammerspoon/album.applescript", "r")
 local applescript_string = ""
 
 -- Try to open the applescript file
@@ -25,22 +25,23 @@ local spotifyImage = hs.image.imageFromPath(os.getenv("HOME") .. "/.cache/music.
 
 -- Notify the user what song is playing
 local function notifySong(songInfo, image, additionalInfo)
-  title = additionalInfo .. songInfo.track
-  info  = songInfo.album .. " | " .. songInfo.artist
-  icon =  hs.image.imageFromPath("~/.cache/spotify.png")
-  if image then
-     hs.notify.new({title=title, informativeText=info}):setIdImage(icon):contentImage(image):send()
-  else
-      hs.notify.new({title=title, informativeText=info}):send()
+  if (songInfo ~= nil and songInfo.track ~= nil) then
+    title = additionalInfo .. songInfo.track
+    info  = songInfo.album .. " | " .. songInfo.artist
+    icon =  hs.image.imageFromPath(os.getenv("HOME") .. "/.cache/spotify.png")
+    if image then
+       hs.notify.new({title=title, informativeText=info}):setIdImage(icon):contentImage(image):send()
+    else
+        hs.notify.new({title=title, informativeText=info}):send()
+    end
   end
 end
 
 -- Executes applescript to write current album cover to file from raw bytes
 local function SpotifyImage()
   ok = hs.osascript.applescript(applescript_string)
-
   if (ok) then
-    return hs.image.imageFromPath("~/.cache/music.jpg")
+    return hs.image.imageFromPath(os.getenv("HOME") .. "/.cache/music.jpg")
   else
     return nil  -- hs.image.imageFromPath("~/bootstrap/spotify.png")
   end
