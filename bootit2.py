@@ -182,11 +182,11 @@ class Link(Command):
         elif dest.is_symlink() and not dest.exists():
             logging.warn("Removing dangling link %s->%s" % (dest, rel_src))
             if not self.state.dry_run:
-                os.unlink(dest)
+                os.unlink(str(dest))
         elif dest.exists() and not src.samefile(dest):
-            logging.warn("Changing link from %s to %s" % (os.path.realpath(dest), rel_src))
+            logging.warn("Changing link from %s to %s" % (os.path.realpath(str(dest)), rel_src))
             if not self.state.dry_run:
-                os.unlink(dest)
+                os.unlink(str(dest))
 
         if not dest.exists():
             logging.info("Linking from %s to %s" % (rel_src, dest))
