@@ -95,7 +95,7 @@ class Command(object):
 
 
 class Cmd(Command):
-    def do(self, *args, quiet=False):
+    def do(self, *args, quiet=False, exception=True):
         if len(args) == 1:
             shell = True
         else:
@@ -126,6 +126,8 @@ class Cmd(Command):
                                                           self.stdout,
                                                           self.stderr))
         self.okay = (p.returncode == 0)
+        if exception and not self.okay:
+            raise BootItException("Cmd {} failed".format(" ".join(args)))
 
     def non_block_read(self, output):
         fd = output.fileno()
@@ -303,15 +305,21 @@ class Pip(Command):
 
 class Brew(Command):
     """ upgrade is currently ignored"""
-    def do(self, pkgs=[], cask=False, upgrade=True):
-
+    def do(self, pkgs=[], cask=False, upgrade=True, tap=False):
+        assert sum([tap, cask]) < 2, "Choose either cask or tap or neither"
         prefix = ["brew"]
         if cask:
             prefix += ["cask"]
+            cmd = "list"
+        elif tap:
+            prefix += ["tap"]
+            cmd = ""
+        else:
+            cmd = "list"
 
         prefix = " " .join(prefix)
         logging.info("Checking for installed {} pkgs".format(prefix))
-        ret = Cmd("{} list".format(prefix), quiet=True)
+        ret = Cmd("{} {}".format(prefix, cmd), quiet=True)
         installed = {p.split("@")[0] for p in ret.stdout.split("\n")}
         needed = set(pkgs) - installed
         if needed:
