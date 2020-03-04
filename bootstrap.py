@@ -77,16 +77,12 @@ with BootIt():
                    "mosh",
                    "hub", "mosh", "htop", "bluetoothconnector"])
 
-        # little-snitch charles easyfind joplin
+        Brew(pkgs=["homebrew/cask-fonts"], tap=True)
+        # charles easyfind joplin kap
         Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
-                   "hammerspoon",
-                   "inkscape", "iterm2", "java", "kitty", "mactex",
-                   "minikube", "nordvpn", "nvalt", "slack", "spotify",
-                   "karabiner-elements",
-                   # kap
-                   # hazel
-                   "pock", "gpg-suite-no-mail", "jupyter-notebook-viewer",
-                   # "spotify-notifications",
-                   "the-unarchiver", "ultimaker-cura",
-                   "virtualbox", "virtualbox-extension-pack", "xquartz"],
+                   "font-fira-code", "hammerspoon", "inkscape", "iterm2", "java",
+                   "karabiner-elements", "kitty", "mactex", "minikube", "nordvpn",
+                   "nvalt", "slack", "spotify", "pock", "gpg-suite-no-mail",
+                   "jupyter-notebook-viewer", "tunnelblick", "the-unarchiver",
+                   "ultimaker-cura", "virtualbox", "virtualbox-extension-pack", "xquartz"],
              cask=True)
