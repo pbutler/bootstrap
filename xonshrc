@@ -2,7 +2,6 @@
 # $CASE_SENSITIVE_COMPLETIONS = '1'
 # $SUBSEQUENCE_PATH_COMPLETION = ''
 # $VI_MODE = '1'
-aliases.clear()
 $XDG_DATA_HOME = '~/.cache'
 $XONSH_HISTORY_BACKEND = 'sqlite'
 $MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
