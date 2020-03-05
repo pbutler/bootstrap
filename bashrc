@@ -60,7 +60,7 @@ fi
 
 
 
-if [ -d ~/.pyenv ] && [ -z $PYENV_VIRTUALENV_INIT ]; then
+if [ -d ~/.pyenv ]; then # && [ -z $PYENV_VIRTUALENV_INIT ]; then
   export PATH="~/.pyenv/bin:$PATH"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
