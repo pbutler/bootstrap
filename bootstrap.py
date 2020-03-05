@@ -22,6 +22,9 @@ with BootIt():
     Chmod("~/.ssh/config", "0600")
 
     Link(src="kitty", dest="~/.config/kitty")
+    Mkdir("~/.terminfo/x", mode="0700")
+    Link(src="~/.terminfo/x", dest="~/.terminfo/78")
+    Link(src="xterm-kitty", dest="~/.terminfo/x/xterm-kitty")
     Cmd("echo shell `which xonsh` > ~/.config/kitty/kitty-shell.conf")
     Link(src="xonshrc", dest="~/.xonshrc")
     Link(src="bashrc", dest="~/.bashrc")
