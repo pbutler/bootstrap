@@ -7,6 +7,6 @@
 	"suggest.echodocSupport": true,
 	"diagnostic.checkCurrentLine": true,
 	"diagnostic.messageTarget": "echo",
-	"signature.target": "echo"
-
+	"signature.target": "echo",
+	"diagnostic.errorSign": "✘"
 }
