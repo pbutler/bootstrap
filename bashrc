@@ -11,6 +11,15 @@
 #
 #===============================================================
 
+
+set +u
+if [ -z "$PS1" -o $TERM = "DUMB" ]; then
+	INTERACTIVE=0
+else
+	INTERACTIVE=1
+fi
+set -o nounset
+
 GNU=0
 OSX=0
 FINK=0
@@ -58,7 +67,7 @@ if [ -d ~/.pyenv ] && [ -z $PYENV_VIRTUALENV_INIT ]; then
 fi
 
 vmake () {
-	local version=${2:-3.7}
+	local version=${2:-3}
 	if [ -d ~/.virtualenvs/$1 ]; then
 		echo $1 already exists
 		return -1
@@ -89,7 +98,7 @@ function exists_and_execs()
 
 complete -F _vactivate vactivate
 #don't do anything if it's a dumb terminal because it could cause scp to fail
-[ -z "$PS1" -o  $TERM == "dumb" ] && return
+#[ -z "$PS1" -o  $TERM == "dumb" ] && return
 
 #-----------------------------------
 # Source global definitions (if any)
@@ -163,22 +172,22 @@ cyan='\033[0;36m'
 CYAN='\033[1;36m'
 NC='\033[0m'		# No Color
 
-# Looks best on a black background.....
-if [ $TERM != "dumb" ]; then
-  echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
-  if [ -z $DISPLAY ] ; then
-    echo -ne "${RED}off${NC}\n";
-  else
-    echo -en "on ${RED}$DISPLAY${NC}\n"
-  fi
-  date
-fi
+if [ $INTERACTIVE -eq 1 ]; then
+	# Looks best on a black background.....
+	echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
+	if [ -z $DISPLAY ] ; then
+		echo -ne "${RED}off${NC}\n";
+	else
+		echo -en "on ${RED}$DISPLAY${NC}\n"
+	fi
+	date
 
-function _exit()	# function to run upon exit of shell
-{
-    echo -e "${RED}MMmm I smell brains.${NC}"
-}
-trap _exit 0
+	function _exit()	# function to run upon exit of shell
+	{
+		echo -e "${RED}MMmm I smell brains.${NC}"
+	}
+	trap _exit 0
+fi
 
 #---------------
 # Shell prompt
@@ -234,9 +243,11 @@ function powerprompt()
     PS1="${SPS1}\u@\h:\w\[\033[\$COLOR\]$EPS1\[${NC}\] "
 }
 
-powerprompt	# this is the default prompt - might be slow
-		# If too slow, use fastprompt instead....
-
+# this is the default prompt - might be slow
+# If too slow, use fastprompt instead....
+if [ $INTERACTIVE -eq 1 ]; then
+	powerprompt
+fi
 
 
 #===============================================================
@@ -311,8 +322,6 @@ fi
 function xtitle ()
 {
     case $TERM in
-        xterm-kitty)
-	   return ;;
 	xterm* | dtterm | rxvt)
 	    echo -n -e "\033]0;$HOSTNAME:$*\007" ;;
 	*)  ;;
@@ -351,96 +360,6 @@ function dislink()
 		echo either file does not exist or tmp file exists
 	fi
 }
-#-----------------------------------
-# File & strings related functions:
-#-----------------------------------
-
-function ff() { find . -name '*'$1'*' ; }
-function fe() { find . -name '*'$1'*' -exec $2 {} \; ; }
-function fstr() # find a string in a set of files
-{
-    if [ "$#" -gt 2 ]; then
-        echo "Usage: fstr \"pattern\" [files] "
-    return;
-    fi
-    find . -type f -name "${2:-*}" -print | xargs grep -n "$1"
-}
-function cuttail() # cut last n lines in file
-{
-    nlines=$1
-    sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $2
-}
-
-function lowercase()  # move filenames to lowercase
-{
-    for file ; do
-        filename=${file##*/}
-        case "$filename" in
-        */*) dirname==${file%/*} ;;
-        *) dirname=.;;
-        esac
-        nf=$(echo $filename | tr A-Z a-z)
-        newname="${dirname}/${nf}"
-        if [ "$nf" != "$filename" ]; then
-            mv "$file" "$newname"
-            echo "lowercase: $file --> $newname"
-        else
-            echo "lowercase: $file not changed."
-        fi
-    done
-}
-
-#function swap()		# swap 2 filenames around
-#{
-#    local TMPFILE=tmp.$$
-#    mv $1 $TMPFILE
-#    mv $2 $1
-#    mv $TMPFILE $2
-#}
-
-
-function ii()   # get current host related info
-{
-    echo -ne "\nYou are logged on ${RED}$HOSTNAME"
-    echo -ne "\nAdditionnal information:$NC " ; uname -a
-    echo -ne "\n${RED}IP Address :$NC" ; host $HOSTNAME
-    echo -ne "\n${RED}Users logged on:$NC " ; users
-    echo -ne "\n${RED}Current date :$NC " ; date
-    echo -ne "\n${RED}Machine stats :$NC " ; uptime
-#    echo -e "\n${RED}Memory stats :$NC " ; vmstat
-#    echo -e "\n${RED}NIS Server :$NC " ; ypwhich
-    echo
-}
-function corename()   # get name of app that created core
-{
-    local file name;
-    file=${1:-"core"}
-    set -- $(adb $file < /dev/null 2>&1 | sed 1q)
-    name=${7#??}
-    echo $file: ${name%??}
-}
-# Misc utilities:
-
-function repeat()	# repeat n times command
-{
-    local i max
-    max=$1; shift;
-    for ((i=1; i <= max ; i++)); do
-	eval "$@";
-    done
-}
-
-
-function ask()
-{
-    echo -n "$@" '[y/n] ' ; read ans
-    case "$ans" in
-        y*|Y*) return 0 ;;
-        *) return 1 ;;
-    esac
-}
-
-
 
 #=========================================================================
 #
@@ -576,11 +495,7 @@ function r() {
 
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
 
-if [ $TERM != "dumb" ]; then
- set +u
- w
+if [ $INTERACTIVE -eq 1 ]; then
+	set +u
+	w
 fi
-# Local Variables:
-# mode:shell-script
-# sh-shell:bash
-# End:

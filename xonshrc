@@ -48,7 +48,14 @@ def dotvenv_policy(path, **_):
 	return open(venv).read().strip()
 
 
-xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl pyenv
+xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl
+
+if p"~/.pyenv".exists():
+    from xonsh import foreign_shells
+    xontrib load pyenv
+    for k, v in list(aliases.items()):
+        if isinstance(v, foreign_shells.ForeignShellFunctionAlias):
+            del aliases[k]
 
 if $(which kitty):
 	xontrib load kitty
