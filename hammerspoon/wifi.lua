@@ -7,25 +7,25 @@ local wifi = {
 function wifi.callback()
     newSSID = hs.wifi.currentNetwork()
 
-    if newSSID == homeSSID and lastSSID ~= homeSSID then
+    if newSSID == wifi.homeSSID and wifi.lastSSID ~= wifi.homeSSID then
         -- We just joined our home WiFi network
         -- hs.audiodevice.defaultOutputDevice():setVolume(90)
         hs.notify.new({title="Hammerspoon", informativeText="Connected to Home WIFI"}):send()
-    elseif newSSID == officeSSID and lastSSID ~= officeSSID then
+    elseif newSSID == wifi.officeSSID and wifi.lastSSID ~= wifi.officeSSID then
         -- We just joined our office WiFi network
         -- hs.audiodevice.defaultOutputDevice():setVolume(30)
         hs.notify.new({title="Hammerspoon", informativeText="Connected to Office WIFI"}):send()
-    elseif newSSID == nil and lastSSID ~= nil then
+    elseif newSSID == nil and wifi.lastSSID ~= nil then
         -- We just lost WIFI network
         -- hs.audiodevice.defaultOutputDevice():setVolume(30)
         hs.notify.new({title="Hammerspoon", informativeText="Lost your Wifi"}):send()
-    elseif lastSSID ~= newSSID then
+    elseif wifi.lastSSID ~= newSSID then
         -- We just departed our home WiFi network
         -- hs.audiodevice.defaultOutputDevice():setVolume(30)
-        hs.notify.new({title="Hammerspoon", informativeText="Connected to Public WIFI"}):send()
+        hs.notify.new({title="Hammerspoon", informativeText="Connected to Public WIFI: " .. newSSID}):send()
     end
 
-    lastSSID = newSSID
+    wifi.lastSSID = newSSID
 end
 
 wifi.watcher = hs.wifi.watcher.new(wifi.callback):start()

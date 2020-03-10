@@ -51,7 +51,8 @@ end
 hyper:bind({}, "m", function() spotify.notify(spotify.track_info(), spotify.get_image(), "Playing: ") end)
 
 spotify.timer = hs.timer.doEvery(1, function()
-  if (hs.spotify.isRunning()) then
+--  if (hs.spotify.isRunning()) then
+  if ( hs.application.get("Spotify") ~= nil) then
     local cur_song = spotify.track_info()
     if (last_song and (last_song.id ~= cur_song.id)) then
       if (cur_song.track ~= "") then

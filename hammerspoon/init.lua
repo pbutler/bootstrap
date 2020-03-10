@@ -5,6 +5,8 @@ wifi = require("wifi")
 spotify = require("spotify")
 screensound = require("screensound")
 
+
+hs.autoLaunch(true)
 -----------------------------------------------
 -- Reload config on write
 -----------------------------------------------

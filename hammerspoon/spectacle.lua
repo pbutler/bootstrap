@@ -30,7 +30,7 @@ hs.window.animationDuration = 0.0
 local sizes = {2, 3, 3/2}
 local fullScreenSizes = {1, 4/3, 2}
 
-local GRID = {w = 24, h = 24}
+local GRID = {w = 6, h = 6}
 hs.grid.setGrid(GRID.w .. 'x' .. GRID.h)
 hs.grid.MARGINX = 0
 hs.grid.MARGINY = 0
@@ -54,7 +54,7 @@ function nextStep(dim, offs, cb)
     cell = hs.grid.get(win, screen)
 
     local nextSize = sizes[1]
-    for i=1,#sizes do
+    for i=1, #sizes do
       if cell[dim] == GRID[dim] / sizes[i] and
         (cell[axis] + (offs and cell[dim] or 0)) == (offs and GRID[dim] or 0)
         then
