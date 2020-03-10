@@ -37,6 +37,8 @@ if dein#load_state('~/.cache/dein')
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('haya14busa/dein-command.vim')
+  call dein#add('wsdjeg/dein-ui.vim')
+
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
@@ -85,6 +87,9 @@ if dein#load_state('~/.cache/dein')
   call dein#add('kkoomen/vim-doge')
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
+
+  call dein#add('vimwiki/vimwiki')
+  call dein#add('ryanoasis/vim-devicons')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -397,4 +402,3 @@ nnoremap <silent> <leader>dp :<C-u>DeniteProjectDir file/rec -start-filter<CR>
 nnoremap <silent> <leader>dl :<C-u>Denite location_list<CR>
 nnoremap <leader>dg :<C-u>Denite grep<CR><CR>
 nnoremap <leader>dy :<C-u>Denite neoyank<CR>
-

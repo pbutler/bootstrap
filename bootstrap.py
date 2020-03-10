@@ -83,7 +83,7 @@ with BootIt():
         Brew(pkgs=["homebrew/cask-fonts"], tap=True)
         # charles easyfind joplin kap
         Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
-                   "font-fira-code", "hammerspoon", "inkscape", "iterm2", "java",
+                   " font-firacode-nerd-font", "hammerspoon", "inkscape", "iterm2", "java",
                    "karabiner-elements", "kitty", "mactex", "minikube", "nordvpn",
                    "nvalt", "slack", "spotify", "pock", "gpg-suite-no-mail",
                    "jupyter-notebook-viewer", "tunnelblick", "the-unarchiver",
