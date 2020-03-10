@@ -4,6 +4,7 @@ require "spectacle"
 wifi = require("wifi")
 spotify = require("spotify")
 screensound = require("screensound")
+layout = require("layout")
 
 
 hs.autoLaunch(true)
