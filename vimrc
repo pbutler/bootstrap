@@ -402,3 +402,8 @@ nnoremap <silent> <leader>dp :<C-u>DeniteProjectDir file/rec -start-filter<CR>
 nnoremap <silent> <leader>dl :<C-u>Denite location_list<CR>
 nnoremap <leader>dg :<C-u>Denite grep<CR><CR>
 nnoremap <leader>dy :<C-u>Denite neoyank<CR>
+
+" vimwiki
+  let wiki = {'path': '~/vimwiki/', 'auto_diary_index': 1}
+  let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
+  let g:vimwiki_list = [wiki]
