@@ -77,14 +77,15 @@ with BootIt():
              dest="~/Library/Fonts/Droid Sans Mono Slashed for Powerline.ttf")
 
         Brew(pkgs=["neovim", "vim", "wget", "node", "git", "ripgrep", "imagemagick",
-                   "mosh",
+                   "mosh", "coreutils",
                    "hub", "mosh", "htop", "bluetoothconnector"])
 
         Brew(pkgs=["homebrew/cask-fonts"], tap=True)
         # charles easyfind joplin kap
         Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
-                   " font-firacode-nerd-font", "hammerspoon", "inkscape", "iterm2", "java",
-                   "karabiner-elements", "kitty", "mactex", "minikube", "nordvpn",
+                   "font-firacode-nerd-font", "hammerspoon", "inkscape", "iterm2", "java",
+                   "karabiner-elements", "kitty", "nordvpn",
+                   "mactex", 
                    "nvalt", "slack", "spotify", "pock", "gpg-suite-no-mail",
                    "jupyter-notebook-viewer", "tunnelblick", "the-unarchiver",
                    "ultimaker-cura", "virtualbox", "virtualbox-extension-pack", "xquartz"],
