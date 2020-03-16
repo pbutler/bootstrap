@@ -1,12 +1,10 @@
 {
         "python.jediEnabled": false,
-        "python.linting.pylintEnabled": true,
-        "python.linting.flake8Enabled": true,
-	"python.linting.flake8Path": "~/.local/bin/flake8",
-	"suggest.floatEnable": false,
-	"suggest.echodocSupport": true,
-	"diagnostic.checkCurrentLine": true,
-	"diagnostic.messageTarget": "echo",
-	"signature.target": "echo",
-	"diagnostic.errorSign": "✘"
+	"python.linting.pylintEnabled": false,
+	"python.linting.flake8Enabled": true,
+	"python.linting.enabled": true,
+	"python.analysis.diagnosticEnabled": true,
+	"diagnostic.errorSign": "✘",
+	"diagnostic.warningSign": "",
+	"diagnostic.infoSign": ""
 }
