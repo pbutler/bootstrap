@@ -19,7 +19,7 @@ if sys.platform == "darwin":
     source-bash --interactive false --seterrprevcmd "" /etc/profile
 
 pypaths =  [p / "bin" for p in p"~/Library/Python/".glob("*") if (p / "bin").exists()]
-pypaths =  sorted(pypaths, reverse=True)
+pypaths =  sorted(pypaths)
 
 for path in pypaths + [
     p"/usr/local/opt/coreutils/libexec/gnubin",
