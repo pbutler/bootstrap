@@ -63,6 +63,8 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
   call dein#add('Shougo/echodoc.vim')
+  call dein#add('dense-analysis/ale')
+  call dein#add('maximbaz/lightline-ale')
 
   call dein#add('SirVer/ultisnips')
   call dein#add('honza/vim-snippets.git')
@@ -102,6 +104,9 @@ endif
 "End dein Scripts-------------------------
 
 syntax enable
+
+let g:ale_sign_error = "✘"
+let g:ale_sign_warning = ""
 
 let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-ultisnips']
 function! s:check_back_space() abort
@@ -251,45 +256,20 @@ function! MyVirtualenv()
  return ''
 endfunction
 
-function! CocErrors() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  if get(info, 'error', 0)
-    return 'E' . info['error']
-  else
-    return ''
-  endif
-endfunction
-
-function! CocWarnings() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  if get(info, 'warning', 0)
-    return 'W' . info['warning']
-  else
-    return ''
-  endif
-endfunction
-
-function! CocOK() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0) || get(info, 'warning', 0)
-    return ''
-  else
-    return 'OK'
-  endif
-endfunction
-
 function! CocChecking() abort
   return get(g:, 'coc_status', '')
 endfunction
 
 
+
+let g:lightline#ale#indicator_infos = ""
+let g:lightline#ale#indicator_warnings = ""
+let g:lightline#ale#indicator_errors = "✘"
+
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
 let g:lightline#bufferline#unnamed = '[No Name]'
+", 'linter_ok' ]
 let g:lightline = {
       \ 'separator' :   { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' },
@@ -303,25 +283,28 @@ let g:lightline = {
       \   'right': [
       \              [ 'percent' ],
       \              [ 'lineinfo' ],
-      \              [ 'linter_errors', 'linter_warnings', 'linter_checking', 'linter_ok' ]
+      \              [ 'linter_infos', 'linter_errors', 'linter_warnings', 'linter_checking']
       \            ]
       \ },
       \ 'component_expand':{
-      \  'linter_warnings': 'CocWarnings',
-      \  'linter_errors': 'CocErrors',
-      \  'linter_ok': 'CocOK',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
       \  'buffers': 'lightline#bufferline#buffers'
       \ },
       \ 'component_function': {
       \  'virtualenv': 'MyVirtualenv',
-      \  'linter_checking': 'CocChecking'
+      \  'linter_checking': 'coc#status'
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',
       \     'linter_checking': 'left',
       \     'linter_warnings': 'warning',
       \     'linter_errors': 'error',
-      \     'linter_ok': 'left'
+      \     'linter_infos': 'right',
+      \     'linter_ok': 'left',
+      \     'virtualenv': 'left'
       \ }
       \}
 
