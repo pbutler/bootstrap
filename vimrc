@@ -57,11 +57,11 @@ if dein#load_state('~/.cache/dein')
   call dein#add('chemzqm/unite-location')
   call dein#add('raghur/fruzzy', {'hook_post_update': 'call fruzzy#install()'})
 
-
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
 
-  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'bash install.sh'})
   call dein#add('Shougo/echodoc.vim')
   call dein#add('dense-analysis/ale')
   call dein#add('maximbaz/lightline-ale')
@@ -107,34 +107,43 @@ syntax enable
 
 let g:ale_sign_error = "✘"
 let g:ale_sign_warning = ""
-
-let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-ultisnips']
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
-                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 let g:doge_doc_standard_python = 'sphinx'
 
-nmap <buffer> <leader>rn  <Plug>(coc-rename)
-nmap <silent> K :call <SID>show_documentation()<cr>
-nmap <silent> gd <Plug>(coc-definition)
+" LanguageClient configuration
+" let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['pyls']
+  \ }
+let g:LanguageClient_useVirtualText = "CodeLens"
 
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
+function LC_maps()
+  if has_key(g:LanguageClient_serverCommands, &filetype)
+    nnoremap <buffer> <silent> <leader>lcd :call LanguageClient#textDocument_hover()<cr>
+    nnoremap <buffer> <silent> <leader>lcg :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <buffer> <silent> <leader>lcr :call LanguageClient#textDocument_rename()<CR>
   endif
 endfunction
+
+autocmd FileType * call LC_maps()
+
+" deoplete configuration
+let g:deoplete#enable_at_startup = 1
+
+call deoplete#custom#source('_', 'converters',
+      \['converter_remove_overlap',
+      \ 'converter_truncate_abbr',
+      \ 'converter_truncate_menu',
+      \ 'converter_remove_paren',
+      \ 'converter_auto_delimiter'])
+
+autocmd FileType denite-filter
+      \ call deoplete#custom#buffer_option('auto_complete', v:false)
+
+inoremap <expr> <C-G> deoplete#undo_completion()
+" tab-completion
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-N>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<C-H>"
 
 nmap Q <nop>
 let g:tagbar_left = 1
@@ -142,8 +151,11 @@ let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 nmap <F2> :TagbarToggle<CR>
 
-let g:echodoc#type = 'signature'
-let g:echodoc_enable_at_startup = 1
+" let g:echodoc#type = 'signature'
+" let g:echodoc_enable_at_startup = 1
+
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
 
 let g:NERDSpaceDelims = 0
 let g:NERDCompactSexyComs = 1
@@ -256,12 +268,6 @@ function! MyVirtualenv()
  return ''
 endfunction
 
-function! CocChecking() abort
-  return get(g:, 'coc_status', '')
-endfunction
-
-
-
 let g:lightline#ale#indicator_infos = ""
 let g:lightline#ale#indicator_warnings = ""
 let g:lightline#ale#indicator_errors = "✘"
@@ -291,11 +297,11 @@ let g:lightline = {
       \  'linter_warnings': 'lightline#ale#warnings',
       \  'linter_errors': 'lightline#ale#errors',
       \  'linter_ok': 'lightline#ale#ok',
+      \  'linter_checking': 'lightline#ale#checking',
       \  'buffers': 'lightline#bufferline#buffers'
       \ },
       \ 'component_function': {
       \  'virtualenv': 'MyVirtualenv',
-      \  'linter_checking': 'coc#status'
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',
@@ -307,9 +313,6 @@ let g:lightline = {
       \     'virtualenv': 'left'
       \ }
       \}
-
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
 

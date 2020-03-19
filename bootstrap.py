@@ -41,17 +41,19 @@ with BootIt():
     Mkdir("~/.cache/vim/undos", "0700")
 
     Link(src="flake8", dest="~/.config/flake8")
+    Link(src="pylintrc", dest="~/.config/pylintrc")
+    Link(src="mypy", dest="~/.config/mypy")
 
-    Pip(pkgs=["pip", "glances", "flake8", "pylint"], user=True, upgrade=True)
+    Pip(pkgs=["pip", "glances", "flake8", "flake8-docstrings", "pylint"],
+        user=True, upgrade=True)
 
     xonsh_opts = ["ptk", "pygments", "proctitle"]
     if sys.platform == "darwin":
         xonsh_opts += ["mac"]
     elif sys.platform == "linux":
         xonsh_opts += ["linux"]
-    xonsh_opts = ",".join(xonsh_opts)
 
-    Pip(pkgs=["xonsh[{}]".format(xonsh_opts),
+    Pip(pkgs=["xonsh[{}]".format(",".join(xonsh_opts)),
               "xontrib-pyenv",
               "xontrib-readable-traceback", "xontrib-ssh-agent", "xontrib-kitty",
               "xontrib-readable-traceback", "xontrib-ssh-agent"],
