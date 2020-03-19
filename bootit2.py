@@ -324,7 +324,10 @@ class Brew(Command):
         needed = set(pkgs) - installed
         if needed:
             logging.info("Installing from {}: {}".format(prefix, ", ".join(needed)))
-            Cmd("{} install {}".format(prefix, " ".join(needed)))
+            if tap:
+                Cmd("{} {}".format(prefix, " ".join(needed)))
+            else:
+                Cmd("{} install {}".format(prefix, " ".join(needed)))
         else:
             logging.info("No pkgs from {} needed".format(prefix))
 
