@@ -71,6 +71,9 @@ if dein#load_state('~/.cache/dein')
   call dein#add('Konfekt/FastFold')
   call dein#add('sjl/gundo.vim')
 
+  " xonsh
+  call dein#add('meatballs/vim-xonsh')
+
 
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
@@ -145,6 +148,13 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-N>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<C-H>"
 
+inoremap <F3>  <nop>
+inoremap <F4>  <nop>
+inoremap <F8>  <nop>
+inoremap <F9>  <nop>
+inoremap <F10>  <nop>
+inoremap <F11>  <nop>
+inoremap <F12>  <nop>
 nmap Q <nop>
 let g:tagbar_left = 1
 let g:tagbar_autofocus = 1
