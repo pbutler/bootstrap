@@ -54,7 +54,7 @@ with BootIt():
         xonsh_opts += ["linux"]
 
     Pip(pkgs=["xonsh[{}]".format(",".join(xonsh_opts)),
-              "xontrib-pyenv",
+              "repassh", "xontrib-pyenv",
               "xontrib-readable-traceback", "xontrib-ssh-agent", "xontrib-kitty",
               "xontrib-readable-traceback", "xontrib-ssh-agent"],
         user=True,
@@ -87,7 +87,7 @@ with BootIt():
         Brew(pkgs=["adium", "alfred", "arq", "bartender", "google-chrome", "firefox",
                    "font-firacode-nerd-font", "hammerspoon", "inkscape", "iterm2", "java",
                    "karabiner-elements", "kitty", "nordvpn",
-                   "mactex", 
+                   "mactex",
                    "nvalt", "slack", "spotify", "pock", "gpg-suite-no-mail",
                    "jupyter-notebook-viewer", "tunnelblick", "the-unarchiver",
                    "ultimaker-cura", "virtualbox", "virtualbox-extension-pack", "xquartz"],
