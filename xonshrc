@@ -27,10 +27,12 @@ for path in pypaths + [
     if path.exists():
         $PATH = [path] + $PATH
 
-#for x in ("man", "top", "make"):
-#    del aliases[x]
+# kill aliases from bash I don't want
+for x in ("man", "top", "make", "xtitle"):
+    if x in aliases:
+        del aliases[x]
 
-aliases["sum"] = ["awk '{s+=$1} END {printf \"%.0f\", s}'"]
+aliases["sum"] = ["awk", "{s+=$1} END {printf \"%f\", s}"]
 aliases['vim']=["nvim"]
 aliases['ls']=['ls', '--color=auto']
 aliases['vactivate']='vox activate'
@@ -45,7 +47,6 @@ def dotvenv_policy(path, **_):
     venv = path / '.venv'
     if venv.exists():
 	return open(venv).read().strip()
-
 
 xontrib load autovox prompt_ret_code readable-traceback ssh_agent vox mpl
 
@@ -68,10 +69,9 @@ def update_rprompt(ts, **kwargs):
    $PROMPT_FIELDS['runtime'] = "{:.2f}".format(ts[1] - ts[0])
 
 $PROMPT_FIELDS['runtime'] = ""
-$PROMPT_FIELDS['timestamp'] = lambda: time.strftime('%H:%M:%S', time.localtime())
 $PROMPT_FIELDS['prompt_color'] = prompt_color
 $PROMPT = '{PURPLE}{env_name}{NO_COLOR}{user}@{hostname}{gitstatus: [{}]}:{cwd}{prompt_color}{prompt_end} '
-$RIGHT_PROMPT = '{INTENSE_YELLOW}{timestamp} {runtime}{NO_COLOR}'
+$RIGHT_PROMPT = '{INTENSE_YELLOW}{localtime} {runtime}{NO_COLOR}'
 
 $XONSH_GITSTATUS_STAGED = '{BLUE}●'
 $XONSH_GITSTATUS_CHANGED = '{INTENSE_YELLOW}+'
