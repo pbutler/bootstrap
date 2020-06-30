@@ -14,6 +14,9 @@ import os
 import sys
 import time
 
+from xonsh.commands_cache import predict_false
+__xonsh__.commands_cache.threadable_predictors['et'] = predict_false
+
 if sys.platform == "darwin":
     source-bash --interactive false $(/usr/libexec/path_helper -s)
     source-bash --interactive false --seterrprevcmd "" /etc/profile
