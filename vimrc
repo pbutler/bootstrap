@@ -95,6 +95,9 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('vimwiki/vimwiki')
   call dein#add('ryanoasis/vim-devicons')
+
+  call dein#add('hashivim/vim-terraform')
+
   " Required:
   call dein#end()
   call dein#save_state()
@@ -403,3 +406,7 @@ nnoremap <leader>dy :<C-u>Denite neoyank<CR>
   let wiki = {'path': '~/vimwiki/', 'auto_diary_index': 1}
   let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
   let g:vimwiki_list = [wiki]
+
+" Terraform settings
+let g:terraform_align=1
+let g:terraform_fold_sections=0
