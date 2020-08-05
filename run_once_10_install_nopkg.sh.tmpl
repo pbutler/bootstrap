@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tmpfile = $(mktemp)
+tmpfile=$(mktemp)
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $tmpfile
 sh $tmpfile ~/.cache/dein
 # yeah could leak in a crash but it's not a big deal, it's one file rarely run
