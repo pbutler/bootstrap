@@ -1,4 +1,0 @@
-clear Mod1
-clear Mod2
-keycode 63 = Meta_L
-add Mod1 = Meta_L

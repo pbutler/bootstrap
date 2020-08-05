@@ -1,6 +1,0 @@
-cd ~
-#xterm &
-#xterm &
-xsetroot -solid black
-[ -f ~/.xmodmap ] && xmodmap ~/.Xmodmap
-~/.cabal/bin/xmonad

@@ -55,7 +55,8 @@ if dein#load_state('~/.cache/dein')
   call dein#add('Shougo/denite.nvim')
   call dein#add('Shougo/neoyank.vim')
   call dein#add('chemzqm/unite-location')
-  call dein#add('raghur/fruzzy', {'hook_post_update': 'call fruzzy#install()'})
+  call dein#add('raghur/fruzzy', {'hook_post_source': "call fruzzy#install()"})
+
 
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
