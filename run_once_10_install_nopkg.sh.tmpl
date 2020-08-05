@@ -20,4 +20,6 @@ curl https://pyenv.run | bash
 {{- end }}
 
 #node
-curl -sL install-node.now.sh | sh
+if [ ! -x /usr/local/bin/node ]; then
+	curl -sL install-node.now.sh | sh
+fi
