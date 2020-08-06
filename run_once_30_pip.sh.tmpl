@@ -3,9 +3,9 @@
 python3 -mpip install --user --upgrade pip glances flake8 flake8-docstrings pylint
 
 {{- if eq .chezmoi.os "darwin" }}
-python3 -mpip install --user --upgrade "xonsh[mac]"
+python3 -mpip install --user --upgrade "xonsh[mac,ptk,pygments,proctitle]"
 {{- else if eq .chezmoi.os "linux" }}
-python3 -mpip install --user --upgrade "xonsh[linux]"
+python3 -mpip install --user --upgrade "xonsh[linux,ptk,pygments,proctitle]"
 {{- end }}
 
 
