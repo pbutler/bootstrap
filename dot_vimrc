@@ -37,8 +37,6 @@ if dein#load_state('~/.cache/dein')
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('haya14busa/dein-command.vim')
-  call dein#add('wsdjeg/dein-ui.vim')
-
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
@@ -57,7 +55,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('chemzqm/unite-location')
   call dein#add('raghur/fruzzy', {'hook_post_source': "call fruzzy#install()"})
 
-
+  " emojis
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
 
@@ -75,7 +73,7 @@ if dein#load_state('~/.cache/dein')
   " xonsh
   call dein#add('meatballs/vim-xonsh')
 
-
+  " git
   call dein#add('airblade/vim-gitgutter')
   call dein#add('gregsexton/gitv')
   call dein#add('tpope/vim-fugitive')
