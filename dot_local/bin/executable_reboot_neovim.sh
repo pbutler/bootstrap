@@ -4,7 +4,7 @@ set -e
 
 rm -rf ~/.cache/dein ~/.virtualenvs/neovim-py2 ~/.virtualenvs/neovim-py3
 
-tmpfile = $(mktemp)
+tmpfile=$(mktemp)
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $tmpfile
 sh $tmpfile ~/.cache/dein
 # yeah could leak in a crash but it's not a big deal, it's one file rarely run
