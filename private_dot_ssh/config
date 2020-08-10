@@ -1,4 +1,8 @@
 Host *
+Host bayes
+	User pbutler
+	Hostname bayes.bigo.io
+	Port 2222
 
 Host kmeans
 	User pabutler

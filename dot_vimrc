@@ -49,6 +49,7 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('schickling/vim-bufonly')
   call dein#add('ntpeters/vim-better-whitespace')
+  call dein#add('nathanaelkane/vim-indent-guides')
 
   call dein#add('Shougo/denite.nvim')
   call dein#add('Shougo/neoyank.vim')
@@ -402,10 +403,14 @@ nnoremap <leader>dg :<C-u>Denite grep<CR><CR>
 nnoremap <leader>dy :<C-u>Denite neoyank<CR>
 
 " vimwiki
-  let wiki = {'path': '~/vimwiki/', 'auto_diary_index': 1}
-  let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
-  let g:vimwiki_list = [wiki]
+let wiki = {'path': '~/vimwiki/', 'auto_diary_index': 1}
+let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp'}
+let g:vimwiki_list = [wiki]
 
 " Terraform settings
 let g:terraform_align=1
 let g:terraform_fold_sections=0
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
