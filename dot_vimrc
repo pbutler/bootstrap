@@ -64,7 +64,6 @@ if dein#load_state('~/.cache/dein')
   call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'bash install.sh'})
   call dein#add('Shougo/echodoc.vim')
   call dein#add('dense-analysis/ale')
-  call dein#add('maximbaz/lightline-ale')
 
   call dein#add('SirVer/ultisnips')
   call dein#add('honza/vim-snippets.git')
@@ -80,8 +79,10 @@ if dein#load_state('~/.cache/dein')
   call dein#add('tpope/vim-fugitive')
   call dein#add('idanarye/vim-merginal')
 
+  " lightline
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
+  call dein#add('maximbaz/lightline-ale')
 
   call dein#add('sheerun/vim-polyglot')
   call dein#add('majutsushi/tagbar')
@@ -272,6 +273,17 @@ set background=dark
 " noremap   <Right>  <NOP>
 
 "
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'denite\|Tagbar\|NERD' && exists('*FugitiveHead')
+      let mark = ' '  " edit here for cool mark
+      let branch = FugitiveHead()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
 
 function! MyVirtualenv()
   if &filetype == "python"
@@ -296,7 +308,8 @@ let g:lightline = {
       \ 'active': {
       \   'left': [
       \              [ 'mode', 'paste' ],
-      \              [ 'gitbranch', 'virtualenv' ],
+      \              [ 'fugitive'],
+      \              [ 'virtualenv' ],
       \              [ 'buffers' ]
       \            ],
       \   'right': [
@@ -315,6 +328,7 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \  'virtualenv': 'MyVirtualenv',
+      \   'fugitive': 'LightlineFugitive',
       \ },
       \ 'component_type': {
       \     'buffers': 'tabsel',
@@ -323,7 +337,8 @@ let g:lightline = {
       \     'linter_errors': 'error',
       \     'linter_infos': 'right',
       \     'linter_ok': 'left',
-      \     'virtualenv': 'left'
+      \     'virtualenv': 'left',
+      \     'fugitive': 'left'
       \ }
       \}
 

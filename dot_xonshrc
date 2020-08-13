@@ -15,7 +15,7 @@ import sys
 import time
 
 $REPASSH_COMMAND = os.path.join(os.path.dirname(sys.executable), 'repassh')
-
+$BINARY_SSH="ssh"
 from xonsh.commands_cache import predict_false
 __xonsh__.commands_cache.threadable_predictors['et'] = predict_false
 
