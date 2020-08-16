@@ -50,12 +50,6 @@ if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
-alias ls='ls --color=auto'
-alias e='exa --group-directories-first'
-alias el='e -l'
-alias eg='e -la --git'
-alias ea='e -a'
-
 export PATH=~/.local/bin:$PATH
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -63,6 +57,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
 	eval "$(pyenv init -)"
 fi
+
+source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f "$XDG_CONFIG_HOME/zsh/p10k.zsh" ]] || source "$XDG_CONFIG_HOME/zsh/p10k.zsh"
@@ -106,6 +102,9 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
          return 0
  }
 
-autoload bashcompinit                                                                                                      ✔  11:08:42  
-bashcompinit                                                                                                               ✔  11:08:48  
+autoload bashcompinit
+bashcompinit
 complete -F _vactivate vactivate
+
+autoload -Uz compinit
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
