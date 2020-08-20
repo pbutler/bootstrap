@@ -1,5 +1,3 @@
-bindkey -v
-
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.cache/zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
@@ -30,7 +28,6 @@ zinit light zdharma/fast-syntax-highlighting
 
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
-zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
 zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
     atpull'%atclone' pick"clrs.zsh" nocompile'!' \
@@ -72,3 +69,5 @@ fi
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+zinit light MichaelAquilina/zsh-autoswitch-virtualenv
