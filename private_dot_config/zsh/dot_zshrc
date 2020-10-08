@@ -71,3 +71,41 @@ fi
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
+
+ vmake () {
+        local version=${2:-3}
+        if [ -z $1 ]; then
+           echo please specify a venv name
+           return -1
+        fi
+        if [ -d ~/.virtualenvs/$1 ]; then
+            echo $1 already exists
+            return -1
+        fi
+        PYV=$(python${version} -V)
+        echo Creating venv $1 with $PYV
+        python${version} -m venv ~/.virtualenvs/$1
+ }
+
+
+ vactivate () {
+        if [ ! -d ~/.virtualenvs/$1 ]; then
+            echo $1 doesn\'t exist
+            return -1
+        fi
+         source ~/.virtualenvs/$1/bin/activate
+ }
+
+ _vactivate () {
+         local cur prev opts base
+         COMPREPLY=()
+         cur="${COMP_WORDS[COMP_CWORD]}"
+         prev="${COMP_WORDS[COMP_CWORD-1]}"
+         opts=`ls --color=none ~/.virtualenvs/`
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+ }
+
+autoload bashcompinit                                                                                                      ✔  11:08:42  
+bashcompinit                                                                                                               ✔  11:08:48  
+complete -F _vactivate vactivate
