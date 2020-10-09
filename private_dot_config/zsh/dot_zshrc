@@ -85,11 +85,15 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
 
  vactivate () {
+        if [ -z $1 ]; then
+           echo please specify a venv name
+           return -1
+        fi
         if [ ! -d ~/.virtualenvs/$1 ]; then
             echo $1 doesn\'t exist
             return -1
         fi
-         source ~/.virtualenvs/$1/bin/activate
+        source ~/.virtualenvs/$1/bin/activate
  }
 
  _vactivate () {
@@ -102,9 +106,9 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
          return 0
  }
 
+autoload -Uz compinit
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+
 autoload bashcompinit
 bashcompinit
 complete -F _vactivate vactivate
-
-autoload -Uz compinit
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
