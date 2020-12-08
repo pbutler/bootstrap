@@ -1,7 +1,8 @@
 local screensound  = {}
 
+screensound.current = nil
 
-screensound.screen_watcher = hs.screen.watcher.new(function ()
+screensound.update = function ()
   local int_audio = "MacBook Pro Speakers"
   local airp_audio = "Patrick’s AirPods"
   local ext_audio = "LG UltraFine Display Audio"
@@ -9,15 +10,19 @@ screensound.screen_watcher = hs.screen.watcher.new(function ()
   local dev = nil
   if (hs.screen.primaryScreen():name() == ext_screen) then
     dev = hs.audiodevice.findDeviceByName(ext_audio)
-    hs.notify.new({title="Activating External Audio", informativeText=dev:name()}):send()
   else
     dev = hs.audiodevice.findDeviceByName(airp_audio)
-    if (dev == null) then
+    if dev == nil then
       dev = hs.audiodevice.findDeviceByName(int_audio)
     end
-    hs.notify.new({title="Activating Internal Audio", informativeText=dev:name()}):send()
   end
-  dev:setDefaultOutputDevice()
-end):start()
+  if screensound.current ~= dev:uid() then
+    hs.notify.new({title="Activating Audio", informativeText=dev:name()}):send()
+    screensound.current = dev:uid()
+    dev:setDefaultOutputDevice()
+  end
+end
+
+screensound.screen_watcher = hs.screen.watcher.new(screensound.update):start()
 
 return screensound

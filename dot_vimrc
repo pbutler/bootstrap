@@ -15,6 +15,14 @@ if has("pythonx")
 endif
 
 let mapleader=","
+let maplocalleader="\\"
+let g:tex_flavor='latex'
+let g:vimtex_view_method='skim'  "mupdf'
+let g:vimtex_quickfix_mode=0
+let g:vimtex_latexmk_progname= 'nvr'
+set conceallevel=1
+let g:tex_conceal='abdmg'
+
 set hidden
 set laststatus=2
 set undofile
@@ -56,7 +64,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('chemzqm/unite-location')
   call dein#add('raghur/fruzzy', {'hook_post_source': "call fruzzy#install()"})
 
-  " emojis
+  "" emojis
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
 
@@ -69,9 +77,6 @@ if dein#load_state('~/.cache/dein')
   call dein#add('honza/vim-snippets.git')
   call dein#add('Konfekt/FastFold')
   call dein#add('sjl/gundo.vim')
-
-  " xonsh
-  call dein#add('meatballs/vim-xonsh')
 
   " git
   call dein#add('airblade/vim-gitgutter')
@@ -97,7 +102,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('vimwiki/vimwiki')
   call dein#add('ryanoasis/vim-devicons')
 
-  call dein#add('hashivim/vim-terraform')
+  call dein#add('lervag/vimtex')
 
   " Required:
   call dein#end()

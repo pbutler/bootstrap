@@ -16,7 +16,7 @@ pip install --upgrade pip
 pip install --upgrade neovim
 deactivate
 
-virtualenv -ppython2.7 ~/.virtualenvs/neovim-py2
-. ~/.virtualenvs/neovim-py2/bin/activate
-pip install --upgrade pip neovim
-deactivate
+# virtualenv -ppython2.7 ~/.virtualenvs/neovim-py2
+# . ~/.virtualenvs/neovim-py2/bin/activate
+# pip install --upgrade pip neovim
+# deactivate

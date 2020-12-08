@@ -1,5 +1,0 @@
-hyper:bind({}, "return", function()
-  local win = hs.window.frontmostWindow()
-  win:setFullscreen(not win:isFullscreen())
-  hyper.triggered = true
-end)
