@@ -2,6 +2,8 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+redir! > vim.log
+
 set ruler
 set signcolumn=yes
 set completeopt-=preview
@@ -36,10 +38,9 @@ let g:python_host_prog = $HOME.'/.virtualenvs/neovim-py2/bin/python'
 
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-let g:doge_mapping = '<Leader>dd'
 " Required:
 if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+  call dein#begin('~/.cache/dein', ['~/.config/init.vim', '~/.vimrc'])
 
   " Let dein manage dein
   " Required:
@@ -95,7 +96,8 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
   call dein#add('tmhedberg/SimpylFold')
-  call dein#add('kkoomen/vim-doge')
+  call dein#add('kkoomen/vim-doge', {'hook_post_source': 'call doge#install()'})
+
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
 
@@ -113,12 +115,14 @@ endif
 if dein#check_install()
   call dein#install()
 endif
+
 "End dein Scripts-------------------------
 
 syntax enable
 
 let g:ale_sign_error = "✘"
 let g:ale_sign_warning = ""
+let g:doge_mapping = '<Leader>dd'
 let g:doge_doc_standard_python = 'sphinx'
 
 " LanguageClient configuration
