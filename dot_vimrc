@@ -34,7 +34,7 @@ set backupdir=~/.cache/vim/backup
 set autochdir
 
 let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'
-let g:python_host_prog = $HOME.'/.virtualenvs/neovim-py2/bin/python'
+" let g:python_host_prog = $HOME.'/.virtualenvs/neovim-py2/bin/python'
 
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
@@ -52,9 +52,14 @@ if dein#load_state('~/.cache/dein')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
 
-  " Add or remove your plugins here:
+  " Colors
   call dein#add('iCyMind/NeoSolarized')
   call dein#add('altercation/vim-colors-solarized.git')
+
+  " file explorer
+  call dein#add('Shougo/defx.nvim')
+  call dein#add('kristijanhusak/defx-icons')
+  call dein#add('kristijanhusak/defx-git')
 
   call dein#add('schickling/vim-bufonly')
   call dein#add('ntpeters/vim-better-whitespace')
@@ -69,8 +74,9 @@ if dein#load_state('~/.cache/dein')
   call dein#add('junegunn/vim-emoji')
   call dein#add('pocari/vim-denite-emoji')
 
+  ""ale et al
   call dein#add('Shougo/deoplete.nvim')
-  call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'bash install.sh'})
+  " call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'bash install.sh'})
   call dein#add('Shougo/echodoc.vim')
   call dein#add('dense-analysis/ale')
 
@@ -96,7 +102,7 @@ if dein#load_state('~/.cache/dein')
 
   call dein#add('jmcantrell/vim-virtualenv', {'on_ft': 'python'})
   call dein#add('tmhedberg/SimpylFold')
-  call dein#add('kkoomen/vim-doge', {'hook_post_source': 'call doge#install()'})
+  call dein#add('kkoomen/vim-doge', {'hook_post_source': 'call doge#install({"headless": 1})'})
 
 
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript.jsx'})
@@ -120,8 +126,23 @@ endif
 
 syntax enable
 
-let g:ale_sign_error = "✘"
-let g:ale_sign_warning = ""
+
+"ale settings
+let g:ale_sign_error = "\uf05e"
+let g:ale_sign_warning = "\uf071"
+let g:ale_floating_preview = 1
+let g:ale_linters = {
+      \ 'python': ['black', 'flake8', 'isort', 'mypy', 'pyls', 'pyright'],
+      \ }
+nmap K <Plug>(ale_hover)
+nmap gd <Plug>(ale_go_to_definition)
+nmap gt <Plug>(ale_go_to_type_definition)
+nmap <leader>ai <Plug>(ale_import)
+nnoremap <silent> <leader>an :ALERename<CR>
+nmap <leader>ar <Plug>(ale_find_references)
+
+
+"doge settings
 let g:doge_mapping = '<Leader>dd'
 let g:doge_doc_standard_python = 'sphinx'
 
@@ -180,12 +201,15 @@ nmap <F2> :TagbarToggle<CR>
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
 
+" nerdcommenter
 let g:NERDSpaceDelims = 0
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 let g:bufferline_echo = 0
+
+" ultisnips
 let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsExpandTrigger="<c-S>"
 
@@ -259,29 +283,85 @@ set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set background=dark
 
-"if has('nvim')
-  let g:neosolarized_visibility = "high"
-  let g:neosolarized_termcolors = 256
-  let g:neosolarized_termtrans = 1
-  let g:neosolarized_italic = 1
-  colorscheme NeoSolarized
-"else
-"  let g:solarized_termtrans=1
-"  let g:solarized_visibility = "high"
-"  let g:solarized_termcolors=256
-"  colorscheme solarized
-"endif
-" "
-" highlight SignColumn guibg=#282c34
-" highlight SpellBad ctermfg=127
-" highlight SpellCap ctermfg=123
-"
-" noremap   <Up>     <NOP>
-" noremap   <Down>   <NOP>
-" noremap   <Left>   <NOP>
-" noremap   <Right>  <NOP>
+let g:neosolarized_visibility = "high"
+let g:neosolarized_termcolors = 256
+let g:neosolarized_termtrans = 1
+let g:neosolarized_italic = 1
+colorscheme NeoSolarized
 
-"
+
+autocmd BufWritePost * call defx#redraw()
+nnoremap <silent><leader>fl :Defx -split=vertical -winwidth=50 -direction=topleft<CR>
+nnoremap <silent><leader>ft :Defx -toggle -resume -split=vertical -winwidth=50 -direction=topleft<CR>
+nnoremap <silent><leader>fc :Defx -resume -split=vertical -winwidth=50 -direction=topleft -search=`expand('%:p')` `getcwd()`<CR>
+call defx#custom#option('_', {
+      \ 'columns': 'indent:icons:filename:type:git',
+      \ })
+autocmd FileType defx call s:defx_my_settings()
+
+function! s:defx_my_settings() abort
+  " Define mappings
+  nnoremap <silent><buffer><expr> <CR>
+        \ defx#is_directory() ?
+        \ defx#do_action('open_tree', 'toggle') :
+        \ defx#do_action('drop')
+  nnoremap <silent><buffer><expr> c
+        \ defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m
+        \ defx#do_action('move')
+  nnoremap <silent><buffer><expr> p
+        \ defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l
+        \ defx#do_action('open')
+  nnoremap <silent><buffer><expr> E
+        \ defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> P
+        \ defx#do_action('preview')
+  nnoremap <silent><buffer><expr> o
+        \ defx#do_action('open_tree', 'toggle')
+  nnoremap <silent><buffer><expr> K
+        \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N
+        \ defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> S
+        \ defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d
+        \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+        \ defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !
+        \ defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x
+        \ defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> yy
+        \ defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .
+        \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ;
+        \ defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> h
+        \ defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~
+        \ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q
+        \ defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space>
+        \ defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *
+        \ defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j
+        \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k
+        \ line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> <C-l>
+        \ defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g>
+        \ defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd
+        \ defx#do_action('change_vim_cwd')
+endfunction
+
+" lightline-ale configuration
 function! LightlineFugitive()
   try
     if expand('%:t') !~? 'denite\|Tagbar\|NERD' && exists('*FugitiveHead')
@@ -301,10 +381,11 @@ function! MyVirtualenv()
   endif
  return ''
 endfunction
-
-let g:lightline#ale#indicator_infos = ""
-let g:lightline#ale#indicator_warnings = ""
-let g:lightline#ale#indicator_errors = "✘"
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_infos = "\uf129"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
 
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#modified = "+"
