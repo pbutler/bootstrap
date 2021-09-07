@@ -1,32 +1,26 @@
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'Shougo/neoyank.vim'
+
+   use({
+    'folke/which-key.nvim',
+    config = function()
+      require('which-key').setup()
+    end,
+  })
+  use('machakann/vim-sandwich')
+
   use {
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/cmp-path'
+      'hrsh7th/cmp-path',
+      'quangnguyen30192/cmp-nvim-ultisnips',
     },
     config = function()
-      local cmp = require('cmp')
-      cmp.setup {
-        mapping = {
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.close(),
-        },
-        sources = {
-          { name = 'buffer' },
-          { name = 'nvim_lsp' },
-          { name = 'nvim_lua' },
-          { name = 'path' },
-        },
-      }
+      require("configs.nvim-cmp")
     end
   }
 
@@ -42,8 +36,12 @@ return require('packer').startup(function(use)
       }
     end
   }
-  use 'SirVer/ultisnips'
-  use 'honza/vim-snippets.git'
+  use { "SirVer/ultisnips",
+    requires = "honza/vim-snippets",
+    config = function()
+      vim.g.UltiSnipsRemoveSelectModeMappings = 0
+    end,
+  }
 
   use {
     "folke/trouble.nvim",
@@ -58,16 +56,22 @@ return require('packer').startup(function(use)
   -- Colors
   use 'ishan9299/nvim-solarized-lua'
   use 'glepnir/zephyr-nvim'
+  use { 'marko-cerovac/material.nvim',
+    config = function ()
+      vim.g.material_style = "oceanic"
+      require('material').setup()
+    end
+  }
 
   -- file explorer
   use 'Shougo/defx.nvim'
   use 'kristijanhusak/defx-icons'
   use 'kristijanhusak/defx-git'
- 
+
   use 'schickling/vim-bufonly'
   use 'ntpeters/vim-better-whitespace'
   use 'nathanaelkane/vim-indent-guides'
- 
+
   -- telesecope
   use {
     'nvim-telescope/telescope.nvim',
@@ -81,7 +85,7 @@ return require('packer').startup(function(use)
   }
   use 'nvim-lua/popup.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
-  use {'nvim-treesitter/nvim-treesitter', 
+  use {'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
         highlight = { enable = true },
@@ -113,11 +117,11 @@ return require('packer').startup(function(use)
   })
 
   -- call dein#add('glepnir/lspsaga.nvim')
- 
+  use('RRethy/vim-illuminate')
 
   use 'Konfekt/FastFold'
-  -- call dein#add('sjl/gundo.vim')
- 
+  use 'simnalamburt/vim-mundo'
+
   -- git
   use 'tpope/vim-fugitive'
   use 'gregsexton/gitv'
@@ -132,13 +136,18 @@ return require('packer').startup(function(use)
     end
   }
   use 'idanarye/vim-merginal'
- 
-  -- lightline
-  use 'josa42/nvim-lightline-lsp'
-  use 'itchyny/lightline.vim'
-  use 'mgee/lightline-bufferline'
- 
- 
+
+  use 'mengelbrecht/lightline-bufferline'
+  use {
+      'hoob3rt/lualine.nvim',
+    -- your statusline
+    config = function() require('configs.lualine') end,
+    -- some optional icons
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
+
+
+  use 'andymass/vim-matchup'
   use 'sheerun/vim-polyglot'
   use 'majutsushi/tagbar'
   use {
@@ -150,17 +159,17 @@ return require('packer').startup(function(use)
       )
     end
   }
- 
+
   -- python
   use {'jmcantrell/vim-virtualenv', ft = {'python'}}
   use 'tmhedberg/SimpylFold'
   use {'kkoomen/vim-doge', run = ':call doge#install({"headless": 1})'}
- 
- 
+
+
   use {'pangloss/vim-javascript', ft = {'javascript.jsx'}}
- 
+
   use 'ryanoasis/vim-devicons'
- 
+
   use 'lervag/vimtex'
   use 'lervag/wiki.vim'
   use 'lervag/wiki-ft.vim'

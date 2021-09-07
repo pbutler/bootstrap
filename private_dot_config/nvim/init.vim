@@ -31,8 +31,6 @@ set autochdir
 
 
 let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'
-" let g:python_host_prog = $HOME.'/.virtualenvs/neovim-py2/bin/python'
-
 
 lua require('plugins')
 augroup packer_user_config
@@ -49,27 +47,11 @@ nnoremap <leader>xx <cmd>LspTroubleToggle<cr>
 let g:doge_mapping = '<Leader>dd'
 let g:doge_doc_standard_python = 'sphinx'
 
-" LanguageClient configuration
-" let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-  \ 'python': ['pyls']
-  \ }
-let g:LanguageClient_useVirtualText = "CodeLens"
-
-function LC_maps()
-  if has_key(g:LanguageClient_serverCommands, &filetype)
-    nnoremap <buffer> <silent> <leader>lcd :call LanguageClient#textDocument_hover()<cr>
-    nnoremap <buffer> <silent> <leader>lcg :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <buffer> <silent> <leader>lcr :call LanguageClient#textDocument_rename()<CR>
-  endif
-endfunction
-
-autocmd FileType * call LC_maps()
 
 " tab-completion
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-N>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<C-H>"
+" inoremap <silent><expr> <Tab>
+"       \ pumvisible() ? "\<C-N>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<C-H>"
 
 inoremap <F3>  <nop>
 inoremap <F4>  <nop>
@@ -86,14 +68,6 @@ nmap <F2> :TagbarToggle<CR>
 
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
-
-" nerdcommenter
-let g:NERDSpaceDelims = 0
-let g:NERDCompactSexyComs = 1
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-
-let g:bufferline_echo = 0
 
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
@@ -114,7 +88,7 @@ nnoremap <silent> <leader>mx :w<CR>:!chmod +x %<CR>l<CR>
 nnoremap <silent> <leader>rws :ToggleStripWhitespaceOnSave<CR>
 nnoremap <silent> <leader>hws :ToggleWhitespace<CR>
 
-"  autocmd BufEnter * EnableStripWhitespaceOnSave
+autocmd BufEnter * EnableStripWhitespaceOnSave
 
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 
@@ -169,10 +143,7 @@ let g:neosolarized_termcolors = 256
 let g:neosolarized_termtrans = 1
 let g:neosolarized_italic = 0
 
-colorscheme zephyr
-
-highlight ALEErrorSign  ctermfg=15 ctermbg=9 gui=bold guifg=#dc322f guibg=none
-highlight ALEWarningSign  ctermfg=15 ctermbg=9 gui=bold guifg=#b58900 guibg=none
+colorscheme material
 
 autocmd BufWritePost * call defx#redraw()
 nnoremap <silent><leader>fl :Defx -split=vertical -winwidth=50 -direction=topleft<CR>
@@ -259,67 +230,6 @@ function! LightlineFugitive()
   return ''
 endfunction
 
-function! MyVirtualenv()
-  if &filetype == "python"
-    let _ = virtualenv#statusline()
-    return strlen(_) ? _ : ''
-  endif
- return ''
-endfunction
-let g:lightline#lsp#indicator_checking = "\uf110"
-let g:lightline#lsp#indicator_infos = "\uf129"
-let g:lightline#lsp#indicator_warnings = "\uf071"
-let g:lightline#lsp#indicator_errors = "\uf05e"
-let g:lightline#lsp#indicator_hints = "\uf124"
-let g:lightline#lsp#indicator_ok = "\uf00c"
-
-let g:lightline#bufferline#show_number = 1
-let g:lightline#bufferline#modified = "+"
-let g:lightline#bufferline#unnamed = '[No Name]'
-", 'linter_ok' ]
-let g:lightline = {
-      \ 'separator' :   { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'colorscheme': 'solarized',
-      \ 'active': {
-      \   'left': [
-      \              [ 'mode', 'paste' ],
-      \              [ 'fugitive'],
-      \              [ 'virtualenv' ],
-      \              [ 'buffers' ]
-      \            ],
-      \   'right': [
-      \              [ 'percent' ],
-      \              [ 'lineinfo' ],
-      \              [ 'linter_hints', 'linter_infos', 'linter_errors', 'linter_warnings', 'linter_checking']
-      \            ]
-      \ },
-      \ 'component_expand':{
-      \  'linter_infos': 'lightline#lsp#info',
-      \  'linter_warnings': 'lightline#lsp#warnings',
-      \  'linter_hints': 'lightline#lsp#hints',
-      \  'linter_errors': 'lightline#lsp#errors',
-      \  'linter_ok': 'lightline#lsp#ok',
-      \  'linter_checking': 'lightline#lsp#checking',
-      \  'buffers': 'lightline#bufferline#buffers'
-      \ },
-      \ 'component_function': {
-      \  'virtualenv': 'MyVirtualenv',
-      \   'fugitive': 'LightlineFugitive',
-      \ },
-      \ 'component_type': {
-      \     'buffers': 'tabsel',
-      \     'linter_checking': 'left',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_infos': 'right',
-      \     'linter_hints': 'right',
-      \     'linter_ok': 'left',
-      \     'virtualenv': 'left',
-      \     'fugitive': 'left'
-      \ }
-      \}
-
 nnoremap <leader>fg :Telescope live_grep prompt_prefix=🔍<cr>
 
 
@@ -335,3 +245,27 @@ let g:terraform_fold_sections=0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
+
+let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+let g:sandwich#recipes += [
+      \ {'buns': ['{ ', ' }'], 'nesting': 1, 'match_syntax': 1,
+      \  'kind': ['add', 'replace'], 'action': ['add'], 'input': ['{']},
+      \
+      \ {'buns': ['[ ', ' ]'], 'nesting': 1, 'match_syntax': 1,
+      \  'kind': ['add', 'replace'], 'action': ['add'], 'input': ['[']},
+      \
+      \ {'buns': ['( ', ' )'], 'nesting': 1, 'match_syntax': 1,
+      \  'kind': ['add', 'replace'], 'action': ['add'], 'input': ['(']},
+      \
+      \ {'buns': ['{\s*', '\s*}'],   'nesting': 1, 'regex': 1,
+      \  'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'],
+      \  'action': ['delete'], 'input': ['{']},
+      \
+      \ {'buns': ['\[\s*', '\s*\]'], 'nesting': 1, 'regex': 1,
+      \  'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'],
+      \  'action': ['delete'], 'input': ['[']},
+      \
+      \ {'buns': ['(\s*', '\s*)'],   'nesting': 1, 'regex': 1,
+      \  'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'],
+      \  'action': ['delete'], 'input': ['(']},
+      \ ]

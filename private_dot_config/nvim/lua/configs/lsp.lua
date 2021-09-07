@@ -41,6 +41,8 @@ local on_attach = function(client, bufnr)
     augroup END
     ]], false)
   end
+  require 'illuminate'.on_attach(client)
+
 end
 
 -- config that activates keymaps and enables snippet support
