@@ -72,19 +72,21 @@ return require('packer').startup(function(use)
   use 'ntpeters/vim-better-whitespace'
   use 'nathanaelkane/vim-indent-guides'
 
-  -- telesecope
+  -- telescope
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
+      'nvim-telescope/telescope-fzf-native.nvim'
     },
     config = function()
       require('configs.telescope')
     end
   }
   use 'nvim-lua/popup.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
   use {'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
