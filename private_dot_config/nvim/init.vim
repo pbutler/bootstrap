@@ -216,20 +216,6 @@ function! s:defx_my_settings() abort
         \ defx#do_action('change_vim_cwd')
 endfunction
 
-
-" lightline-ale configuration
-function! LightlineFugitive()
-  try
-    if expand('%:t') !~? 'denite\|Tagbar\|NERD' && exists('*FugitiveHead')
-      let mark = ' '  " edit here for cool mark
-      let branch = FugitiveHead()
-      return branch !=# '' ? mark.branch : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
 nnoremap <leader>fg :Telescope live_grep prompt_prefix=🔍<cr>
 
 

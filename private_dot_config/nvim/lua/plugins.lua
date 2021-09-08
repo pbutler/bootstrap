@@ -139,7 +139,15 @@ return require('packer').startup(function(use)
   }
   use 'idanarye/vim-merginal'
 
-  use 'mengelbrecht/lightline-bufferline'
+  -- use 'mengelbrecht/lightline-bufferline'
+  use {
+    'kdheepak/tabline.nvim',
+    config = function()
+      require'tabline'.setup {enable = false}
+    end,
+    requires = {'hoob3rt/lualine.nvim', 'kyazdani42/nvim-web-devicons'}
+  }
+
   use {
       'hoob3rt/lualine.nvim',
     -- your statusline

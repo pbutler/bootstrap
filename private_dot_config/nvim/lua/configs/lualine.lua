@@ -21,8 +21,6 @@ local function diff_source()
   end
 end
 
-vim.g["lightline#bufferline#show_number"] = 1
-
 lualine.setup {
   options = {
     icons_enabled = true,
@@ -33,11 +31,9 @@ lualine.setup {
   },
   sections = {
     lualine_a = {'mode'},
-    -- lualine_b = {'branch'},
     lualine_b = { {'b:gitsigns_head', icon = ''}, {'diff', source = diff_source}, },
 
-    --lualine_c = {get_buffers}, -- 'lightline#bufferline#buffers'},
-    lualine_c = {'buffers'}, -- 'lightline#bufferline#buffers'},
+    lualine_c = {require'tabline'.tabline_buffers},
     lualine_x = {
       { 'diagnostics', sources = {"nvim_lsp"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
       -- 'encoding',
