@@ -1,6 +1,7 @@
 local lualine = require("lualine")
 local highlight = require('lualine.highlight')
 local utils = require('lualine.utils.utils')
+local gps = require("nvim-gps")
 
 -- function! MyVirtualenv()
 --   if &filetype == "python"
@@ -9,6 +10,9 @@ local utils = require('lualine.utils.utils')
 --   endif
 --  return ''
 -- endfunction
+
+vim.g.tabline_show_bufnr = true
+vim.g.tabline_show_devicons = false
 
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
@@ -35,9 +39,9 @@ lualine.setup {
 
     lualine_c = {require'tabline'.tabline_buffers},
     lualine_x = {
+      { gps.get_location, condition = gps.is_available },
       { 'diagnostics', sources = {"nvim_lsp"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
-      -- 'encoding',
-      'filetype'
+ --     'filetype'
     },
     lualine_y = {'progress'},
     lualine_z = {'location'}
