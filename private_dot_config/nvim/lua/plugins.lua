@@ -59,7 +59,13 @@ return require('packer').startup(function(use)
   use { 'marko-cerovac/material.nvim',
     config = function ()
       vim.g.material_style = "oceanic"
-      require('material').setup()
+      colors = require('material.colors')
+      require("material").setup({
+        custom_highlights = {
+          LineNr = {fg = colors.accent},
+        }
+      })
+    vim.cmd("colorscheme material")
     end
   }
 
@@ -139,7 +145,13 @@ return require('packer').startup(function(use)
   }
   use 'idanarye/vim-merginal'
 
-  -- use 'mengelbrecht/lightline-bufferline'
+
+  use {"SmiteshP/nvim-gps",
+    requires = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-gps").setup()
+    end
+  }
   use {
     'kdheepak/tabline.nvim',
     config = function()

@@ -33,6 +33,11 @@ set autochdir
 
 let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'
 
+set termguicolors
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
+" colorscheme material
+
 lua require('plugins')
 augroup packer_user_config
   autocmd!
@@ -122,23 +127,6 @@ endif
 set spelllang=en_us
 map <F6> :setlocal invspell spell?<CR>
 map <F7> :setlocal invpaste paste?<CR>
-
-" Color Stuff
-" set t_Co=256
-set termguicolors
-set t_8f=[38;2;%lu;%lu;%lum
-set t_8b=[48;2;%lu;%lu;%lum
-set background=dark
-
-let g:solarized_italics = 0
-let g:solarized_termtrans = 1
-let g:solarized_visibility = "high"
-let g:neosolarized_visibility = "high"
-let g:neosolarized_termcolors = 256
-let g:neosolarized_termtrans = 1
-let g:neosolarized_italic = 0
-
-colorscheme material
 
 autocmd BufWritePost * call defx#redraw()
 nnoremap <silent><leader>fl :Defx -split=vertical -winwidth=50 -direction=topleft<CR>
