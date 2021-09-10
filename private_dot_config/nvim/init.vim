@@ -1,7 +1,8 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 
 set ruler
-set signcolumn=yes:2
+set signcolumn=number
+set number
 set completeopt-=preview
 set noshowmode
 set diffopt+=vertical
@@ -40,6 +41,9 @@ augroup end
 
 syntax enable
 
+" vis mode inc each line n+1 where n is lineno
+vnoremap <C-a> g<C-a>
+vnoremap <C-x> g<C-x>
 
 nnoremap <leader>xx <cmd>LspTroubleToggle<cr>
 
@@ -47,11 +51,6 @@ nnoremap <leader>xx <cmd>LspTroubleToggle<cr>
 let g:doge_mapping = '<Leader>dd'
 let g:doge_doc_standard_python = 'sphinx'
 
-
-" tab-completion
-" inoremap <silent><expr> <Tab>
-"       \ pumvisible() ? "\<C-N>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<C-H>"
 
 inoremap <F3>  <nop>
 inoremap <F4>  <nop>
@@ -74,14 +73,10 @@ let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsExpandTrigger="<c-S>"
 
 
-"
-"
 "  Templates config
-if has("autocmd")
-    augroup templates
-        autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/template.'.expand("<afile>:e")
-    augroup END
-endif
+augroup templates
+  autocmd BufNewFile *.* silent! execute '0r ~/.vim/templates/template.'.expand("<afile>:e")
+augroup END
 
 nnoremap <silent> <leader>mx :w<CR>:!chmod +x %<CR>l<CR>
 " vim-better-whitespace configuration
@@ -95,13 +90,13 @@ autocmd BufEnter * EnableStripWhitespaceOnSave
 " Help Neovim check if file has changed on disc
 " https://github.com/neovim/neovim/issues/2127
 augroup checktime
-    autocmd!
-    if !has("gui_running")
-        "silent! necessary otherwise throws errors when using command
-        "line window.
-        autocmd BufEnter,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-    endif
-  augroup END
+  autocmd!
+  if !has("gui_running")
+    "silent! necessary otherwise throws errors when using command
+    "line window.
+    autocmd BufEnter,FocusGained,BufEnter,FocusLost,WinLeave * checktime
+  endif
+augroup END
 
 " let g:NERDTreeQuitOnOpen=1
 "
