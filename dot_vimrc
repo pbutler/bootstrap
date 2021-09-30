@@ -30,6 +30,7 @@ set undodir=~/.cache/vim/undos
 set directory=~/.cache/vim/tmp
 set backupdir=~/.cache/vim/backup
 set autochdir
+set colorcolumn=80
 
 
 let g:python3_host_prog = $HOME.'/.virtualenvs/neovim-py3/bin/python'
