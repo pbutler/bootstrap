@@ -169,6 +169,18 @@ return require('packer').startup(function(use)
   }
 
 
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup({
+          '*',
+          '!packer',
+        }, {
+          names = false,
+        })
+    end,
+  }
+
   use 'andymass/vim-matchup'
   use 'sheerun/vim-polyglot'
   use 'majutsushi/tagbar'
