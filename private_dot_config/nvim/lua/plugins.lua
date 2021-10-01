@@ -74,8 +74,27 @@ return require('packer').startup(function(use)
 
   use 'schickling/vim-bufonly'
   use 'ntpeters/vim-better-whitespace'
-  use 'nathanaelkane/vim-indent-guides'
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function ()
+      vim.opt.termguicolors = true
+      vim.cmd [[highlight IndentBlanklineIndent1 guibg=#2E3440 gui=nocombine]]
+      vim.cmd [[highlight IndentBlanklineIndent2 guibg=#4C566A gui=nocombine]]
 
+      require("indent_blankline").setup {
+        char = " ",
+        char_highlight_list = {
+          "IndentBlanklineIndent1",
+          "IndentBlanklineIndent2",
+        },
+        space_char_highlight_list = {
+          "IndentBlanklineIndent1",
+          "IndentBlanklineIndent2",
+        },
+        show_trailing_blankline_indent = false,
+      }
+    end
+  }
   -- telescope
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
