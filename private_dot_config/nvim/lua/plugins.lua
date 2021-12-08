@@ -57,16 +57,28 @@ return require('packer').startup(function(use)
   use 'ishan9299/nvim-solarized-lua'
   use 'glepnir/zephyr-nvim'
 
-  use {
-    'shaunsingh/nord.nvim',
-    config = function ()
-      vim.g.nord_contrast = true
-      vim.g.nord_borders = true
-      vim.g.nord_disable_background = true
-      vim.g.nord_italic = false
-      require('nord').set()
-    end
-  }
+--  use {
+--    'shaunsingh/nord.nvim',
+--    config = function ()
+--      vim.g.nord_contrast = true
+--      vim.g.nord_borders = true
+--      vim.g.nord_disable_background = false
+--      vim.g.nord_italic = false
+--      require('nord').set()
+--    end
+--  }
+--
+
+
+use({
+	"catppuccin/nvim",
+	as = "catppuccin",
+  config = function ()
+    vim.cmd[[colorscheme catppuccin]]
+  end
+})
+
+
   -- file explorer
   use 'Shougo/defx.nvim'
   use 'kristijanhusak/defx-icons'
