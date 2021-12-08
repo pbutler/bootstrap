@@ -70,12 +70,12 @@ let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 nmap <F2> :TagbarToggle<CR>
 
-let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'floating'
+" let g:echodoc#enable_at_startup = 1
+" let g:echodoc#type = 'floating'
 
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
-let g:UltiSnipsExpandTrigger="<c-S>"
+" let g:UltiSnipsExpandTrigger="<c-S>"
 
 
 "  Templates config

@@ -1,4 +1,6 @@
-local nvim_lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
+local configs = require('lspconfig.configs')
+
 -- keymaps
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -59,67 +61,30 @@ end
 
 
 local function set_signs()
-  local signs = { Error = ' ', Warning = ' ', Hint = ' ', Information = ' ' }
+  local signs = { Error = ' ', Warning = ' ', Hint = ' ', Info = ' ' }
   for type, icon in pairs(signs) do
-    local hl = 'LspDiagnosticsSign' .. type
+    local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
   end
 end
 
 local function setup_servers()
-  require'lspinstall'.setup()
+  -- require'lspinstall'.setup()
 
 
-  -- require'lspconfig'.jedi_language_server.setup{}
+  -- lspconfig['jedi_language_server'].setup{}
 
   -- get all installed servers
-  local servers = require'lspinstall'.installed_servers()
+  local servers = require'nvim-lsp-installer'.get_installed_servers()
 
   for _, server in pairs(servers) do
     local config = make_config()
-
-    -- language specific config
-    -- if server == "diagnosticls" then
-    --   config.filetypes = { "python" }
-    --   config.init_options = {
-    --     filetypes = { python = { "flake8" } },
-    --     linters = {
-    --       flake8 = {
-    --         debounce = 100,
-    --         sourceName = "flake8",
-    --         command = "flake8",
-    --         --args = { "%file" },
-    --         args = { '--stdin-display-name', '%file', '%tempfile' },
-    --         formatPattern = {
-    --         "^(.+\\.py):(\\d+):(\\d+): (I|W|E|F)\\d+ (.+)$",
-    --         {
-    --           line = 2,
-    --           column = 3,
-    --           security = 4,
-    --           message = 5 -- { "[", 5, "]" }
-    --           }
-    --         },
-    --       --rootPatterns = ["pyproject.toml", "setup.py", "setup.cfg", ".git"],
-    --       securities = {
-    --         E = "error",
-    --         W = "warning",
-    --         I = "info",
-    --         F = "error"
-    --       },
-    --     }
-    --   }
-    --   }
-    -- end
-    require'lspconfig'[server].setup(config)
+    -- server:setup{}
   end
   set_signs()
 end
 
 setup_servers()
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
 
 return {
   on_attach = on_attach,

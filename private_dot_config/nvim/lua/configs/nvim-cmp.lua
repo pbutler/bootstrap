@@ -15,8 +15,11 @@ cmp.setup {
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+    ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     -- ['<C-Space>'] = cmp.mapping.complete(),
@@ -67,22 +70,26 @@ cmp.setup {
       "i",
       "s",
     }),
-    ["<CR>"] = cmp.mapping(function(fallback)
-      if vim.fn.complete_info()["selected"] > -1 and vim.fn["UltiSnips#CanExpandSnippet"]() == 1 then
-        vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippet()<CR>"))
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+
+
+    -- cmp.mapping(function(fallback)
+    --   if vim.fn.complete_info()["selected"] > -1 and vim.fn["UltiSnips#CanExpandSnippet"]() == 1 then
+    --     vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippet()<CR>"))
+    --   else
+    --     -- cmp.mapping.confirm({ select = true })
+    --     fallback()
+    --   end
+    -- end, {
+    --   "i",
+    --   "s",
+    -- }),
   },
   sources = {
     { name = 'buffer' },
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
     { name = 'path' },
-    { name= "ultisnips" },
+    { name = "ultisnips" },
   },
 }
