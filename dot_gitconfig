@@ -1,17 +1,16 @@
 [user]
-        name = Patrick Butler
-        email = pbutler@killertux.org
+  name = Patrick Butler
+  email = pbutler@killertux.org
 
 [color]
-        ui = auto
+  ui = auto
 	status = auto
 	branch = auto
 	interactive = auto
 	diff = auto
 
 [github]
-        user = pbutler
-	token = e3e8edca46a8bc94fa8df5f0c4a23c80
+  user = pbutler
 
 [alias]
 	ci = commit
@@ -30,3 +29,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main
