@@ -166,9 +166,9 @@ use {
     },
     config = function()
       require('configs.null-ls')
-      require('lspconfig')['null-ls'].setup({
-        on_attach = require('configs.lsp').on_attach,
-      })
+      -- require('lspconfig')['null-ls'].setup({
+      --   on_attach = require('configs.lsp').on_attach,
+      -- })
     end,
   })
 
