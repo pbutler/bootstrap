@@ -37,7 +37,10 @@ lualine.setup {
     lualine_c = {require'tabline'.tabline_buffers},
     lualine_x = {
       { gps.get_location, condition = gps.is_available },
-      { 'diagnostics', sources = {"nvim_lsp"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
+      { 'diagnostics',
+        sources = {'nvim'},
+        symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '}
+      },
  --     'filetype'
     },
     lualine_y = {'progress'},
