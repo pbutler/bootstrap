@@ -11,9 +11,6 @@ local gps = require("nvim-gps")
 --  return ''
 -- endfunction
 
-vim.g.tabline_show_bufnr = true
-vim.g.tabline_show_devicons = false
-
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
   if gitsigns then

@@ -202,7 +202,13 @@ use {
   use {
     'kdheepak/tabline.nvim',
     config = function()
-      require'tabline'.setup {enable = false}
+      require'tabline'.setup {
+        enable = false,
+        options = {
+          show_devicons = false,
+          show_bufnr = true
+        }
+      }
     end,
     requires = {'hoob3rt/lualine.nvim', 'kyazdani42/nvim-web-devicons'}
   }
