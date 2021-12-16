@@ -50,7 +50,7 @@ syntax enable
 vnoremap <C-a> g<C-a>
 vnoremap <C-x> g<C-x>
 
-nnoremap <leader>xx <cmd>LspTroubleToggle<cr>
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
 
 "doge settings
 let g:doge_mapping = '<Leader>dd'
