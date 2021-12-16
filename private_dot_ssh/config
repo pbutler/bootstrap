@@ -3,6 +3,7 @@ Host bayes
 	User pbutler
 	Hostname bayes.bigo.io
 	Port 2222
+	ForwardAgent yes
 
 Host kmeans
 	User pabutler
