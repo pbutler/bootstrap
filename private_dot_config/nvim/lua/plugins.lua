@@ -74,6 +74,12 @@ use({
 	"catppuccin/nvim",
 	as = "catppuccin",
   config = function ()
+    require('catppuccin').setup({
+        indent_blankline = {
+          enabled = true,
+          colored_indent_levels = true,
+        }
+      })
     vim.cmd[[colorscheme catppuccin]]
   end
 })
@@ -199,19 +205,19 @@ use {
       require("nvim-gps").setup()
     end
   }
-  use {
-    'kdheepak/tabline.nvim',
-    config = function()
-      require'tabline'.setup {
-        enable = false,
-        options = {
-          show_devicons = false,
-          show_bufnr = true
-        }
-      }
-    end,
-    requires = {'hoob3rt/lualine.nvim', 'kyazdani42/nvim-web-devicons'}
-  }
+  -- use {
+  --   'kdheepak/tabline.nvim',
+  --   config = function()
+  --     require'tabline'.setup {
+  --       enable = false,
+  --       options = {
+  --         show_devicons = false,
+  --         show_bufnr = true
+  --       }
+  --     }
+  --   end,
+  --   requires = {'hoob3rt/lualine.nvim', 'kyazdani42/nvim-web-devicons'}
+  -- }
 
   use {
       'hoob3rt/lualine.nvim',

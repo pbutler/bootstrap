@@ -44,6 +44,7 @@ local on_attach = function(client, bufnr)
     ]], false)
   end
   require 'illuminate'.on_attach(client)
+  require 'lsp_signature'.on_attach(client)
 
 end
 
