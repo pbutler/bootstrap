@@ -17,7 +17,9 @@ return require('packer').startup(function(use)
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-path',
-      'quangnguyen30192/cmp-nvim-ultisnips',
+      'hrsh7th/cmp-cmdline',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
     },
     config = function()
       require("configs.nvim-cmp")
@@ -36,12 +38,20 @@ return require('packer').startup(function(use)
       }
     end
   }
-  use { "SirVer/ultisnips",
-    requires = "honza/vim-snippets",
-    config = function()
-      vim.g.UltiSnipsRemoveSelectModeMappings = 0
-    end,
-  }
+
+  use({
+      'L3MON4D3/LuaSnip',
+      config = function()
+        local luasnip = require('luasnip')
+        luasnip.config.setup({
+            history = true,
+          })
+        require("luasnip.loaders.from_vscode").load()
+      end,
+      requires = {
+        'rafamadriz/friendly-snippets'
+      },
+    })
 
   use {
     "folke/trouble.nvim",
@@ -54,36 +64,36 @@ return require('packer').startup(function(use)
 
 
   -- Colors
-  use 'ishan9299/nvim-solarized-lua'
-  use 'glepnir/zephyr-nvim'
+  use({
+      "catppuccin/nvim",
+      as = "catppuccin",
+      config = function ()
+        require('catppuccin').setup({})
+          vim.cmd[[colorscheme catppuccin]]
+      end
+    })
 
---  use {
---    'shaunsingh/nord.nvim',
---    config = function ()
---      vim.g.nord_contrast = true
---      vim.g.nord_borders = true
---      vim.g.nord_disable_background = false
---      vim.g.nord_italic = false
---      require('nord').set()
---    end
---  }
---
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function ()
+      vim.opt.termguicolors = true
+      vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1E3D49 gui=nocombine]]
+      vim.cmd [[highlight IndentBlanklineIndent2 guibg=#0E2D39 gui=nocombine]]
 
-
-use({
-	"catppuccin/nvim",
-	as = "catppuccin",
-  config = function ()
-    require('catppuccin').setup({
-        indent_blankline = {
-          enabled = true,
-          colored_indent_levels = true,
-        }
+      require("indent_blankline").setup({
+          char = " ",
+          char_highlight_list = {
+            "IndentBlanklineIndent1",
+            "IndentBlanklineIndent2",
+          },
+          space_char_highlight_list = {
+            "IndentBlanklineIndent1",
+            "IndentBlanklineIndent2",
+          },
+          show_trailing_blankline_indent = false,
       })
-    vim.cmd[[colorscheme catppuccin]]
-  end
-})
-
+    end
+  }
 
   -- file explorer
   use 'Shougo/defx.nvim'
@@ -92,27 +102,6 @@ use({
 
   use 'schickling/vim-bufonly'
   use 'ntpeters/vim-better-whitespace'
-  use {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function ()
-      vim.opt.termguicolors = true
-      vim.cmd [[highlight IndentBlanklineIndent1 guibg=#2E3440 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent2 guibg=#4C566A gui=nocombine]]
-
-      require("indent_blankline").setup {
-        char = " ",
-        char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-        },
-        space_char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-        },
-        show_trailing_blankline_indent = false,
-      }
-    end
-  }
   -- telescope
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
@@ -205,19 +194,6 @@ use {
       require("nvim-gps").setup()
     end
   }
-  -- use {
-  --   'kdheepak/tabline.nvim',
-  --   config = function()
-  --     require'tabline'.setup {
-  --       enable = false,
-  --       options = {
-  --         show_devicons = false,
-  --         show_bufnr = true
-  --       }
-  --     }
-  --   end,
-  --   requires = {'hoob3rt/lualine.nvim', 'kyazdani42/nvim-web-devicons'}
-  -- }
 
   use {
       'hoob3rt/lualine.nvim',

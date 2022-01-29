@@ -41,7 +41,7 @@ lualine.setup {
       }
     },
     lualine_x = {
-      { gps.get_location, condition = gps.is_available },
+      { gps.get_location, cond = gps.is_available },
       { 'diagnostics',
         sources = {'nvim_diagnostic'},
         symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '}
