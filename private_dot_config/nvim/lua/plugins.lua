@@ -229,11 +229,30 @@ use {
     end
   }
 
+  use {
+    "danymat/neogen",
+    config = function()
+      require('neogen').setup {
+        enabled = true,
+        languages = {
+          python = {
+            template = {
+              annotation_convention = "reST"
+            }
+          }
+        }
+      }
+      local opts = { noremap = true, silent = true }
+      vim.api.nvim_set_keymap("n",
+        "<Leader>n",
+        ":lua require('neogen').generate()<CR>", opts)
+    end,
+    requires = "nvim-treesitter/nvim-treesitter"
+  }
+
   -- python
   use {'jmcantrell/vim-virtualenv', ft = {'python'}}
   use 'tmhedberg/SimpylFold'
-  use {'kkoomen/vim-doge', run = ':call doge#install({"headless": 1})'}
-
 
   use {'pangloss/vim-javascript', ft = {'javascript.jsx'}}
 

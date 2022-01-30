@@ -52,11 +52,6 @@ vnoremap <C-x> g<C-x>
 
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
 
-"doge settings
-let g:doge_mapping = '<Leader>dd'
-let g:doge_doc_standard_python = 'sphinx'
-
-
 inoremap <F3>  <nop>
 inoremap <F4>  <nop>
 inoremap <F8>  <nop>
@@ -72,11 +67,6 @@ nmap <F2> :TagbarToggle<CR>
 
 " let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
-
-" ultisnips
-let g:ultisnips_python_style = "sphinx"
-" let g:UltiSnipsExpandTrigger="<c-S>"
-
 
 "  Templates config
 augroup templates
