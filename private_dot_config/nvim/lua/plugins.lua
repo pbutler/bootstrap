@@ -10,6 +10,13 @@ return require('packer').startup(function(use)
   })
   use('machakann/vim-sandwich')
 
+  use({
+    'ggandor/lightspeed.nvim',
+    requires = {
+      'tpope/vim-repeat',
+    },
+  })
+
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -257,6 +264,95 @@ use {
   use {'pangloss/vim-javascript', ft = {'javascript.jsx'}}
 
   use 'ryanoasis/vim-devicons'
+
+  use {'nvim-orgmode/orgmode',
+    requires = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+      parser_config.org = {
+        install_info = {
+          url = 'https://github.com/milisims/tree-sitter-org',
+          revision = 'f110024d539e676f25b72b7c80b0fd43c34264ef',
+          files = {'src/parser.c', 'src/scanner.cc'},
+        },
+        filetype = 'org',
+      }
+
+      require'nvim-treesitter.configs'.setup {
+        -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+        highlight = {
+          enable = true,
+          disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+          additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+        },
+        ensure_installed = {'org'}, -- Or run :TSUpdate org
+      }
+      require('orgmode').setup{
+        org_agenda_files = "~/org/*",
+        -- org_agenda_files = "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/*",
+        org_default_notes_file = "~/org/inbox.org",
+        org_todo_keywords = {'TODO(t)', 'WAITING(w)', '|', 'DONE(d)', 'DELEGATED(D)'},
+        org_agenda_templates = {
+          -- T = { description = 'Todo', template = '* TODO %?\n %u', target = '~/org/todo.org' },
+          j = { description = 'Journal',
+                template = '\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?',
+                target = '~/sync/org/journal.org' },
+        },
+      }
+
+      local opts = { noremap = true, silent = true }
+      vim.api.nvim_set_keymap("n",
+        "<Leader>ooo",
+        ":edit ~/org/inbox.org<CR>", opts)
+    end
+  }
+
+--  use {
+--    "nvim-neorg/neorg",
+--    config = function()
+--      local neorg_callbacks = require('neorg.callbacks')
+--      require('neorg').setup {
+--        load = {
+--          ["core.defaults"] = {},
+--          ["core.norg.dirman"] = {
+--            config = {
+--              workspaces = {
+--                work = "~/norg/work",
+--                home = "~/norg/home",
+--              }
+--            },
+--          },
+--          ["core.norg.completion"] = {
+--            config = {
+--              engine = "nvim-cmp"
+--            }
+--          },
+--          ["core.norg.journal"] = {},
+--          ["core.norg.qol.toc"] = {},
+--          ["core.gtd.base"] = {
+--            config = {
+--              workspace = "work",
+--              -- workspace = "test",
+--              -- exclude = { "gtd.norg", "neogen.norg", "kenaos.norg", "neorg.norg", "Praline&Pandas.norg" },
+--              -- custom_tag_completion = true,
+--            },
+--          },
+--          ["core.keybinds"] = {
+--            config = {
+--              default_keybinds = true,
+--              neorg_leader = "<leader>o",
+--            },
+--          },
+--          ["core.norg.concealer"] = {
+--            config = {
+--              icon_preset = "diamond",
+--            },
+--          },
+--        },
+--      }
+--    end,
+--    requires = "nvim-lua/plenary.nvim"
+--  }
 
   use 'lervag/vimtex'
   use 'lervag/wiki.vim'

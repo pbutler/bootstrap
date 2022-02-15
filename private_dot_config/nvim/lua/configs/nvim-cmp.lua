@@ -1,5 +1,7 @@
 local cmp = require('cmp')
 local luasnip = require("luasnip")
+local neogen = require("neogen")
+
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -32,22 +34,22 @@ cmp.setup {
     -- ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
 
-    ["<C-Space>"] = cmp.mapping(function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        if vim.fn["UltiSnips#CanExpandSnippet"]() == 1 then
-          return vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippet()<CR>"))
-        end
+    -- ["<C-Space>"] = cmp.mapping(function(fallback)
+    --   if vim.fn.pumvisible() == 1 then
+    --     if vim.fn["UltiSnips#CanExpandSnippet"]() == 1 then
+    --       return vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippet()<CR>"))
+    --     end
 
-        vim.fn.feedkeys(t("<C-n>"), "n")
-      elseif check_back_space() then
-        vim.fn.feedkeys(t("<cr>"), "n")
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
+    --     vim.fn.feedkeys(t("<C-n>"), "n")
+    --   elseif check_back_space() then
+    --     vim.fn.feedkeys(t("<cr>"), "n")
+    --   else
+    --     fallback()
+    --   end
+    -- end, {
+    --   "i",
+    --   "s",
+    -- }),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
     ["<Tab>"] = cmp.mapping(function(fallback)
@@ -80,6 +82,7 @@ cmp.setup {
   sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
+      { name = 'neorg' },
       { name = 'buffer' },
       { name = 'path' },
       { name = "luasnip" },
