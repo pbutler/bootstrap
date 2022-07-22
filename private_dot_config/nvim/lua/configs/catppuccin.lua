@@ -1,3 +1,4 @@
+local colors = require("catppuccin.palettes").get_palette() -- fetch colors from palette
 require('catppuccin').setup({
     lsp_trouble = true,
     which_key = true,
@@ -39,5 +40,9 @@ require('catppuccin').setup({
         mantle = "#073642",
         crust =  "#001e29"
       }
+    },
+    custom_highlights = {
+      CmpItemAbbrMatch = { fg = colors.rosewater, style = { "bold" } },
+      CmpItemAbbrMatchFuzzy = { fg = colors.rosewater, style = { "bold" } },
     }
   })
