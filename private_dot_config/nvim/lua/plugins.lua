@@ -1,4 +1,5 @@
 return require('packer').startup(function(use)
+  use 'dstein64/vim-startuptime'
   use 'wbthomason/packer.nvim'
   use 'Shougo/neoyank.vim'
 
@@ -49,11 +50,7 @@ return require('packer').startup(function(use)
   use({
       'L3MON4D3/LuaSnip',
       config = function()
-        local luasnip = require('luasnip')
-        luasnip.config.setup({
-            history = true,
-          })
-        require("luasnip.loaders.from_vscode").load()
+        require("configs.luasnip")
       end,
       requires = {
         'rafamadriz/friendly-snippets'
@@ -75,12 +72,9 @@ return require('packer').startup(function(use)
       "catppuccin/nvim",
       as = "catppuccin",
       config = function ()
-        require('catppuccin').setup({
-            lsp_trouble = true,
-            which_key = true,
-            lightspeed = true,
-          })
-          vim.cmd[[colorscheme catppuccin]]
+        vim.g.catppuccin_flavour = "macchiato"
+        require('configs.catppuccin')
+        vim.cmd[[colorscheme catppuccin]]
       end
     })
 
