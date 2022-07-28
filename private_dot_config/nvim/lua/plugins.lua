@@ -128,33 +128,36 @@ return require('packer').startup(function(use)
         highlight = { enable = true },
       }
     end,
-    run = ':TSUpdate'}
+    run = ':TSUpdate'
+  }
 
-use {
-    'williamboman/nvim-lsp-installer',
-    config = function ()
-      local lsp_installer = require("nvim-lsp-installer")
 
-      -- Register a handler that will be called for all installed servers.
-      -- Alternatively, you may also register handlers on specific server instances instead (see example below).
-      lsp_installer.on_server_ready(function(server)
-        local opts = {}
-
-      -- (optional) Customize the options passed to the server
-      -- if server.name == "tsserver" then
-      --     opts.root_dir = function() ... end
-      -- end
-
-      -- This setup() function is exactly the same as lspconfig's setup function.
-      -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-        server:setup(opts)
-      end)
+  use {"williamboman/mason.nvim",
+    config = function()
+    end,
+  }
+  use { "williamboman/mason-lspconfig.nvim",
+    config = function()
+      -- require('configs.lsp').setup()
     end
-}
+  }
   use {
     'neovim/nvim-lspconfig',
     config = function()
-      require('configs.lsp').setup()
+      require("mason").setup({
+          ui = {
+            icons = {
+              package_installed = "✓",
+              package_pending = "➜",
+              package_uninstalled = "✗"
+            }
+          }
+        })
+      require("mason-lspconfig").setup({
+          ensure_installed = {'jedi-language-server', 'flake8'}
+        })
+      require("configs.lsp")
+
     end
   }
 
@@ -166,7 +169,7 @@ use {
     },
     config = function()
       require('configs.null-ls')
-      -- require('lspconfig')['null-ls'].setup({
+      --require('lspconfig')['null-ls'].setup({
       --   on_attach = require('configs.lsp').on_attach,
       -- })
     end,
