@@ -1,7 +1,7 @@
 local lualine = require("lualine")
 local highlight = require('lualine.highlight')
 local utils = require('lualine.utils.utils')
-local gps = require("nvim-gps")
+local navic = require("nvim-navic")
 
 -- function! MyVirtualenv()
 --   if &filetype == "python"
@@ -41,7 +41,7 @@ lualine.setup {
       }
     },
     lualine_x = {
-      { gps.get_location, cond = gps.is_available },
+      { navic.get_location, cond = navic.is_available },
       { 'diagnostics',
         sources = {'nvim_diagnostic'},
         symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '}

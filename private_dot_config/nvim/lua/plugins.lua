@@ -9,6 +9,8 @@ return require('packer').startup(function(use)
       require('which-key').setup()
     end,
   })
+
+
   use('machakann/vim-sandwich')
 
   use({
@@ -34,26 +36,14 @@ return require('packer').startup(function(use)
     end
   }
 
-  use { 'ray-x/lsp_signature.nvim',
-    config = function()
-      require'lsp_signature'.setup {
-        bind = true,
-        doc_lines = 5,
-        floating_window = true,
-        hint_enable = false,
-        handler_opts = {border = "single"},
-        extra_trigger_chars = {"(", ","},
-      }
-    end
-  }
-
   use({
       'L3MON4D3/LuaSnip',
       config = function()
         require("configs.luasnip")
       end,
       requires = {
-        'rafamadriz/friendly-snippets'
+        --'honza/vim-snippets',
+        'rafamadriz/friendly-snippets',
       },
     })
 
@@ -107,6 +97,7 @@ return require('packer').startup(function(use)
 
   use 'schickling/vim-bufonly'
   use 'ntpeters/vim-better-whitespace'
+
   -- telescope
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
@@ -118,10 +109,12 @@ return require('packer').startup(function(use)
       'nvim-telescope/telescope-fzf-native.nvim'
     },
     config = function()
-      require('configs.telescope')
+      require('configs.telescope').setup()
     end
   }
+
   use 'nvim-lua/popup.nvim'
+
   use {'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
@@ -134,16 +127,6 @@ return require('packer').startup(function(use)
 
   use {"williamboman/mason.nvim",
     config = function()
-    end,
-  }
-  use { "williamboman/mason-lspconfig.nvim",
-    config = function()
-      -- require('configs.lsp').setup()
-    end
-  }
-  use {
-    'neovim/nvim-lspconfig',
-    config = function()
       require("mason").setup({
           ui = {
             icons = {
@@ -153,12 +136,39 @@ return require('packer').startup(function(use)
             }
           }
         })
-      require("mason-lspconfig").setup({
-          ensure_installed = {'jedi-language-server', 'flake8'}
-        })
-      require("configs.lsp")
+    end,
+  }
 
+  -- LSP
+
+  use { 'ray-x/lsp_signature.nvim',
+    config = function()
+      require'lsp_signature'.setup {
+        bind = true,
+        doc_lines = 5,
+        floating_window = true,
+        hint_enable = false,
+        handler_opts = {border = "single"},
+        extra_trigger_chars = {"(", ","},
+      }
     end
+  }
+
+
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    requires = {
+      'neovim/nvim-lspconfig',
+    },
+    config = function()
+      require("mason-lspconfig").setup({
+          automatic_installation = true,
+        })
+      require("configs.lsp").setup()
+    end,
+    requires = {
+
+    }
   }
 
   use({
@@ -175,6 +185,14 @@ return require('packer').startup(function(use)
     end,
   })
 
+
+use({
+    'weilbith/nvim-code-action-menu',
+    requires = {
+      'neovim/nvim-lspconfig',
+    },
+    cmd = 'CodeActionMenu',
+  })
   -- call dein#add('glepnir/lspsaga.nvim')
   use('RRethy/vim-illuminate')
 
@@ -195,11 +213,10 @@ return require('packer').startup(function(use)
   }
   use 'idanarye/vim-merginal'
 
-
-  use {"SmiteshP/nvim-gps",
-    requires = "nvim-treesitter/nvim-treesitter",
+use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig",
     config = function()
-      require("nvim-gps").setup()
     end
   }
 

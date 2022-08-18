@@ -1,47 +1,68 @@
-local actions = require("telescope.actions")
-local trouble = require("trouble.providers.telescope")
+local M = {}
 
-require("telescope").setup {
-  defaults = {
-    mappings = {
-      i = {
-        ["<c-t>"] = trouble.open_with_trouble
-      },
-      n = {
-        ["q"] = actions.close,
-        ["<c-t>"] = trouble.open_with_trouble
-      }
-    }
-  },
-  pickers = {
-    buffers = {
-      initial_mode = "normal",
-      sort_lastused = true,
-      theme = "dropdown",
-      previewer = false,
+local telescope = require('telescope')
+local actions = require('telescope.actions')
+local trouble = require('trouble.providers.telescope')
+local wk = require('which-key')
+
+local function set_keymaps()
+  wk.register({
+    t = {
+      name = 'Telescope',
+      b = { '<cmd>Telescope buffers<CR>', 'search buffers' },
+      f = { '<cmd>Telescope find_files<CR>', 'search files' },
+      g = { '<cmd>Telescope live_grep<CR>', 'grep' },
+      G = { '<cmd>Telescope grep_string<CR>', 'grep word under cursor' },
+      h = { '<cmd>Telescope help_tags<CR>', 'search help' },
+      r = { '<cmd>Telescope resume<CR>', 'resume last search' },
+    },
+  }, {
+    prefix = '<leader>',
+  })
+end
+
+function M.setup()
+  telescope.setup({
+    defaults = {
+      path_display = { 'truncate' },
       mappings = {
         i = {
-          ["<c-d>"] = actions.delete_buffer,
+          ['<c-t>'] = trouble.open_with_trouble,
+          ['<c-f>'] = actions.preview_scrolling_down,
+          ['<c-b>'] = actions.preview_scrolling_up,
+          ['<c-u>'] = false,
+          ['<c-d>'] = false,
         },
         n = {
-          ["dd"] = actions.delete_buffer,
-        }
+          ['q'] = actions.close,
+          ['<c-t>'] = trouble.open_with_trouble,
+          ['<c-f>'] = actions.preview_scrolling_down,
+          ['<c-b>'] = actions.preview_scrolling_up,
+        },
       },
     },
-    lsp_code_actions = {
-      theme = "cursor"
-    }
-  }
-}
+    pickers = {
+      buffers = {
+        initial_mode = 'normal',
+        sort_lastused = true,
+        sort_mru = true,
+        theme = 'dropdown',
+        previewer = false,
+        mappings = {
+          i = {
+            ['<c-d>'] = actions.delete_buffer,
+          },
+          n = {
+            ['dd'] = actions.delete_buffer,
+          },
+        },
+      },
+      lsp_code_actions = {
+        theme = 'cursor',
+      },
+    },
+  })
+  set_keymaps()
+end
 
-local function set_keymap(...) vim.api.nvim_set_keymap(...) end
-local opts = { noremap=true, silent=true }
-
--- General keymaps
-set_keymap('n', '<leader>tb', '<cmd>Telescope buffers<CR>', opts)
-set_keymap('n', '<leader>tf', '<cmd>Telescope find_files<CR>', opts)
-set_keymap('n', '<leader>tg', '<cmd>Telescope live_grep<CR>', opts)
-set_keymap('n', '<leader>th', '<cmd>Telescope help_tags<CR>', opts)
-set_keymap('n', '<leader>tr', '<cmd>Telescope resume<CR>', opts)
-
-require('telescope').load_extension('fzf')
+return M

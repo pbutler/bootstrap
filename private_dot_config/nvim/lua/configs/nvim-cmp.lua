@@ -31,27 +31,9 @@ cmp.setup {
 
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    -- ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
 
-    -- ["<C-Space>"] = cmp.mapping(function(fallback)
-    --   if vim.fn.pumvisible() == 1 then
-    --     if vim.fn["UltiSnips#CanExpandSnippet"]() == 1 then
-    --       return vim.fn.feedkeys(t("<C-R>=UltiSnips#ExpandSnippet()<CR>"))
-    --     end
-
-    --     vim.fn.feedkeys(t("<C-n>"), "n")
-    --   elseif check_back_space() then
-    --     vim.fn.feedkeys(t("<cr>"), "n")
-    --   else
-    --     fallback()
-    --   end
-    -- end, {
-    --   "i",
-    --   "s",
-    -- }),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
-
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
