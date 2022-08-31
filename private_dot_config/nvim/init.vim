@@ -60,10 +60,6 @@ inoremap <F10>  <nop>
 inoremap <F11>  <nop>
 inoremap <F12>  <nop>
 nmap Q <nop>
-let g:tagbar_left = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-nmap <F2> :TagbarToggle<CR>
 
 " let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
@@ -74,11 +70,6 @@ augroup templates
 augroup END
 
 nnoremap <silent> <leader>mx :w<CR>:!chmod +x %<CR>l<CR>
-" vim-better-whitespace configuration
-nnoremap <silent> <leader>rws :ToggleStripWhitespaceOnSave<CR>
-nnoremap <silent> <leader>hws :ToggleWhitespace<CR>
-
-autocmd BufEnter * EnableStripWhitespaceOnSave
 
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endi
 

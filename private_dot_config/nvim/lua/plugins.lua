@@ -96,7 +96,12 @@ return require('packer').startup(function(use)
   use 'kristijanhusak/defx-git'
 
   use 'schickling/vim-bufonly'
-  use 'ntpeters/vim-better-whitespace'
+
+  use {'ntpeters/vim-better-whitespace',
+    config = function ()
+      require('configs.whitespace').setup()
+    end,
+  }
 
   -- telescope
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
