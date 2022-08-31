@@ -9,11 +9,13 @@ local function set_keymaps()
   wk.register({
     t = {
       name = 'Telescope',
-      b = { '<cmd>Telescope buffers<CR>', 'search buffers' },
-      f = { '<cmd>Telescope find_files<CR>', 'search files' },
-      g = { '<cmd>Telescope live_grep<CR>', 'grep' },
-      G = { '<cmd>Telescope grep_string<CR>', 'grep word under cursor' },
-      h = { '<cmd>Telescope help_tags<CR>', 'search help' },
+      b = { '<cmd>Telescope buffers prompt_prefix=🪟<CR>', 'search buffers' },
+      F = { '<cmd>Telescope file_browser prompt_prefix=📁<CR>', 'file browser'},
+      f = { '<cmd>Telescope find_files prompt_prefix=🔍<CR>', 'search files' },
+      g = { '<cmd>Telescope live_grep prompt_prefix=🔍<CR>', 'grep' },
+
+      G = { '<cmd>Telescope grep_string prompt_prefix=🔍<CR>', 'grep word under cursor' },
+      h = { '<cmd>Telescope help_tags prompt_prefix=🔍<CR>', 'search help' },
       r = { '<cmd>Telescope resume<CR>', 'resume last search' },
     },
   }, {
@@ -63,6 +65,9 @@ function M.setup()
     },
   })
   set_keymaps()
+  require('telescope').load_extension('fzf')
+  require("telescope").load_extension("file_browser")
+
 end
 
 return M

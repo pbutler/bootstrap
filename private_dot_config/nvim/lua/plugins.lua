@@ -111,12 +111,14 @@ return require('packer').startup(function(use)
     requires = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
-      'nvim-telescope/telescope-fzf-native.nvim'
+      'nvim-telescope/telescope-fzf-native.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
     },
     config = function()
       require('configs.telescope').setup()
     end
   }
+
 
   use 'nvim-lua/popup.nvim'
 
