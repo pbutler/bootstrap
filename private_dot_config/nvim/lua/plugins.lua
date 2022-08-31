@@ -225,7 +225,7 @@ use {
   use {
       'hoob3rt/lualine.nvim',
     -- your statusline
-    config = function() require('configs.lualine') end,
+    config = function() require('configs.lualine').setup() end,
     -- some optional icons
     requires = {'kyazdani42/nvim-web-devicons', opt = true}
   }
