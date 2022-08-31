@@ -88,6 +88,9 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
         PYV=$(python${version} -V)
         echo Creating venv $1 with $PYV
         python${version} -m venv ~/.virtualenvs/$1
+        vactivate $1
+        python -mpip install --upgrade pip wheel
+        deactivate
  }
 
 
@@ -113,9 +116,24 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
          return 0
  }
 
+ vset () {
+        if [ -z $1 ]; then
+           echo please specify a venv name
+           return -1
+        fi
+        if [ ! -d ~/.virtualenvs/$1 ]; then
+            echo $1 doesn\'t exist
+            return -1
+        fi
+        echo $1 > .venv
+        chmod 0644 .venv
+        vactivate $1
+ }
+
 autoload -Uz compinit
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
 autoload bashcompinit
 bashcompinit
 complete -F _vactivate vactivate
+complete -F _vactivate vset
