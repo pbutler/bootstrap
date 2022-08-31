@@ -208,7 +208,7 @@ use({
       'nvim-lua/plenary.nvim'
     },
     config = function()
-      require('gitsigns').setup()
+      require('configs.gitsigns').setup()
     end
   }
   use 'idanarye/vim-merginal'
