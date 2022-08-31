@@ -188,14 +188,6 @@ let g:wiki_root = '~/vimwiki'
 "nnoremap <leader>wj :WikiJournalIndex<CR>
 nmap <leader>wj <plug>(wiki-journal-index)
 
-" Terraform settings
-let g:terraform_align=1
-let g:terraform_fold_sections=0
-
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
-let g:indent_guides_start_level = 2
-
 let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
 let g:sandwich#recipes += [
       \ {'buns': ['{ ', ' }'], 'nesting': 1, 'match_syntax': 1,
