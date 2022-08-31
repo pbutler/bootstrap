@@ -90,11 +90,6 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- file explorer
-  use 'Shougo/defx.nvim'
-  use 'kristijanhusak/defx-icons'
-  use 'kristijanhusak/defx-git'
-
   use 'schickling/vim-bufonly'
 
   use {'ntpeters/vim-better-whitespace',
