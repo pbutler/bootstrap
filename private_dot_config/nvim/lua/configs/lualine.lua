@@ -30,6 +30,8 @@ local function set_keymaps()
       ["9"] = { '<CMD>LualineBuffersJump 9<CR>', 'Switch to buffer 9' },
       ["$"] = { '<CMD>LualineBuffersJump $<CR>', 'Switch to last buffer' },
       ["d"] = { ':bd<CR>', 'Delete current buffer' },
+      ["p"] = { ':bp<CR>', 'Previous buffer' },
+      ["n"] = { ':bn<CR>', 'Next buffer' },
       ["o"] = { '<CMD>BufOnly<CR>', 'Delete all other buffers' },
     },
   }, {
