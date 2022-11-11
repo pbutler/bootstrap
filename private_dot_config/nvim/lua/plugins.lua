@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
       config = function ()
         vim.g.catppuccin_flavour = "macchiato"
         require('configs.catppuccin')
-        vim.cmd[[colorscheme catppuccin]]
+        vim.cmd[[colorscheme catppuccin-macchiato]]
       end
     })
 
