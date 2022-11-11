@@ -7,7 +7,8 @@ local function set_keymaps()
     W = {
       name = 'White Space',
       s = { '<CMD>StripWhitespace<CR>', 'strip all white space now' },
-      S = { '<CMD>StripWhitespaceOnChangedLines<CR>', 'strip all white space now' },
+      S = { '<CMD>StripWhitespaceOnChangedLines<CR>',
+            'strip all white space now (changed lines)' },
       t = { '<CMD>ToggleWhitespace<CR>', "Toggle White space visuals" },
       T = { '<CMD>ToggleStripWhitespaceOnSave<CR>', "Toggle White space removal"},
 
