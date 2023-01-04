@@ -127,6 +127,7 @@ return require('packer').startup(function(use)
   }
 
 
+  -- LSP
   use {"williamboman/mason.nvim",
     config = function()
       require("mason").setup({
@@ -141,8 +142,12 @@ return require('packer').startup(function(use)
     end,
   }
 
-  -- LSP
-
+ use({
+      'lukas-reineke/lsp-format.nvim',
+      config = function()
+        require('configs.lsp-format')
+      end,
+    })
   use { 'ray-x/lsp_signature.nvim',
     config = function()
       require'lsp_signature'.setup {

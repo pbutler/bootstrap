@@ -37,8 +37,7 @@ local function set_commands()
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.cmd('command! LspDeclaration lua vim.lsp.buf.declaration()')
   vim.cmd('command! LspDef lua vim.lsp.buf.definition()')
-  vim.cmd('command! LspFormatting lua vim.lsp.buf.formatting()')
-  vim.cmd('command! LspRangeFormatting lua vim.lsp.buf.range_formatting()')
+  vim.cmd('command! LspFormat lua vim.lsp.buf.format()')
   vim.cmd('command! LspCodeAction lua vim.lsp.buf.code_action()')
   vim.cmd('command! LspHover lua vim.lsp.buf.hover()')
   vim.cmd('command! LspRename lua vim.lsp.buf.rename()')
@@ -72,7 +71,7 @@ local function set_keymaps(bufnr)
     c = {
       name = 'LSP code changes',
       a = { '<cmd>CodeActionMenu<CR>', 'code actions' },
-      f = { '<cmd>LspFormatting<CR>', 'format' },
+      f = { '<cmd>LspFormat<CR>', 'format' },
       r = { '<cmd>LspRename<CR>', 'rename variable' },
     },
   }, {
@@ -83,7 +82,7 @@ local function set_keymaps(bufnr)
   wk.register({
       c = {
         name = 'LSP code changes',
-        f = {"<Cmd>lua vim.lsp.buf.range_formatting()<CR>", "range format" },
+        f = {"<Cmd>LspFormat<CR>", "range format" },
       },
     }, {
       mode = 'v',
