@@ -6,9 +6,9 @@ local code_actions = null_ls.builtins.code_actions
 
 null_ls.setup {
   sources = {
-    diagnostics.flake8.with({
-        extra_args = { "--append-config", vim.fn.expand("~/.config/flake8") }
-      }),
+    -- diagnostics.flake8.with({
+    --     extra_args = { "--append-config", vim.fn.expand("~/.config/flake8") }
+    --   }),
     diagnostics.gitlint,
     formatting.isort,
     formatting.black,

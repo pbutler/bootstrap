@@ -111,9 +111,11 @@ function M.on_attach(client, bufnr)
     return
   end
 
-  illuminate.on_attach(client)
-  navic.attach(client, bufnr)
-  vim.b.lsp_symbol_support_loaded = 1
+  if client.server_capabilities.documentSymbolProvider then
+    illuminate.on_attach(client)
+    navic.attach(client, bufnr)
+    vim.b.lsp_symbol_support_loaded = 1
+  end
 end
 
 function M.on_attach_no_symbols(client, bufnr)

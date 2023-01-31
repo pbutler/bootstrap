@@ -142,12 +142,12 @@ return require('packer').startup(function(use)
     end,
   }
 
- use({
+  use({
       'lukas-reineke/lsp-format.nvim',
       config = function()
         require('configs.lsp-format')
       end,
-    })
+  })
   use { 'ray-x/lsp_signature.nvim',
     config = function()
       require'lsp_signature'.setup {
