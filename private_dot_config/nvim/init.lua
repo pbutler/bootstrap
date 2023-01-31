@@ -22,9 +22,9 @@ vim.g.tex_conceal = 'abdmg'
 vim.opt.hidden = true
 vim.opt.laststatus = 2
 vim.opt.undofile = true
-vim.opt.undodir = "~/.cache/nvim/undos"
-vim.opt.directory = "~/.cache/nvim/tmp"
-vim.opt.backupdir = "~/.cache/nvim/backup"
+vim.opt.undodir = vim.fn.expand("~/.cache/nvim/undos")
+vim.opt.directory = vim.fn.expand("~/.cache/nvim/tmp")
+vim.opt.backupdir = vim.fn.expand("~/.cache/nvim/backup")
 vim.opt.autochdir = true
 
 
