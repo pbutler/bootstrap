@@ -1,77 +1,23 @@
-return require('packer').startup(function(use)
-  use 'dstein64/vim-startuptime'
-  use 'wbthomason/packer.nvim'
-  use 'Shougo/neoyank.vim'
-
-   use({
-    'folke/which-key.nvim',
-    config = function()
-      require('which-key').setup()
-    end,
-  })
+local M = {}
 
 
-  use('machakann/vim-sandwich')
-
-  use({
-    'ggandor/lightspeed.nvim',
-    requires = {
-      'tpope/vim-repeat',
-    },
-  })
-
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-    },
-    config = function()
-      require("configs.nvim-cmp")
-    end
-  }
-
-  use({
-      'L3MON4D3/LuaSnip',
-      config = function()
-        require("configs.luasnip")
-      end,
-      requires = {
-        --'honza/vim-snippets',
-        'rafamadriz/friendly-snippets',
-      },
-    })
-
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup()
-    end
-  }
-  use 'folke/lsp-colors.nvim'
-
+local spec = {
+  'dstein64/vim-startuptime',
 
   -- Colors
-  use({
-      "catppuccin/nvim",
-      as = "catppuccin",
-      config = function ()
-        vim.g.catppuccin_flavour = "macchiato"
-        require('configs.catppuccin')
-        vim.cmd[[colorscheme catppuccin-macchiato]]
-      end
-    })
-
-  use {
+  'folke/lsp-colors.nvim',
+  {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function ()
+      vim.g.catppuccin_flavour = "macchiato"
+      require('configs.catppuccin')
+      vim.cmd[[colorscheme catppuccin-macchiato]]
+    end
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     config = function ()
-      vim.opt.termguicolors = true
       vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1E3D49 gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent2 guibg=#0E2D39 gui=nocombine]]
 
@@ -86,24 +32,83 @@ return require('packer').startup(function(use)
             "IndentBlanklineIndent2",
           },
           show_trailing_blankline_indent = false,
-      })
+        })
     end
-  }
+  },
 
-  use 'schickling/vim-bufonly'
+  'Shougo/neoyank.vim',
+  {
+    'folke/which-key.nvim',
+    config = function()
+      require('which-key').setup()
+    end,
+  },
 
-  use {'ntpeters/vim-better-whitespace',
+  -- 'machakann/vim-sandwich',
+
+  {
+    "ggandor/leap.nvim",
+    dependencies = {
+      'tpope/vim-repeat',
+    },
+    config = function()
+      require('leap').add_default_mappings()
+    end
+  },
+
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+    },
+    config = function()
+      require("configs.nvim-cmp")
+    end
+  },
+
+  {
+    'L3MON4D3/LuaSnip',
+    config = function()
+      require("configs.luasnip")
+    end,
+    requires = {
+      --'honza/vim-snippets',
+      'rafamadriz/friendly-snippets',
+    },
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = {"kyazdani42/nvim-web-devicons"},
+    config = function()
+      require("trouble").setup()
+    end
+  },
+
+  'schickling/vim-bufonly',
+
+  {
+    'ntpeters/vim-better-whitespace',
     config = function ()
       require('configs.whitespace').setup()
     end,
-  }
+  },
 
   -- telescope
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make'
+  },
 
-  use {
+  {
     'nvim-telescope/telescope.nvim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -112,23 +117,24 @@ return require('packer').startup(function(use)
     config = function()
       require('configs.telescope').setup()
     end
-  }
+  },
 
+  'nvim-lua/popup.nvim',
 
-  use 'nvim-lua/popup.nvim'
-
-  use {'nvim-treesitter/nvim-treesitter',
+  {
+    'nvim-treesitter/nvim-treesitter',
     config = function()
       require'nvim-treesitter.configs'.setup {
         highlight = { enable = true },
       }
     end,
-    run = ':TSUpdate'
-  }
+    build = ':TSUpdate'
+  },
 
 
   -- LSP
-  use {"williamboman/mason.nvim",
+  {
+    "williamboman/mason.nvim",
     config = function()
       require("mason").setup({
           ui = {
@@ -140,15 +146,16 @@ return require('packer').startup(function(use)
           }
         })
     end,
-  }
+  },
 
-  use({
+  {
       'lukas-reineke/lsp-format.nvim',
       config = function()
         require('configs.lsp-format')
       end,
-  })
-  use { 'ray-x/lsp_signature.nvim',
+  },
+
+  { 'ray-x/lsp_signature.nvim',
     config = function()
       require'lsp_signature'.setup {
         bind = true,
@@ -159,12 +166,12 @@ return require('packer').startup(function(use)
         extra_trigger_chars = {"(", ","},
       }
     end
-  }
+  },
 
 
-  use {
+  {
     'williamboman/mason-lspconfig.nvim',
-    requires = {
+    dependencies = {
       'neovim/nvim-lspconfig',
     },
     config = function()
@@ -173,12 +180,9 @@ return require('packer').startup(function(use)
         })
       require("configs.lsp").setup()
     end,
-    requires = {
+  },
 
-    }
-  }
-
-  use({
+  {
     'jose-elias-alvarez/null-ls.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -186,57 +190,51 @@ return require('packer').startup(function(use)
     },
     config = function()
       require('configs.null-ls')
-      --require('lspconfig')['null-ls'].setup({
-      --   on_attach = require('configs.lsp').on_attach,
-      -- })
     end,
-  })
+  },
 
 
-use({
+  {
     'weilbith/nvim-code-action-menu',
     requires = {
       'neovim/nvim-lspconfig',
     },
     cmd = 'CodeActionMenu',
-  })
-  -- call dein#add('glepnir/lspsaga.nvim')
-  use('RRethy/vim-illuminate')
+  },
+  'RRethy/vim-illuminate',
 
-  use 'Konfekt/FastFold'
-  use 'simnalamburt/vim-mundo'
+  'Konfekt/FastFold',
+  'simnalamburt/vim-mundo',
 
   -- git
-  use 'tpope/vim-fugitive'
-  use 'knsh14/vim-github-link'
-  use {
+  'tpope/vim-fugitive',
+  'knsh14/vim-github-link',
+  {
     'lewis6991/gitsigns.nvim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim'
     },
     config = function()
       require('configs.gitsigns').setup()
     end
-  }
-  use 'idanarye/vim-merginal'
+  },
+  'idanarye/vim-merginal',
 
-use {
+  {
     "SmiteshP/nvim-navic",
-    requires = "neovim/nvim-lspconfig",
-    config = function()
-    end
-  }
+    dependencies = {"neovim/nvim-lspconfig"},
+  },
 
-  use {
-      'hoob3rt/lualine.nvim',
+  {
+    'hoob3rt/lualine.nvim',
     -- your statusline
     config = function() require('configs.lualine').setup() end,
     -- some optional icons
-    requires = {'kyazdani42/nvim-web-devicons', opt = true}
-  }
+    dependencies = {'kyazdani42/nvim-web-devicons'}
+  },
 
 
-  use {
+  {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require('colorizer').setup({
@@ -246,32 +244,31 @@ use {
           names = false,
         })
     end,
-  }
+  },
 
-  use 'andymass/vim-matchup'
-  use 'sheerun/vim-polyglot'
-  use({
-      'simrat39/symbols-outline.nvim',
-      requires = {
-        'neovim/nvim-lspconfig',
-      },
-      cmd = {
-        'SymbolsOutline',
-        'SymbolsOutlineOpen',
-        'SymbolsOutlineClose',
-      },
-    })
-  use {
+  --'andymass/vim-matchup',
+  'sheerun/vim-polyglot',
+  {
+    'simrat39/symbols-outline.nvim',
+    dependencies = { 'neovim/nvim-lspconfig' },
+    cmd = {
+      'SymbolsOutline',
+      'SymbolsOutlineOpen',
+      'SymbolsOutlineClose',
+    },
+  },
+
+  {
     'b3nj5m1n/kommentary',
     config = function()
       require('kommentary.config').configure_language(
         'default',
         { prefer_single_line_comments = true }
-      )
+        )
     end
-  }
+  },
 
-  use {
+  {
     "danymat/neogen",
     config = function()
       require('neogen').setup {
@@ -290,49 +287,49 @@ use {
         ":lua require('neogen').generate()<CR>", opts)
     end,
     requires = "nvim-treesitter/nvim-treesitter"
-  }
+  },
 
   -- python
-  use {'jmcantrell/vim-virtualenv', ft = {'python'}}
-  use 'tmhedberg/SimpylFold'
+  {'jmcantrell/vim-virtualenv', ft = {'python'}},
+  'tmhedberg/SimpylFold',
 
-  use {'pangloss/vim-javascript', ft = {'javascript.jsx'}}
+  {'pangloss/vim-javascript', ft = {'javascript.jsx'}},
 
-  use 'ryanoasis/vim-devicons'
+  'ryanoasis/vim-devicons',
 
-  use {'nvim-orgmode/orgmode',
-    requires = "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require('orgmode').setup_ts_grammar()
+  -- {'nvim-orgmode/orgmode',
+  --   requires = "nvim-treesitter/nvim-treesitter",
+  --   config = function()
+  --     require('orgmode').setup_ts_grammar()
 
-      require'nvim-treesitter.configs'.setup {
-        -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
-        highlight = {
-          enable = true,
-          -- disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-          additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
-        },
-        ensure_installed = {'org'}, -- Or run :TSUpdate org
-      }
-      require('orgmode').setup{
-        org_agenda_files = "~/org/*",
-        -- org_agenda_files = "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/*",
-        org_default_notes_file = "~/org/inbox.org",
-        org_todo_keywords = {'TODO(t)', 'WAITING(w)', '|', 'DONE(d)', 'DELEGATED(D)'},
-        org_agenda_templates = {
-          -- T = { description = 'Todo', template = '* TODO %?\n %u', target = '~/org/todo.org' },
-          j = { description = 'Journal',
-                template = '\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?',
-                target = '~/sync/org/journal.org' },
-        },
-      }
+  --     require'nvim-treesitter.configs'.setup {
+  --       -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+  --       highlight = {
+  --         enable = true,
+  --         -- disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+  --         additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+  --       },
+  --       ensure_installed = {'org'}, -- Or run :TSUpdate org
+  --     }
+  --     require('orgmode').setup{
+  --       org_agenda_files = "~/org/*",
+  --       -- org_agenda_files = "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/*",
+  --       org_default_notes_file = "~/org/inbox.org",
+  --       org_todo_keywords = {'TODO(t)', 'WAITING(w)', '|', 'DONE(d)', 'DELEGATED(D)'},
+  --       org_agenda_templates = {
+  --         -- T = { description = 'Todo', template = '* TODO %?\n %u', target = '~/org/todo.org' },
+  --         j = { description = 'Journal',
+  --               template = '\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?',
+  --               target = '~/sync/org/journal.org' },
+  --       },
+  --     }
 
-      local opts = { noremap = true, silent = true }
-      vim.api.nvim_set_keymap("n",
-        "<Leader>ooo",
-        ":edit ~/org/inbox.org<CR>", opts)
-    end
-  }
+  --     local opts = { noremap = true, silent = true }
+  --     vim.api.nvim_set_keymap("n",
+  --       "<Leader>ooo",
+  --       ":edit ~/org/inbox.org<CR>", opts)
+  --   end
+  -- }
 
 --  use {
 --    "nvim-neorg/neorg",
@@ -381,7 +378,34 @@ use {
 --    requires = "nvim-lua/plenary.nvim"
 --  }
 
-  use 'lervag/vimtex'
-  use 'lervag/wiki.vim'
-  use 'lervag/wiki-ft.vim'
-end)
+  'lervag/vimtex',
+  'lervag/wiki.vim',
+  'lervag/wiki-ft.vim',
+}
+
+
+local function ensure_lazy_installed()
+  local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+  if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+      'git',
+      'clone',
+      '--filter=blob:none',
+      'https://github.com/folke/lazy.nvim.git',
+      '--branch=stable', -- latest stable release
+      lazypath,
+    })
+  end
+  if not vim.tbl_contains(vim.opt.rtp:get(), lazypath) then
+    vim.opt.rtp:prepend(lazypath)
+  end
+end
+
+function M.setup()
+  vim.g.no_python_maps = 1
+
+  ensure_lazy_installed()
+  require('lazy').setup(spec)
+end
+
+return M
