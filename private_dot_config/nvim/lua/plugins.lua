@@ -40,7 +40,16 @@ local spec = {
   {
     'folke/which-key.nvim',
     config = function()
-      require('which-key').setup()
+      local wk = require('which-key')
+      wk.setup()
+      wk.register({
+          x = {
+            name = 'Trouble',
+            x = { '<cmd>TroubleToggle<CR>', 'Trouble list' },
+          },
+        }, {
+          prefix = '<leader>',
+        })
     end,
   },
 

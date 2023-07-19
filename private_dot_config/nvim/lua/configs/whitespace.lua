@@ -22,6 +22,9 @@ function M.setup()
   vim.g.strip_whitespace_on_save = 1
   vim.g.better_whitespace_enabled = 1
   set_keymaps()
+
+  local colors = require('catppuccin.palettes').get_palette()
+  vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = colors.red })
 end
 
 return M

@@ -34,7 +34,8 @@ require('catppuccin').setup({
         subtext1 = "#14434F", -- Black3
         surface0 = "#073642", -- Black2
         overlay1 = "#002b36", -- Black1
-        overlay0 = "#001E29", -- Black0
+        overlay0 = "#fdf6e3", -- Black0
+        -- overlay0 = "#001E29", -- Black0
 
         base =   "#002b36",
         mantle = "#073642",
