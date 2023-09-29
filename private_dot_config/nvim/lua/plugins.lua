@@ -17,26 +17,44 @@ local spec = {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {},
     config = function ()
       vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1E3D49 gui=nocombine]]
       vim.cmd [[highlight IndentBlanklineIndent2 guibg=#0E2D39 gui=nocombine]]
-
-      require("indent_blankline").setup({
-          char = " ",
-          char_highlight_list = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
+      local highlight = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+      }
+      require("ibl").setup({
+          indent = {
+            highlight = highlight,
+            char = "",
           },
-          space_char_highlight_list = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
+          whitespace = {
+            highlight = highlight,
+            remove_blankline_trail = false,
           },
-          show_trailing_blankline_indent = false,
-        })
+      })
     end
   },
 
   'Shougo/neoyank.vim',
+  {'ojroques/nvim-osc52',
+    config = function()
+      local wk = require('which-key')
+      wk.register({
+          ["<leader>y"] = { require('osc52').copy_operator, "Yank", expr=true, mode="n"},
+          ["<leader>yy"] = { '<leader>y_', "Yank this line", noremap=false, mode="n" },
+        })
+      wk.register({
+          y = { require('osc52').copy_visual, 'Yank Visual', }
+        }, {
+          mode = 'v',
+          prefix = '<leader>',
+        })
+    end,
+  },
   {
     'folke/which-key.nvim',
     config = function()
@@ -231,6 +249,21 @@ local spec = {
     end
   },
   'idanarye/vim-merginal',
+  { 'akinsho/git-conflict.nvim',
+    version = "*",
+    config = function ()
+      require('git-conflict').setup( {
+          default_mappings = true, -- disable buffer local mapping created by this plugin
+          default_commands = true, -- disable commands created by this plugin
+          disable_diagnostics = false, -- This will disable the diagnostics in a buffer whilst it is conflicted
+          list_opener = 'copen', -- command or function to open the conflicts list
+          highlights = { -- They must have background color, otherwise the default color will be used
+            incoming = 'DiffAdd',
+            current = 'DiffText',
+          }
+        })
+    end
+  },
 
   {
     "SmiteshP/nvim-navic",
