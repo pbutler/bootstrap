@@ -17,7 +17,7 @@ export EDITOR=nvim
 if [ -x /usr/libexec/path_helper ]; then
     eval `/usr/libexec/path_helper -s`
 fi
-eval $(/usr/local/bin/brew shellenv)
+eval $(/opt/homebrew/bin/brew shellenv)
 {{- end }}
 
 if (( $+commands[repassh] )); then

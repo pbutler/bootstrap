@@ -86,7 +86,10 @@ local spec = {
     config = function()
       require("configs.luasnip")
     end,
-    requires = {
+    version = "2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
+    dependencies = {
       --'honza/vim-snippets',
       'rafamadriz/friendly-snippets',
     },
