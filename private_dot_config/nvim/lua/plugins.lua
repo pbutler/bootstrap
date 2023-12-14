@@ -318,6 +318,7 @@ local spec = {
     config = function()
       require('neogen').setup {
         enabled = true,
+        snippet_engine = "luasnip",
         languages = {
           python = {
             template = {
@@ -326,10 +327,16 @@ local spec = {
           }
         }
       }
-      local opts = { noremap = true, silent = true }
-      vim.api.nvim_set_keymap("n",
-        "<Leader>n",
-        ":lua require('neogen').generate()<CR>", opts)
+      local wk = require('which-key')
+      wk.register({
+          f = { "<cmd>Neogen func<CR>", 'Document function'},
+          c = { "<cmd>Neogen class<CR>", 'Document class'}
+        }, {
+          mode = 'n',
+	  silent = true,
+	  noremap=true,
+          prefix = '<leader>n',
+        })
     end,
     requires = "nvim-treesitter/nvim-treesitter"
   },
