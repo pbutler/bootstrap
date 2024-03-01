@@ -1,9 +1,9 @@
 [user]
-  name = Patrick Butler
-  email = pbutler@killertux.org
+	name = Patrick Butler
+	email = pabutler@vt.edu
 
 [color]
-  ui = auto
+	ui = auto
 	status = auto
 	branch = auto
 	interactive = auto
