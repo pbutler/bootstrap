@@ -1,0 +1,33 @@
+[user]
+  name = Patrick Butler
+  email = {{ .email }}
+
+[color]
+  ui = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  diff = auto
+
+[github]
+  user = pbutler
+
+[alias]
+  ci = commit
+  co = checkout
+  brname = rev-parse --abbrev-ref HEAD
+  repo = "!f() { if `git brname > /dev/null`; then echo $(basename $(git rev-parse --show-toplevel)):$(git brname); fi; }; f"
+  ; Superb log aliases from
+  ; http://www.jukie.net/bart/blog/pimping-out-git-log
+  log1 = log --pretty=oneline --abbrev-commit --decorate
+  glog = log --graph --pretty=format:'%Cred%h%Credeset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+  wdiff = diff --word-diff=color
+[push]
+  default = simple
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[init]
+  defaultBranch = main
