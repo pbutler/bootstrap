@@ -1,7 +1,6 @@
 format = """
 [\
 [](bg:base fg:surface0)\
-$username\
 $directory\
 [](bg:surface0 fg:base)\
 $git_branch\
@@ -21,6 +20,8 @@ $nodejs\
 $rust\
 $python\
 [ ](fg:text bg:surface0)\
+$username\
+$hostname\
 $time\
 ](bg:surface0)\
 """
@@ -79,9 +80,14 @@ vimcmd_symbol = "[󰄛 ❮](subtext1)" # For use with zsh-vi-mode
 # and use the os module below
 [username]
 show_always = false
-style_user = "fg:blue"
-style_root = "fg:red"
-format = '[[$user]($style) [](fg:base)](bg:surface0)'
+style_user = "fg:yellow"
+style_root = "fg:red bold"
+format = '[$user]($style bg:surface0)'
+disabled = false
+
+[hostname]
+format = '@[$hostname]($style)[ ](fg:text bg:surface0)'
+style = "fg:yellow bg:surface0"
 disabled = false
 
 # An alternative to the username module which displays a symbol that
