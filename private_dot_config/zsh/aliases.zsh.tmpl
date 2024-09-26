@@ -4,13 +4,16 @@ alias el='e -l'
 alias eg='e -la --git'
 alias ea='e -a'
 
+if [[ `which eza` ]]; then
+  alias ls='eza' 
 {{ if eq .chezmoi.os "darwin" -}}
-if [[ `which -pa ls` = "/bin/ls" ]]; then
+elif [[ `which -pa ls` = "/bin/ls" ]]; then
 	alias ls='ls -G'
 else
 	alias ls='ls --color=auto'
 fi
 {{- else }}
+fi
 alias ls='ls --color=auto'
 {{- end }}
 alias ll='ls -l'
@@ -20,6 +23,16 @@ alias lla='ls -lA'
 alias llh='ls -lh'
 alias llr='ls -lR'
 alias llar='ls -lAR'
+
+if [[ `which batcat` ]]; then
+  alias bat='batcat'
+  alias cat='bat'
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+if [[ `which bat` ]]; then
+  alias cat='bat'
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

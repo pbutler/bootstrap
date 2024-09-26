@@ -29,10 +29,10 @@ zinit light zdharma/fast-syntax-highlighting
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
 
-zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
-    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-zinit light trapd00r/LS_COLORS
+# zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+#     atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+#     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+# zinit light trapd00r/LS_COLORS
 zinit light trystan2k/zsh-tab-title
 # zinit light softmoth/zsh-vim-mode
 zinit load jeffreytse/zsh-vi-mode
@@ -56,6 +56,26 @@ if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
+
+
+if [[ `which fzf` ]]; then
+  source <(fzf --zsh)
+  export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+  --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+  --color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 \
+  --color=selected-bg:#494d64 \
+  --multi"
+fi
+
+if  [[ `which bat` ]]; then
+  export BAT_THEME="Catppuccin Macchiato"
+  export BAT_STYLE="plain"
+  export BAT_PAGER="less -RF"
+fi
+
+export EZA_CONFIG_DIR=~/.config/eza/
+
 
 export PATH=~/.local/bin:$PATH
 
