@@ -58,7 +58,7 @@ if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 fi
 
 
-if [[ `which fzf` ]]; then
+if ! command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
   export FZF_DEFAULT_OPTS=" \
   --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
@@ -68,7 +68,7 @@ if [[ `which fzf` ]]; then
   --multi"
 fi
 
-if  [[ `which bat` ]]; then
+if ! command -v bat >/dev/null 2>&1; then
   export BAT_THEME="Catppuccin Macchiato"
   export BAT_STYLE="plain"
   export BAT_PAGER="less -RF"
