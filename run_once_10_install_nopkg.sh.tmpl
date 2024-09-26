@@ -29,3 +29,7 @@ fi
 if [ ! -x ~/.local/bin/node ]; then
 	curl -sL install-node.now.sh | bash -s -- --prefix=$HOME/.local
 fi
+
+if [[ ! `which starship` ]]; then
+  curl -sS https://starship.rs/install.sh | sh
+fi
