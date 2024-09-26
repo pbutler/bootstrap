@@ -1,0 +1,184 @@
+format = """
+[\
+[](bg:base fg:surface0)\
+$username\
+$directory\
+[](bg:surface0 fg:base)\
+$git_branch\
+$git_status\
+](bg:surface0)\
+[ ](fg:surface0 bg:base)\
+"""
+
+right_format = """
+[](bg:base fg:surface0)\
+[\
+$status\
+$cmd_duration\
+[ ](fg:text bg:surface0)\
+$c\
+$nodejs\
+$rust\
+$python\
+[ ](fg:text bg:surface0)\
+$time\
+](bg:surface0)\
+"""
+
+palette = "catppuccin_macchiato"
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+
+[palettes.catppuccin_macchiato]
+rosewater = "#f4dbd6"
+flamingo = "#f0c6c6"
+pink = "#f5bde6"
+mauve = "#c6a0f6"
+red = "#ed8796"
+maroon = "#ee99a0"
+peach = "#f5a97f"
+yellow = "#eed49f"
+green = "#a6da95"
+teal = "#8bd5ca"
+sky = "#91d7e3"
+sapphire = "#7dc4e4"
+blue = "#8aadf4"
+lavender = "#b7bdf8"
+text = "#cad3f5"
+subtext1 = "#b8c0e0"
+subtext0 = "#a5adcb"
+overlay2 = "#939ab7"
+overlay1 = "#8087a2"
+overlay0 = "#6e738d"
+surface2 = "#5b6078"
+surface1 = "#494d64"
+surface0 = "#363a4f"
+base = "#24273a"
+mantle = "#1e2030"
+crust = "#181926"
+
+[status]
+style = "red bold bg:surface0"
+success_symbol = "[✔](fg:green bg:surface0) "
+symbol = "[✘](fg:red bg:surface0) "
+disabled = false
+
+[cmd_duration]
+min_time = 10_000
+
+[character]
+# Note the use of Catppuccin color 'peach'
+success_symbol = "[[✔](green) ❯](peach)"
+error_symbol = "[[✘](red) ❯](peach)"
+vimcmd_symbol = "[󰄛 ❮](subtext1)" # For use with zsh-vi-mode
+
+
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
+[username]
+show_always = false
+style_user = "fg:blue"
+style_root = "fg:red"
+format = '[[$user]($style) [](fg:base)](bg:surface0)'
+disabled = false
+
+# An alternative to the username module which displays a symbol that
+# represents the current operating system
+[os]
+style = "bg:#9A348E"
+disabled = true # Disabled by default
+
+[directory]
+style = "teal bg:surface0"
+read_only_style = "red bg:surface0"
+format = "[ $path]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = false
+repo_root_style = "bold blue bg:surface0"
+repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)'
+[c]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+disabled = true
+
+[docker_context]
+symbol = " "
+style = "bg:#06969A"
+format = '[ $symbol $context ]($style)'
+
+[elixir]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[elm]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[git_branch]
+symbol = ""
+style = "bg:surface0 fg:peach"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:surface0 fg:mauve"
+format = '[$all_status$ahead_behind ]($style)'
+
+[golang]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[gradle]
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[haskell]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[julia]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[nim]
+symbol = "󰆥 "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[rust]
+symbol = ""
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[scala]
+symbol = " "
+style = "fg:blue"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = "fg:blue bg:surface0"
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "fg:blue bg:surface0 bold"
+format = "[$time 󰅐 ]($style)"
