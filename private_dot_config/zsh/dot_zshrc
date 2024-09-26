@@ -158,6 +158,6 @@ bashcompinit
 complete -F _vactivate vactivate
 complete -F _vactivate vset
 
-if [[ `which starship` ]]; then
+if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
