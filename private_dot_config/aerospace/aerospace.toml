@@ -151,6 +151,10 @@ cmd-ctrl-alt-shift-f9 = 'workspace 19'
 # alt-y = 'workspace Y'
 # alt-z = 'workspace Z'
 
+cmd-ctrl-alt-shift-z = "fullscreen"
+cmd-ctrl-alt-shift-tab = "exec-and-forget bash -c 'aerospace focus-back-and-forth || aerospace workspace-back-and-forth'"
+
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
@@ -232,6 +236,10 @@ esc = ['reload-config', 'mode main']
 #s = ['layout sticky tiling', 'mode main']
 
 
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'move-node-to-workspace 1'
+
 ## Chat apps
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
@@ -246,7 +254,7 @@ if.app-id = 'com.tinyspec.slackmacgap'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
-if.window-title-regex-substring = 'Google Chat'
+if.window-title-regex-substring = 'Google Chat.*'
 run = 'move-node-to-workspace 3'
 
 #Teams/email
