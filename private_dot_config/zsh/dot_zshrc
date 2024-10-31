@@ -57,6 +57,7 @@ if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
+export PATH=~/.local/bin:$PATH
 
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
@@ -82,7 +83,6 @@ fi
 export EZA_CONFIG_DIR=~/.config/eza/
 
 
-export PATH=~/.local/bin:$PATH
 
 
 export PYENV_ROOT="$HOME/.pyenv"
