@@ -11,6 +11,13 @@ after-login-command = []
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
 
+
+#exec-on-workspace-change = [
+#    '/bin/bash',
+#    '-c',
+#    '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
+#]
+
 # Start AeroSpace at login
 start-at-login = true
 
@@ -280,6 +287,9 @@ if.app-id = 'net.elasticthreads.nv'
 run = 'move-node-to-workspace 6'
 
 
+[[on-window-detected]]
+if.app-id = 'com.prusa3d.slic3r/'
+run = 'move-node-to-workspace 18'
 
 
 #Floating windows

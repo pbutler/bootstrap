@@ -227,12 +227,19 @@ return {
     main = "ibl",
     opts = {},
     config = function()
-      vim.cmd([[highlight IndentBlanklineIndent1 guibg=#1E3D49 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent2 guibg=#0E2D39 gui=nocombine]])
       local highlight = {
         "IndentBlanklineIndent1",
         "IndentBlanklineIndent2",
       }
+
+      local hooks = require("ibl.hooks")
+      -- create the highlight groups in the highlight setup hook, so they are reset
+      -- every time the colorscheme changes
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { bg = "#181926" })
+        vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { bg = "#1e2030" })
+      end)
+
       require("ibl").setup({
         indent = {
           highlight = highlight,
@@ -242,7 +249,12 @@ return {
           highlight = highlight,
           remove_blankline_trail = false,
         },
+        scope = { highlight = highlight },
       })
+
+      vim.g.rainbow_delimiters = { highlight = highlight }
+
+      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
     end,
   },
 }
