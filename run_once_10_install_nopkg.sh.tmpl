@@ -10,13 +10,10 @@ fi
 # fi
 
 {{if eq .chezmoi.os "darwin" }}
-echo Installing Homebrew
-if [ ! -d /usr/local/Cellar ]; then
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+if [ ! -d /opt/homebrew ]; then
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-echo Installing pyenv
-brew install pyenv || true
-
+brew install pyenv starship node zsh || true
 {{ else if eq .chezmoi.os "linux" -}}
 
 echo "Installing latest neovim release"
@@ -29,6 +26,7 @@ if [ ! -d ~/.pyenv ]; then
 	#min reqs for pyenv
 {{if .use_sudo }}
 	sudo apt-get update; sudo apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+  sudo apt install -y zsh
 {{- end }}
 	curl https://pyenv.run | bash
 fi
@@ -39,6 +37,7 @@ curl -sL https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/instal
 popd
 {{- end }}
 
+## These will install via brew in OSX
 #node
 echo Installing node
 if [ ! -x ~/.local/bin/node ]; then
@@ -49,3 +48,4 @@ echo Installing starship
 if ! command -v starship >/dev/null 2>&1; then
   curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
 fi
+{{- end }}

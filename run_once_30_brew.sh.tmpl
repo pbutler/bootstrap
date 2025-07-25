@@ -3,30 +3,35 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
+brew install coreutils wget curl || true 
 
 brew install MisterTea/et/et mosh autossh || true
 
-brew install neovim vim curl wget node git lazygit imagemagick \
-	coreutils hub htop bluetoothconnector || true
+brew install neovim vim \
+  git lazygit hub \
+  imagemagick htop bluetoothconnector || true
 
 brew install fzf eza fd bat vivid jq ripgrep || true
+
+#terminal thingies
 
 # check another time
 # charles kap
 brew install --cask nikitabobko/tap/aerospace alfred jordanbaird-ice \
   google-chrome firefox \
-	font-fira-code-nerd-font inkscape \
-	karabiner-elements kitty mactex nvalt slack spotify \
+	inkscape \
+	karabiner-elements mactex nvalt slack spotify \
 	gpg-suite-no-mail jupyter-notebook-viewer  \
-	keka the-unarchiver virtualbox \
+	keka virtualbox  \ 
   obsidian vscodium neovide itsycal \
 	xquartz || true
  
-brew install kubernetes-cli pyenv ykman || true
+brew install kubernetes-cli pyenv ykman terraform || true
 
-# the-unarchiver 
+#
 {{- if eq .email "pbutler@killertux.org" }}
 # Pesonal machine installs
-brew install --cask nordvpn tunnleblick arq tailscale
+brew install --cask nordvpn tunnleblick arq tailscale orcaslicer
 {{- end }}
+
 {{- end }}
