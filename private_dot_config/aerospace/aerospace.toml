@@ -184,7 +184,7 @@ cmd-ctrl-alt-shift-r = 'mode reorg'
 8 = 'move-node-to-workspace 8'
 9 = 'move-node-to-workspace 9'
 0 = 'move-node-to-workspace 10'
-backtick = 'move-node-to-workspace 10'
+backtick = 'move-node-to-workspace A'
 f1 = 'move-node-to-workspace 11'
 f2 = 'move-node-to-workspace 12'
 f3 = 'move-node-to-workspace 13'
@@ -245,7 +245,11 @@ esc = ['reload-config', 'mode main']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
-run = 'move-node-to-workspace 1'
+run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.kitty'
+run = 'move-node-to-workspace 2'
 
 ## Chat apps
 [[on-window-detected]]
@@ -262,6 +266,12 @@ run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.window-title-regex-substring = 'Google Chat.*'
+if.during-aerospace-startup = true
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'org.whispersystems.signal-desktop'
+if.during-aerospace-startup = true
 run = 'move-node-to-workspace 3'
 
 #Teams/email
@@ -270,7 +280,8 @@ if.app-id = 'com.microsoft.teams2'
 run = 'move-node-to-workspace 13'
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.teams2'
+if.app-id = 'com.microsoft.Outlook'
+if.during-aerospace-startup = true
 run = 'move-node-to-workspace 13'
 
 [[on-window-detected]]
@@ -286,11 +297,14 @@ run = 'move-node-to-workspace 6'
 if.app-id = 'net.elasticthreads.nv'
 run = 'move-node-to-workspace 6'
 
-
 [[on-window-detected]]
 if.app-id = 'com.prusa3d.slic3r/'
 run = 'move-node-to-workspace 18'
 
+[[on-window-detected]]
+if.app-id = 'com.softfever3d.orca-slicer'
+if.during-aerospace-startup = true
+run = 'move-node-to-workspace 18'
 
 #Floating windows
 [[on-window-detected]]
@@ -311,4 +325,8 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'org.pqrs.Karabiner-EventViewer'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iphonesimulator'
 run = 'layout floating'

@@ -61,4 +61,17 @@ return {
     "zbirenbaum/copilot-cmp",
     enabled = false,
   },
+  {
+    "kkoomen/vim-doge",
+    run = ":call doge#install()",
+  },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        python = { "reorder-python-imports" },
+      },
+    },
+  },
 }
