@@ -13,20 +13,20 @@ brew install fzf eza fd bat vivid jq ripgrep || true
 
 # check another time
 # charles kap
-brew cask install --cask nikitabobko/tap/aerospace alfred jordanbaird-ice \
+brew install --cask nikitabobko/tap/aerospace alfred jordanbaird-ice \
   google-chrome firefox \
-	font-firacode-nerd-font inkscape \
+	font-fira-code-nerd-font inkscape \
 	karabiner-elements kitty mactex nvalt slack spotify \
 	gpg-suite-no-mail jupyter-notebook-viewer  \
-	keka the-unarchiver virtualbox virtualbox-extension-pack \
-  obsidian ykman tailscale vscodium neovide itsycal \
+	keka the-unarchiver virtualbox \
+  obsidian vscodium neovide itsycal \
 	xquartz || true
  
-brew cask install kubernetes-cli terraform pyenv || true
+brew install kubernetes-cli pyenv ykman || true
 
 # the-unarchiver 
 {{- if eq .email "pbutler@killertux.org" }}
 # Pesonal machine installs
-brew install --cask nordvpn tunnleblick arq
+brew install --cask nordvpn tunnleblick arq tailscale
 {{- end }}
 {{- end }}
