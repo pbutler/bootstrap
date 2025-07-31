@@ -52,11 +52,13 @@ fi
 
 
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
-	HOMEBREW=1
 	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
+if [ -x $(which brew) ]; then
+  eval "$(brew shellenv)"
+fi
 
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
@@ -152,6 +154,10 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
         chmod 0644 .venv
         vactivate $1
  }
+
+if [ -f ~/.nebius/path.zsh.inc ]; then
+  source ~/.nebius/path.zsh.inc
+fi
 
 autoload -Uz compinit
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
