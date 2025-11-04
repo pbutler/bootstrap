@@ -56,7 +56,7 @@ if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
-if [ -x $(which brew) ]; then
+if command -v brew >/dev/null 2>&1; then
   eval "$(brew shellenv)"
 fi
 

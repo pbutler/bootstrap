@@ -1,10 +1,8 @@
 #!/bin/bash
 
-tmpfile=$(mktemp)
-curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $tmpfile
-sh $tmpfile ~/.cache/dein
-# yeah could leak in a crash but it's not a big deal, it's one file rarely run
-rm -f $tmpfile
+if [ ! -d ~/.local ]; then 
+  mkdir ~/.local;
+fi
 
 # PACKER_DIR="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 # if [ ! -d $PACKER_DIR ]; then
@@ -12,24 +10,42 @@ rm -f $tmpfile
 # fi
 
 {{if eq .chezmoi.os "darwin" }}
+echo Installing Homebrew
 if [ ! -d /usr/local/Cellar ]; then
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
+echo Installing pyenv
 brew install pyenv || true
+
 {{ else if eq .chezmoi.os "linux" -}}
+
+echo "Installing latest neovim release"
+ARCH=$(uname -m)
+curl -sL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-${ARCH}.tar.gz | tar -xzf - --strip-components=1 --overwrite -C ~/.local
+
 #this should be tuned for non-debian systems too
+echo Installing pyenv
 if [ ! -d ~/.pyenv ]; then
 	#min reqs for pyenv
+{{if .use_sudo }}
 	sudo apt-get update; sudo apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+{{- end }}
 	curl https://pyenv.run | bash
 fi
+
+echo Installing fzf
+pushd ~/.local
+curl -sL https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/install | bash -s -- --xdg  --no-update-rc
+popd
 {{- end }}
 
 #node
+echo Installing node
 if [ ! -x ~/.local/bin/node ]; then
 	curl -sL install-node.now.sh | bash -s -- --prefix=$HOME/.local
 fi
 
+echo Installing starship
 if ! command -v starship >/dev/null 2>&1; then
   curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
 fi

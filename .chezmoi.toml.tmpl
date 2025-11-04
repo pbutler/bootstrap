@@ -1,4 +1,6 @@
 {{- $email := promptString "email" -}}
+{{- $use_sudo := promptBool "Allow sudo" -}}
 [data]
 email = "{{ $email }}"
+use_sudo = {{ $use_sudo }}
 hasRetinaDisplay = true
