@@ -9,14 +9,12 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = ['exec-and-forget sketchybar']
 
 
-#exec-on-workspace-change = [
-#    '/bin/bash',
-#    '-c',
-#    '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
-#]
+exec-on-workspace-change = [ '/bin/bash', '-c',
+    '/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE'
+]
 
 # Start AeroSpace at login
 start-at-login = true
@@ -61,7 +59,12 @@ inner.horizontal = 0
 inner.vertical =   0
 outer.left =       0
 outer.bottom =     0
-outer.top =        0
+#outer.top =        0
+outer.top = [
+  { monitor.main = 0 },
+  { monitor.secondary = 32 },
+  50
+]
 outer.right =      0
 
 # 'main' binding mode declaration
@@ -236,7 +239,7 @@ esc = ['mode main']
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-esc = ['reload-config', 'mode main']
+esc = ['reload-config', 'mode main', 'exec-and-forget /opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change']
 # backspace = ['close-all-windows-but-current', 'mode main']
 
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
