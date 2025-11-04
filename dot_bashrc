@@ -11,12 +11,11 @@
 #
 #===============================================================
 
-
 set +u
 if [ -z "$PS1" -o $TERM = "DUMB" ]; then
-	INTERACTIVE=0
+  INTERACTIVE=0
 else
-	INTERACTIVE=1
+  INTERACTIVE=1
 fi
 set -o nounset
 
@@ -26,39 +25,37 @@ FINK=0
 export EDITOR="vim"
 export SVN_EDITOR="vim"
 
-if [ `uname -s` = "Darwin" ]; then
-	OSX=1
-	if [ -r /sw/bin/init.sh ]; then
-		. /sw/bin/init.sh
-		export PATH=/usr/local/bin:$PATH
-		FINK=1
-	fi
+if [ $(uname -s) = "Darwin" ]; then
+  OSX=1
+  if [ -r /sw/bin/init.sh ]; then
+    . /sw/bin/init.sh
+    export PATH=/usr/local/bin:$PATH
+    FINK=1
+  fi
 fi
 
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
-	HOMEBREW=1
-	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
-	export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+  HOMEBREW=1
+  export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+  export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 fi
 
 if [ -d ~/Library/Python/2.7/bin ]; then
-	export PATH=~/Library/Python/2.7/bin:$PATH
+  export PATH=~/Library/Python/2.7/bin:$PATH
 fi
 if [ -d ~/Library/Python/3.6/bin ]; then
-	export PATH=~/Library/Python/3.6/bin:$PATH
+  export PATH=~/Library/Python/3.6/bin:$PATH
 fi
 if [ -d ~/Library/Python/3.7/bin ]; then
-	export PATH=~/Library/Python/3.7/bin:$PATH
+  export PATH=~/Library/Python/3.7/bin:$PATH
 fi
 if [ -d ~/.local/bin ]; then
-	export PATH=~/.local/bin:$PATH
+  export PATH=~/.local/bin:$PATH
 fi
 
 if [ -d ~/bin ]; then
-	export PATH=~/bin:$PATH
+  export PATH=~/bin:$PATH
 fi
-
-
 
 if [ -d ~/.pyenv ]; then # && [ -z $PYENV_VIRTUALENV_INIT ]; then
   export PATH="~/.pyenv/bin:$PATH"
@@ -66,34 +63,32 @@ if [ -d ~/.pyenv ]; then # && [ -z $PYENV_VIRTUALENV_INIT ]; then
   eval "$(pyenv virtualenv-init -)"
 fi
 
-vmake () {
-	local version=${2:-3}
-	if [ -d ~/.virtualenvs/$1 ]; then
-		echo $1 already exists
-		return -1
-	fi
-	python${version} -m venv ~/.virtualenvs/$1
+vmake() {
+  local version=${2:-3}
+  if [ -d ~/.virtualenvs/$1 ]; then
+    echo $1 already exists
+    return -1
+  fi
+  python${version} -m venv ~/.virtualenvs/$1
 }
 
-
-vactivate () {
-	source ~/.virtualenvs/$1/bin/activate
+vactivate() {
+  source ~/.virtualenvs/$1/bin/activate
 }
 
-_vactivate () {
-	local cur prev opts base
-	COMPREPLY=()
-	cur="${COMP_WORDS[COMP_CWORD]}"
-	prev="${COMP_WORDS[COMP_CWORD-1]}"
-	opts=`ls --color=none ~/.virtualenvs/`
-	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-        return 0
+_vactivate() {
+  local cur prev opts base
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+  opts=$(ls --color=none ~/.virtualenvs/)
+  COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+  return 0
 }
 
-function exists_and_execs()
-{
-    FNAME=`which $1`
-    [ -n "$FNAME" -a -x "$FNAME" ]
+function exists_and_execs() {
+  FNAME=$(which $1)
+  [ -n "$FNAME" -a -x "$FNAME" ]
 }
 
 complete -F _vactivate vactivate
@@ -105,20 +100,19 @@ complete -F _vactivate vactivate
 #-----------------------------------
 
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc  # Read system bash init file, if exists.
+  . /etc/bashrc # Read system bash init file, if exists.
 fi
-
 
 if [ -d "${FREE:=''}/bin" ]; then
-	GNU=1
+  GNU=1
 fi
 
-if [ `uname` == "Linux" ]; then
-	GNU=1
+if [ $(uname) == "Linux" ]; then
+  GNU=1
 fi
 
-if [ -x `which dircolors` ] ; then	# use gnu/free stuff
-	eval `dircolors`
+if [ -x $(which dircolors) ]; then # use gnu/free stuff
+  eval $(dircolors)
 fi
 
 #-------------------------------------------------------------
@@ -129,13 +123,12 @@ fi
 #if [ -z ${DISPLAY:=""} ]; then
 #    DISPLAY=$(who am i)
 #    DISPLAY=${DISPLAY%%\!*}
-    if [ -n ${DISPLAY:=''} ]; then
-	export DISPLAY=$DISPLAY
-    else
-	export DISPLAY=""  # fallback
-    fi
+if [ -n ${DISPLAY:=''} ]; then
+  export DISPLAY=$DISPLAY
+else
+  export DISPLAY="" # fallback
+fi
 #fi
-
 
 #---------------
 # Some settings
@@ -155,9 +148,7 @@ shopt -s mailwarn
 shopt -s sourcepath
 shopt -s no_empty_cmd_completion
 shopt -s histappend histreedit
-shopt -s extglob	# useful for programmable completion
-
-
+shopt -s extglob # useful for programmable completion
 
 #-----------------------
 # Greeting, motd etc...
@@ -170,85 +161,84 @@ blue='\033[0;34m'
 BLUE='\033[1;34m'
 cyan='\033[0;36m'
 CYAN='\033[1;36m'
-NC='\033[0m'		# No Color
+NC='\033[0m' # No Color
 
 if [ $INTERACTIVE -eq 1 ]; then
-	# Looks best on a black background.....
-	echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
-	if [ -z $DISPLAY ] ; then
-		echo -ne "${RED}off${NC}\n";
-	else
-		echo -en "on ${RED}$DISPLAY${NC}\n"
-	fi
-	date
+  # Looks best on a black background.....
+  echo -en "${CYAN}This is BASH ${RED}${BASH_VERSION%.*}${CYAN} - DISPLAY "
+  if [ -z $DISPLAY ]; then
+    echo -ne "${RED}off${NC}\n"
+  else
+    echo -en "on ${RED}$DISPLAY${NC}\n"
+  fi
+  date
 
-	function _exit()	# function to run upon exit of shell
-	{
-		echo -e "${RED}MMmm I smell brains.${NC}"
-	}
-	trap _exit 0
+  function _exit() { # function to run upon exit of shell
+    echo -e "${RED}MMmm I smell brains.${NC}"
+  }
+  trap _exit 0
 fi
 
 #---------------
 # Shell prompt
 #---------------
 
-
-function fastprompt()
-{
-    unset PROMPT_COMMAND
-    case $TERM in
-	xterm | rxvt | dtterm )
-	    PS1="[\h] \W > \[\033]0;[\u@\h] \w\007\]" ;;
-	*)
-	    PS1="[\h] \W > " ;;
-    esac
+function fastprompt() {
+  unset PROMPT_COMMAND
+  case $TERM in
+  xterm | rxvt | dtterm)
+    PS1="[\h] \W > \[\033]0;[\u@\h] \w\007\]"
+    ;;
+  *)
+    PS1="[\h] \W > "
+    ;;
+  esac
 }
 
-function powerprompt()
-{
-    _powerprompt()
-    {
-       RET=$?
-       #echo -e $RET
-        if [ $RET -eq  0 ]; then
-          COLOR='1;36m'
-        else
-          COLOR='1;31m'
-        fi
+function powerprompt() {
+  _powerprompt() {
+    RET=$?
+    #echo -e $RET
+    if [ $RET -eq 0 ]; then
+      COLOR='1;36m'
+    else
+      COLOR='1;31m'
+    fi
 
-        if [ -n "${TMUX:=""}" ]; then
-            tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
-	    tmux setenv VIRTUAL_ENV_$(tmux display -p "#I_#P") "${VIRTUAL_ENV:=""}"
-            tmux refresh-client -S
-        fi
-        case $TERM in
-	    xterm* | dtterm | rxvt  )
-	        echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007";;
-	esac
-    }
-    PROMPT_COMMAND=_powerprompt
-    _powerprompt
-    EPS1='\$'
-
+    if [ -n "${TMUX:=""}" ]; then
+      tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD"
+      tmux setenv VIRTUAL_ENV_$(tmux display -p "#I_#P") "${VIRTUAL_ENV:=""}"
+      tmux refresh-client -S
+    fi
     case $TERM in
-	xterm* | dtterm | rxvt  )
-	    local SPS1="\[\033]0;\u@\h:\w\007\]";;
-#	linux | vt100 )
-#	    SPS1="\u@\h:\w";;
-	* )
-	    local SPS1="";;
+    xterm* | dtterm | rxvt)
+      echo -n -e "\033]0;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"
+      ;;
     esac
-    SPS1=""
-    PS1="${SPS1}\u@\h:\w\[\033[\$COLOR\]$EPS1\[${NC}\] "
+  }
+  PROMPT_COMMAND=_powerprompt
+  _powerprompt
+  EPS1='\$'
+
+  case $TERM in
+  xterm* | dtterm | rxvt)
+    local SPS1="\[\033]0;\u@\h:\w\007\]"
+    ;;
+    #	linux | vt100 )
+    #	    SPS1="\u@\h:\w";;
+  *)
+    local SPS1=""
+    ;;
+  esac
+  SPS1=""
+  PS1="${SPS1}\u@\h:\w\[\033[\$COLOR\]$EPS1\[${NC}\] "
 }
 
 # this is the default prompt - might be slow
 # If too slow, use fastprompt instead....
 if [ $INTERACTIVE -eq 1 ]; then
-	powerprompt
+  powerprompt
 fi
-
 
 #===============================================================
 #
@@ -265,14 +255,13 @@ fi
 # Personnal Aliases
 #-------------------
 
-
 if exists_and_execs "vim"; then
-	alias vi=vim
+  alias vi=vim
 fi
 
 if exists_and_execs "nvim"; then
-	alias vi=nvim
-	alias vim=nvim
+  alias vi=nvim
+  alias vim=nvim
 fi
 
 alias rm='rm -i'
@@ -290,42 +279,42 @@ export ircname=hbar
 export PAGER="less -r"
 export EDITOR="vim -X"
 
-if [ $GNU -eq 1 ] ; then	# use gnu/free stuff
-	alias vi='vi -X'
-	alias csh='tcsh'
-	alias du='du -h'
-	alias df='df -kh'
-	alias ls='ls -h --color=always'
-	alias more='less'
+if [ $GNU -eq 1 ]; then # use gnu/free stuff
+  alias vi='vi -X'
+  alias csh='tcsh'
+  alias du='du -h'
+  alias df='df -kh'
+  alias ls='ls -h --color=always'
+  alias more='less'
 elif [ $OSX -eq 1 ]; then
-	export CLICOLOR=1
-	export SVN_EDITOR=vi
-	if [ $FINK -eq 1 ]; then
-		if [ -x '/sw/bin/ls' ]; then
-			alias ls='/sw/bin/ls --color=always'
-		fi
-		alias du='du -h'
-		alias df='df -kh'
-	fi
-	if [ $FINK -eq 1 -o $HOMEBREW -eq 1 ]; then
-	    alias ls='ls -h --color=always'
-	fi
-else				# use regular solaris stuff
-	alias df='df -k'
-	#alias ls='ls -F'
+  export CLICOLOR=1
+  export SVN_EDITOR=vi
+  if [ $FINK -eq 1 ]; then
+    if [ -x '/sw/bin/ls' ]; then
+      alias ls='/sw/bin/ls --color=always'
+    fi
+    alias du='du -h'
+    alias df='df -kh'
+  fi
+  if [ $FINK -eq 1 -o $HOMEBREW -eq 1 ]; then
+    alias ls='ls -h --color=always'
+  fi
+else # use regular solaris stuff
+  alias df='df -k'
+  #alias ls='ls -F'
 fi
 
 #----------------
 # a few fun ones
 #----------------
 
-function xtitle ()
-{
-    case $TERM in
-	xterm* | dtterm | rxvt)
-	    echo -n -e "\033]0;$HOSTNAME:$*\007" ;;
-	*)  ;;
-    esac
+function xtitle() {
+  case $TERM in
+  xterm* | dtterm | rxvt)
+    echo -n -e "\033]0;$HOSTNAME:$*\007"
+    ;;
+  *) ;;
+  esac
 }
 
 alias top='xtitle Processes on $HOSTNAME && top'
@@ -336,29 +325,27 @@ alias ncftp="xtitle ncFTP ; ncftp"
 # and functions
 #---------------
 
-function man ()
-{
-    xtitle The $(basename $1|tr -d .[:digit:]) manual
-    /usr/bin/man -a "$*"
+function man() {
+  xtitle The $(basename $1 | tr -d .[:digit:]) manual
+  /usr/bin/man -a "$*"
 }
 
 #-----------------------------------------
 # Environment dependent functions
 #-----------------------------------------
 
-function dislink()
-{
-	if [ -f $1 -a ! -f .$1.tmp ]; then
-		cp -L $1 .$1.tmp
-		if [ ! -f .$1.tmp ]; then
-			echo copy didn\'t work
-			return
-		fi
-		unlink $1
-		mv .$1.tmp $1
-	else
-		echo either file does not exist or tmp file exists
-	fi
+function dislink() {
+  if [ -f $1 -a ! -f .$1.tmp ]; then
+    cp -L $1 .$1.tmp
+    if [ ! -f .$1.tmp ]; then
+      echo copy didn\'t work
+      return
+    fi
+    unlink $1
+    mv .$1.tmp $1
+  else
+    echo either file does not exist or tmp file exists
+  fi
 }
 
 #=========================================================================
@@ -368,136 +355,137 @@ function dislink()
 #=========================================================================
 
 if [ "${BASH_VERSION%.*}" \< "2.04" ]; then
-    echo "No programmable completion available"
-    return
+  echo "No programmable completion available"
+  return
 fi
 
-shopt -s extglob	# necessary
+shopt -s extglob # necessary
 
-complete -A hostname   rsh rcp telnet rlogin r ftp ping disk
-complete -A command    nohup exec eval trace truss strace sotruss gdb
-complete -A command    command type which
-complete -A export     printenv
-complete -A variable   export local readonly unset
-complete -A enabled    builtin
-complete -A alias      alias unalias
-complete -A function   function
-complete -A user       su mail finger
+complete -A hostname rsh rcp telnet rlogin r ftp ping disk
+complete -A command nohup exec eval trace truss strace sotruss gdb
+complete -A command command type which
+complete -A export printenv
+complete -A variable export local readonly unset
+complete -A enabled builtin
+complete -A alias alias unalias
+complete -A function function
+complete -A user su mail finger
 
-complete -A helptopic  help	# currently same as builtins
-complete -A shopt      shopt
+complete -A helptopic help # currently same as builtins
+complete -A shopt shopt
 complete -A stopped -P '%' bg
-complete -A job -P '%'     fg jobs disown
+complete -A job -P '%' fg jobs disown
 
-complete -A directory  mkdir rmdir
+complete -A directory mkdir rmdir
 
-complete -f -X '*.gz'   gzip
-complete -f -X '!*.ps'  gs ghostview gv
+complete -f -X '*.gz' gzip
+complete -f -X '!*.ps' gs ghostview gv
 complete -f -X '!*.pdf' acroread
 complete -f -X '!*.+(gif|jpg|jpeg|GIF|JPG|bmp)' xv gimp
 
+_make_targets() {
+  local mdef makef gcmd cur prev i
 
-_make_targets ()
-{
-    local mdef makef gcmd cur prev i
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD - 1]}
 
-    COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-    prev=${COMP_WORDS[COMP_CWORD-1]}
+  # if prev argument is -f, return possible filename completions.
+  # we could be a little smarter here and return matches against
+  # `makefile Makefile *.mk', whatever exists
+  case "$prev" in
+  -*f)
+    COMPREPLY=($(compgen -f $cur))
+    return 0
+    ;;
+  esac
 
-    # if prev argument is -f, return possible filename completions.
-    # we could be a little smarter here and return matches against
-    # `makefile Makefile *.mk', whatever exists
-    case "$prev" in
-	-*f)	COMPREPLY=( $(compgen -f $cur ) ); return 0;;
-    esac
+  # if we want an option, return the possible posix options
+  case "$cur" in
+  -)
+    COMPREPLY=(-e -f -i -k -n -p -q -r -S -s -t)
+    return 0
+    ;;
+  esac
 
-    # if we want an option, return the possible posix options
-    case "$cur" in
-	-)	COMPREPLY=(-e -f -i -k -n -p -q -r -S -s -t); return 0;;
-    esac
+  # make reads `makefile' before `Makefile'
+  if [ -f makefile ]; then
+    mdef=makefile
+  elif [ -f Makefile ]; then
+    mdef=Makefile
+  else
+    mdef=*.mk # local convention
+  fi
 
-    # make reads `makefile' before `Makefile'
-    if [ -f makefile ]; then
-	mdef=makefile
-    elif [ -f Makefile ]; then
-	mdef=Makefile
-    else
-	mdef=*.mk		# local convention
+  # before we scan for targets, see if a makefile name was specified
+  # with -f
+  for ((i = 0; i < ${#COMP_WORDS[@]}; i++)); do
+    if [[ ${COMP_WORDS[i]} == -*f ]]; then
+      eval makef=${COMP_WORDS[i + 1]} # eval for tilde expansion
+      break
     fi
+  done
 
-    # before we scan for targets, see if a makefile name was specified
-    # with -f
-    for (( i=0; i < ${#COMP_WORDS[@]}; i++ )); do
-	if [[ ${COMP_WORDS[i]} == -*f ]]; then
-	    eval makef=${COMP_WORDS[i+1]}	# eval for tilde expansion
-	    break
-	fi
-    done
+  [ -z "$makef" ] && makef=$mdef
 
-	[ -z "$makef" ] && makef=$mdef
+  # if we have a partial word to complete, restrict completions to
+  # matches of that word
+  if [ -n "$2" ]; then gcmd='grep "^$2"'; else gcmd=cat; fi
 
-    # if we have a partial word to complete, restrict completions to
-    # matches of that word
-    if [ -n "$2" ]; then gcmd='grep "^$2"' ; else gcmd=cat ; fi
-
-    # if we don't want to use *.mk, we can take out the cat and use
-    # test -f $makef and input redirection
-    COMPREPLY=( $(cat $makef 2>/dev/null | awk 'BEGIN {FS=":"} /^[^.# 	][^=]*:/ {print $1}' | tr -s ' ' '\012' | sort -u | eval $gcmd ) )
+  # if we don't want to use *.mk, we can take out the cat and use
+  # test -f $makef and input redirection
+  COMPREPLY=($(cat $makef 2>/dev/null | awk 'BEGIN {FS=":"} /^[^.# 	][^=]*:/ {print $1}' | tr -s ' ' '\012' | sort -u | eval $gcmd))
 }
 
 complete -F _make_targets -X '+($*|*.[cho])' make gmake pmake
 
+_configure_func() {
+  case "$2" in
+  -*) ;;
+  *) return ;;
+  esac
 
-_configure_func ()
-{
-    case "$2" in
-	-*)	;;
-	*)	return ;;
-    esac
+  case "$1" in
+  \~*) eval cmd=$1 ;;
+  *) cmd="$1" ;;
+  esac
 
-    case "$1" in
-	\~*)	eval cmd=$1 ;;
-	*)	cmd="$1" ;;
-    esac
-
-    COMPREPLY=( $("$cmd" --help | awk '{if ($1 ~ /--.*/) print $1}' | grep ^"$2" | sort -u) )
+  COMPREPLY=($("$cmd" --help | awk '{if ($1 ~ /--.*/) print $1}' | grep ^"$2" | sort -u))
 }
 
 complete -F _configure_func configure
 
-_killps ()
-{
-    local cur prev
-    COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-    PSBIN=`which ps`
-    # get a list of processes (the first sed evaluation
-    # takes care of swapped out processes, the second
-    # takes care of getting the basename of the process)
-    COMPREPLY=( $( $PSBIN -u $USER -o comm  | \
-	sed -e '1,1d' -e 's#[]\[]##g' -e 's#^.*/##'| \
-	awk '{if ($0 ~ /^'$cur'/) print $0}' ))
+_killps() {
+  local cur prev
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  PSBIN=$(which ps)
+  # get a list of processes (the first sed evaluation
+  # takes care of swapped out processes, the second
+  # takes care of getting the basename of the process)
+  COMPREPLY=($($PSBIN -u $USER -o comm |
+    sed -e '1,1d' -e 's#[]\[]##g' -e 's#^.*/##' |
+    awk '{if ($0 ~ /^'$cur'/) print $0}'))
 
-    return 0
+  return 0
 }
 complete -F _killps killps
 
 function r() {
-	if [[ -n $TMUX ]]; then
-		NEW_SSH_AUTH_SOCK=`tmux showenv | grep ^SSH_AUTH_SOCK | cut -d= -f2`
-		if [[ -n $NEW_SSH_AUTH_SOCK ]] && [[ -S $NEW_SSH_AUTH_SOCK ]]; then
-			export SSH_AUTH_SOCK=$NEW_SSH_AUTH_SOCK
-		fi
-		export DISPLAY=`tmux showenv | grep ^DISPLAY | cut -d= -f2`
-	fi
+  if [[ -n $TMUX ]]; then
+    NEW_SSH_AUTH_SOCK=$(tmux showenv | grep ^SSH_AUTH_SOCK | cut -d= -f2)
+    if [[ -n $NEW_SSH_AUTH_SOCK ]] && [[ -S $NEW_SSH_AUTH_SOCK ]]; then
+      export SSH_AUTH_SOCK=$NEW_SSH_AUTH_SOCK
+    fi
+    export DISPLAY=$(tmux showenv | grep ^DISPLAY | cut -d= -f2)
+  fi
 }
 
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 
 [ -f ~/.bashrc.local ] && source ~/.bashrc.local
 
 if [ $INTERACTIVE -eq 1 ]; then
-	set +u
-	w
+  set +u
+  w
 fi
