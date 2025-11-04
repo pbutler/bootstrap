@@ -159,6 +159,10 @@ if [ -f ~/.nebius/path.zsh.inc ]; then
   source ~/.nebius/path.zsh.inc
 fi
 
+if [ -f ~/.config/newbius/path.zsh.inc ]; then
+  source ~/.config/newbius/path.zsh.inc
+fi
+
 autoload -Uz compinit
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
