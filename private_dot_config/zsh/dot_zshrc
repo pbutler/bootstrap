@@ -11,6 +11,9 @@ source "$HOME/.cache/zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
+autoload bashcompinit
+bashcompinit
+
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
@@ -163,13 +166,33 @@ if [ -f ~/.config/newbius/path.zsh.inc ]; then
   source ~/.config/newbius/path.zsh.inc
 fi
 
-autoload -Uz compinit
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
-autoload bashcompinit
-bashcompinit
+# autoload -Uz compinit
+# 
+# 
+# if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
+#   echo "Rebuilding cache"
+#   compinit
+# fi
+# echo "Using cache"
+# compinit -C
+
 complete -F _vactivate vactivate
 complete -F _vactivate vset
+
+
+export HISTFILE="$XDG_DATA_HOME/zsh/history"
+export SAVEHIST=100000
+export HISTSIZE=200000
+
+# The meaning of these options can be found in man page of `zshoptions`.
+setopt EXTENDED_HISTORY  # record command start time
+setopt HIST_EXPIRE_DUPS_FIRST  # expire duplicate entries first when trimming history
+setopt HIST_FIND_NO_DUPS  # do not display duplicates of a previously found line when searching history
+setopt HIST_IGNORE_SPACE  # ignore commands that start with space
+setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
+setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
+setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
 
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
