@@ -7,25 +7,32 @@ if [[ ! -f $HOME/.cache/zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-source "$HOME/.cache/zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+autoload -U compinit && compinit
+autoload -U bashcompinit && bashcompinit
 
-autoload bashcompinit
-bashcompinit
+
+source "$HOME/.cache/zinit/bin/zinit.zsh"
+#autoload -Uz _zinit
+#(( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
+#
 zinit light-mode for \
     zdharma-continuum/zinit-annex-as-monitor \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-### End of Zinit's installer chunk
-zinit ice blockf
-zinit light zsh-users/zsh-completions
+zinit wait lucid light-mode for \
+  atinit"zicompinit; zicdreplay" \
+      zdharma-continuum/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+      zsh-users/zsh-completions
 
+### End of Zinit's installer chunk
 zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
 
@@ -40,18 +47,9 @@ zinit light trystan2k/zsh-tab-title
 # zinit light softmoth/zsh-vim-mode
 zinit load jeffreytse/zsh-vi-mode
 
-
-
 # fzf
-zinit ice lucid wait
-zinit snippet OMZP::fzf
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+zinit ice wait lucid atinit"source shell/key-bindings.zsh; source shell/completion.zsh"
+zinit light junegunn/fzf
 
 
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
@@ -64,7 +62,6 @@ if command -v brew >/dev/null 2>&1; then
 fi
 
 if command -v fzf >/dev/null 2>&1; then
-  source <(fzf --zsh)
   export FZF_DEFAULT_OPTS=" \
   --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
   --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
@@ -158,6 +155,9 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
         vactivate $1
  }
 
+autoload bashcompinit
+bashcompinit
+
 if [ -f ~/.nebius/path.zsh.inc ]; then
   source ~/.nebius/path.zsh.inc
 fi
@@ -176,12 +176,11 @@ fi
 # fi
 # echo "Using cache"
 # compinit -C
-
 complete -F _vactivate vactivate
 complete -F _vactivate vset
 
-
-export HISTFILE="$XDG_DATA_HOME/zsh/history"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+mkdir -p $(dirname $HISTFILE)
 export SAVEHIST=100000
 export HISTSIZE=200000
 
