@@ -9,7 +9,7 @@ fi
 if [ ! -d /opt/homebrew ]; then
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-brew install pyenv starship node zsh || true
+brew install starship zsh || true
 {{ else if eq .chezmoi.os "linux" -}}
 
 echo "Installing latest neovim release"
@@ -17,28 +17,37 @@ ARCH=$(uname -m)
 curl -sL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-${ARCH}.tar.gz | tar -xzf - --strip-components=1 --overwrite -C ~/.local
 
 #this should be tuned for non-debian systems too
-echo Installing pyenv
-if [ ! -d ~/.pyenv ]; then
-	#min reqs for pyenv
+if [ ! -f ~/.local/bin/fzf ]; then
+  echo Installing fzf
+  pushd ~/.local
+  curl -sL https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/install | bash -s -- --xdg  --no-update-rc
+  popd
+fi
+{{- end }}
+
+if [ ! -f ~/.local/bin/mise ]; then
+#	#min reqs for pyenv
 {{if .use_sudo }}
 	sudo apt-get update; sudo apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
   sudo apt install -y zsh
 {{- end }}
-	curl https://pyenv.run | bash
+  echo Installing mise
+  curl https://mise.run | sh
+  if [ $(basename $SHELL) = zsh ]; then
+    eval $(~/.local/bin/mise activate zsh)
+  else
+    eval $(~/.local/bin/mise activate bash)
+  fi
+  mise use --global node
+  mise use --global python@3.14
+  mise use --global usage
 fi
 
-echo Installing fzf
-pushd ~/.local
-curl -sL https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/install | bash -s -- --xdg  --no-update-rc
-popd
-{{- end }}
-
-## These will install via brew in OSX
-#node
-echo Installing node
-if [ ! -x ~/.local/bin/node ]; then
-	curl -sL install-node.now.sh | bash -s -- --prefix=$HOME/.local
+if [ ! -f ~/.local/bin/uv ]; then
+  echo Installing uv
+  curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
+
 
 {{if ne .chezmoi.os "darwin" }}
 echo Installing starship

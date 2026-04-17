@@ -40,7 +40,6 @@ zinit wait lucid light-mode for \
 
 ### End of Zinit's installer chunk
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
 
 zinit ice depth=1
 # zinit light romkatv/powerlevel10k
@@ -56,7 +55,6 @@ zinit load jeffreytse/zsh-vi-mode
 # fzf
 zinit ice wait lucid atinit"source shell/key-bindings.zsh; source shell/completion.zsh"
 zinit light junegunn/fzf
-
 
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
 	export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
@@ -103,6 +101,16 @@ source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+if [ -f ~/.local/bin/mise ]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+  MCOMP=~/.cache/zinit/completions/_mise
+  if [ ! -f $MCOMP ]; then
+    mkdir -p  $(dirname $MCOMP)
+    ~/.local/bin/mise completion zsh > $MCOMP
+  fi
+
+fi
 
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
@@ -161,9 +169,6 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
         vactivate $1
  }
 
-autoload bashcompinit
-bashcompinit
-
 if [ -f ~/.nebius/path.zsh.inc ]; then
   source ~/.nebius/path.zsh.inc
 fi
@@ -174,6 +179,7 @@ fi
 
 complete -F _vactivate vactivate
 complete -F _vactivate vset
+
 
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 mkdir -p $(dirname $HISTFILE)

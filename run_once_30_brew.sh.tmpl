@@ -11,7 +11,7 @@ brew install neovim vim \
   git lazygit hub \
   imagemagick htop bluetoothconnector || true
 
-brew install fzf eza fd bat vivid jq ripgrep || true
+brew install fzf eza fd bat vivid jq ripgrep difftastic vivid || true
 
 #terminal thingies
 
@@ -22,11 +22,11 @@ brew install --cask nikitabobko/tap/aerospace alfred jordanbaird-ice \
 	inkscape \
 	karabiner-elements mactex nvalt slack spotify \
 	gpg-suite-no-mail jupyter-notebook-viewer  \
-	keka virtualbox  \ 
+	keka virtualbox \
   obsidian vscodium neovide itsycal \
 	xquartz || true
  
-brew install kubernetes-cli pyenv ykman terraform || true
+brew install kubernetes-cli ykman terraform || true
 
 #
 {{- if eq .email "pbutler@killertux.org" }}
