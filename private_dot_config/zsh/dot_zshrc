@@ -7,9 +7,15 @@ if [[ ! -f $HOME/.cache/zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-autoload -U compinit && compinit
-autoload -U bashcompinit && bashcompinit
+autoload -Uz compinit
+ 
+ 
+if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
+   compinit
+fi
+compinit -C
 
+autoload -U bashcompinit && bashcompinit
 
 source "$HOME/.cache/zinit/bin/zinit.zsh"
 #autoload -Uz _zinit
@@ -166,16 +172,6 @@ if [ -f ~/.config/newbius/path.zsh.inc ]; then
   source ~/.config/newbius/path.zsh.inc
 fi
 
-
-# autoload -Uz compinit
-# 
-# 
-# if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
-#   echo "Rebuilding cache"
-#   compinit
-# fi
-# echo "Using cache"
-# compinit -C
 complete -F _vactivate vactivate
 complete -F _vactivate vset
 

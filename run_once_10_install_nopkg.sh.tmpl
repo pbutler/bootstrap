@@ -1,13 +1,9 @@
 #!/bin/bash
 
 if [ ! -d ~/.local ]; then 
-  mkdir ~/.local;
+  mkdir ~/.local
+  mkdir -p ~/.local/share/zsh
 fi
-
-# PACKER_DIR="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
-# if [ ! -d $PACKER_DIR ]; then
-# git clone --depth=1 https://github.com/wbthomason/packer.nvim $PACKER_DIR
-# fi
 
 {{if eq .chezmoi.os "darwin" }}
 if [ ! -d /opt/homebrew ]; then
@@ -44,6 +40,7 @@ if [ ! -x ~/.local/bin/node ]; then
 	curl -sL install-node.now.sh | bash -s -- --prefix=$HOME/.local
 fi
 
+{{if ne .chezmoi.os "darwin" }}
 echo Installing starship
 if ! command -v starship >/dev/null 2>&1; then
   curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
