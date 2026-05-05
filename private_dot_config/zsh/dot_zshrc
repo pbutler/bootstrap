@@ -10,12 +10,17 @@ fi
 autoload -Uz compinit
  
  
-if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
-   compinit
-fi
-compinit -C
+# if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
+#    compinit
+# fi
+# compinit -C
 
-autoload -U bashcompinit && bashcompinit
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 source "$HOME/.cache/zinit/bin/zinit.zsh"
 #autoload -Uz _zinit
@@ -30,8 +35,8 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+  #atinit"zicompinit; zicdreplay" \
 zinit wait lucid light-mode for \
-  atinit"zicompinit; zicdreplay" \
       zdharma-continuum/fast-syntax-highlighting \
   atload"_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
@@ -39,7 +44,7 @@ zinit wait lucid light-mode for \
       zsh-users/zsh-completions
 
 ### End of Zinit's installer chunk
-zinit light zsh-users/zsh-autosuggestions
+autoload -U bashcompinit && bashcompinit
 
 zinit ice depth=1
 # zinit light romkatv/powerlevel10k
@@ -50,7 +55,8 @@ zinit ice depth=1
 # zinit light trapd00r/LS_COLORS
 zinit light trystan2k/zsh-tab-title
 # zinit light softmoth/zsh-vim-mode
-zinit load jeffreytse/zsh-vi-mode
+zinit ice wait lucid
+zinit light jeffreytse/zsh-vi-mode
 
 # fzf
 zinit ice wait lucid atinit"source shell/key-bindings.zsh; source shell/completion.zsh"
@@ -82,20 +88,15 @@ if command -v bat >/dev/null 2>&1; then
 fi
 
 if command -v vivid >/dev/null 2>&1; then
-  export LS_COLORS=$(vivid generate catppuccin-macchiato)
+  _ls_colors_cache=$XDG_CACHE_HOME/zsh/ls_colors
+  [[ -f $_ls_colors_cache ]] || vivid generate catppuccin-macchiato > $_ls_colors_cache
+  export LS_COLORS=$(<$_ls_colors_cache)
 fi
 
 export EZA_CONFIG_DIR=~/.config/eza/
 
 
 export PATH=~/.local/bin:$PATH
-
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-	eval "$(pyenv init -)"
-fi
 
 source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 
@@ -112,6 +113,7 @@ if [ -f ~/.local/bin/mise ]; then
 
 fi
 
+zinit ice wait lucid
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
  vmake () {
