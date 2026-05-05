@@ -8,18 +8,12 @@ if [[ ! -f $HOME/.cache/zinit/bin/zinit.zsh ]]; then
 fi
 
 autoload -Uz compinit
- 
- 
-# if [ "$(find $XDG_CONFIG_HOME/zsh/.zcompdump -mtime +1)" ]; then
-#    compinit
-# fi
-# compinit -C
-
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit
+ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/zcompdump
+mkdir -p ${ZSH_COMPDUMP:h}
+if [[ -n $ZSH_COMPDUMP(#qN.mh+24) ]]; then
+  compinit -d $ZSH_COMPDUMP
 else
-  compinit -C
+  compinit -C -d $ZSH_COMPDUMP
 fi
 
 source "$HOME/.cache/zinit/bin/zinit.zsh"
@@ -89,6 +83,7 @@ fi
 
 if command -v vivid >/dev/null 2>&1; then
   _ls_colors_cache=$XDG_CACHE_HOME/zsh/ls_colors
+  [[ -d `dirname $_ls_colors_cache` ]] && mkdir -p `dirname $_ls_colors_cache`
   [[ -f $_ls_colors_cache ]] || vivid generate catppuccin-macchiato > $_ls_colors_cache
   export LS_COLORS=$(<$_ls_colors_cache)
 fi
@@ -160,11 +155,11 @@ zinit light MichaelAquilina/zsh-autoswitch-virtualenv
  vset () {
         if [ -z $1 ]; then
            echo please specify a venv name
-           return -1
+           return 1
         fi
         if [ ! -d ~/.virtualenvs/$1 ]; then
             echo $1 doesn\'t exist
-            return -1
+            return 1
         fi
         echo $1 > .venv
         chmod 0644 .venv
@@ -184,7 +179,7 @@ complete -F _vactivate vset
 
 
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
-mkdir -p $(dirname $HISTFILE)
+[[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}
 export SAVEHIST=100000
 export HISTSIZE=200000
 

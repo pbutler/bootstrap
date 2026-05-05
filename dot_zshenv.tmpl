@@ -1,5 +1,5 @@
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_DIR="$HOME/.cache"
+export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
@@ -9,18 +9,11 @@ export HISTSIZE=10000
 export SAVEHIST=1000
 setopt INC_APPEND_HISTORY_TIME
 
-export MANPAGER='nvim +Man!'
-export MANWIDTH=999
-
 export EDITOR=nvim
 
 {{- if eq .chezmoi.os "darwin" }}
 if [ -x /usr/libexec/path_helper ]; then
     eval `/usr/libexec/path_helper -s`
 fi
-eval $(/opt/homebrew/bin/brew shellenv)
 {{- end }}
 
-#if (( $+commands[repassh] )); then
-#    export GIT_SSH="repassh"
-#fi
