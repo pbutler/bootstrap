@@ -49,8 +49,7 @@ zinit ice depth=1
 # zinit light trapd00r/LS_COLORS
 zinit light trystan2k/zsh-tab-title
 # zinit light softmoth/zsh-vim-mode
-zinit ice wait lucid
-zinit light jeffreytse/zsh-vi-mode
+zinit load jeffreytse/zsh-vi-mode
 
 # fzf
 zinit ice wait lucid atinit"source shell/key-bindings.zsh; source shell/completion.zsh"
@@ -111,60 +110,54 @@ fi
 zinit ice wait lucid
 zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 
- vmake () {
-        local version=${2:-3}
-        if [ -z $1 ]; then
-           echo please specify a venv name
-           return -1
-        fi
-        if [ -d ~/.virtualenvs/$1 ]; then
-            echo $1 already exists
-            return -1
-        fi
-        PYV=$(python${version} -V)
-        echo Creating venv $1 with $PYV
-        python${version} -m venv ~/.virtualenvs/$1
-        vactivate $1
-        python -mpip install --upgrade pip wheel
-        deactivate
- }
+vmake () {
+  setopt localoptions err_return
+  local version=${2:-3}
+  if [ -z $1 ]; then
+    echo please specify a venv name
+    return -1
+  fi
+  if [ -d ~/.virtualenvs/$1 ]; then
+    echo $1 already exists
+    return -1
+  fi
+  PYV=$(python${version} -V)
+  echo Creating venv $1 with $PYV
+  if command -v uv >/dev/null 2>&1; then
+    uv venv --python $PYV ~/.virtualenvs/$1
+  else
+    python${version} -m venv ~/.virtualenvs/$1
+  fi
+  vactivate $1
+  python -mpip install --upgrade pip wheel
+  deactivate
+}
 
+vactivate () {
+  if [ -z $1 ]; then
+    echo please specify a venv name
+    return -1
+  fi
+  if [ ! -d ~/.virtualenvs/$1 ]; then
+    echo $1 doesn\'t exist
+    return -1
+  fi
+  source ~/.virtualenvs/$1/bin/activate
+}
 
- vactivate () {
-        if [ -z $1 ]; then
-           echo please specify a venv name
-           return -1
-        fi
-        if [ ! -d ~/.virtualenvs/$1 ]; then
-            echo $1 doesn\'t exist
-            return -1
-        fi
-        source ~/.virtualenvs/$1/bin/activate
- }
-
- _vactivate () {
-         local cur prev opts base
-         COMPREPLY=()
-         cur="${COMP_WORDS[COMP_CWORD]}"
-         prev="${COMP_WORDS[COMP_CWORD-1]}"
-         opts=`ls --color=never ~/.virtualenvs/`
-         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-         return 0
- }
-
- vset () {
-        if [ -z $1 ]; then
-           echo please specify a venv name
-           return 1
-        fi
-        if [ ! -d ~/.virtualenvs/$1 ]; then
-            echo $1 doesn\'t exist
-            return 1
-        fi
-        echo $1 > .venv
-        chmod 0644 .venv
-        vactivate $1
- }
+vset () {
+  if [ -z $1 ]; then
+    echo please specify a venv name
+    return 1
+  fi
+  if [ ! -d ~/.virtualenvs/$1 ]; then
+    echo $1 doesn\'t exist
+    return 1
+  fi
+  echo $1 > .venv
+  chmod 0644 .venv
+  vactivate $1
+}
 
 if [ -f ~/.nebius/path.zsh.inc ]; then
   source ~/.nebius/path.zsh.inc
@@ -174,9 +167,73 @@ if [ -f ~/.config/newbius/path.zsh.inc ]; then
   source ~/.config/newbius/path.zsh.inc
 fi
 
-complete -F _vactivate vactivate
-complete -F _vactivate vset
+_vactivate() {
+  local venv pyver desc line cfg
+  local -a venvs
+  local active=${VIRTUAL_ENV:t}
+  for venv in ~/.virtualenvs/*(N/:t); do
+    pyver=unknown
+    cfg=~/.virtualenvs/$venv/pyvenv.cfg
+    if [[ -r $cfg ]]; then
+      while IFS= read -r line; do
+        if [[ $line == version\ *=* ]]; then
+          pyver=${line#*= }
+          break
+        elif [[ $line == version_info\ *=* ]]; then
+          pyver=${line#*= }
+          break
+        fi
+      done < $cfg
+    fi
+    desc="Python $pyver"
+    [[ $venv == $active ]] && desc+=" — active"
+    venvs+=("$venv:$desc")
+  done
+  _describe 'virtualenv' venvs
+}
 
+compdef _vactivate vactivate vset
+
+_vmake() {
+  case $CURRENT in
+    2)
+      _message 'new virtualenv name'
+      ;;
+    3)
+      local -A seen
+      local f ver
+      for f in ${^path}/python*(N*); do
+        ver=${${f:t}#python}
+        [[ $ver == <->(.<->)# ]] || continue
+        [[ -z ${seen[$ver]} ]] && seen[$ver]=${f:h}
+      done
+      # Pythons managed by uv
+      if (( $+commands[uv] )); then
+        local -a fields
+        local tag impl
+        while read -rA fields; do
+          tag=${fields[1]}
+          [[ -z $tag ]] && continue
+          # uv prints "<download available>" for non-installed versions
+          [[ ${fields[2]:-} == \<* ]] && continue
+          impl=${tag%%-*}
+          ver=${tag#*-}
+          ver=${ver%%-*}
+          [[ $ver == <->(.<->)# ]] || continue
+          [[ -z ${seen[$ver]} ]] && seen[$ver]="$impl (uv)"
+        done < <(uv python list --only-installed 2>/dev/null)
+      fi
+
+      local -a versions
+      for ver in ${(ko)seen}; do
+        versions+=("$ver:${seen[$ver]}")
+      done
+      _describe 'python version' versions
+      ;;
+  esac
+}
+
+compdef _vmake vmake
 
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 [[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}
